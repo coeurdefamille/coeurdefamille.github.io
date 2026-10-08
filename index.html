@@ -178,7 +178,27 @@ footer{background:#12372b;color:white;padding:24px 0}
 .booking-choice span{display:block;font-size:42px;margin-bottom:8px}.booking-choice b{display:block;font:22px Georgia,serif}.booking-choice small{display:block;color:var(--muted);font-size:11px;margin-top:3px}
 .booking-label{display:block;font-size:12px;font-weight:700;color:var(--green);margin:10px 0 6px}.booking-input{width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:13px;background:white;color:var(--text);outline:none}.booking-input:focus{border-color:var(--green)}
 .booking-info{background:var(--soft);border-radius:12px;padding:9px 12px;margin:10px 0;font-size:12px;color:var(--muted)}
-.booking-service-list{display:grid;gap:9px;margin:12px 0}.booking-service,.booking-extra{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid var(--line);background:white;border-radius:14px;padding:13px 14px;text-align:left;cursor:pointer;color:var(--text)}.booking-service:hover,.booking-extra:hover{border-color:#9db49a;background:#fbfcf8}.booking-service:disabled{opacity:.55;cursor:not-allowed}.booking-service b{display:block;color:var(--green);font-size:14px}.booking-service small{display:block;color:var(--muted);font-size:10px;margin-top:2px}.booking-service strong,.booking-extra strong{color:var(--green);white-space:nowrap}.booking-subtitle{font:18px Georgia,serif;color:var(--green);margin:20px 0 8px}.booking-extra{font-size:12px;margin-bottom:7px}.fur-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:13px}.fur-btn{border:1px solid var(--line);background:white;border-radius:12px;padding:10px 7px;font-size:11px;color:var(--green);cursor:pointer}.fur-btn.active{background:var(--green);color:white;border-color:var(--green)}
+.booking-service-list{display:grid;gap:9px;margin:12px 0}.booking-service,.booking-extra{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid var(--line);background:white;border-radius:14px;padding:13px 14px;text-align:left;cursor:pointer;color:var(--text)}.booking-service:hover,.booking-extra:hover{border-color:#9db49a;background:#fbfcf8}.booking-service:disabled{opacity:.55;cursor:not-allowed}.booking-service b{display:block;color:var(--green);font-size:14px}
+.booking-service.selected,.booking-extra.selected{background:var(--green);border-color:var(--green);color:#fff;box-shadow:0 6px 16px rgba(23,63,50,.16)}
+.booking-service.selected b,.booking-service.selected small,.booking-service.selected strong,.booking-extra.selected strong{color:#fff}
+.booking-service.selected small,.booking-extra.selected{color:rgba(255,255,255,.9)}
+.booking-service.selected:after,.booking-extra.selected:after{content:'✓';font-weight:800;margin-left:8px}
+.booking-mini-cart{background:#173f32;color:#fff;border-radius:16px;padding:12px;margin-top:18px;position:sticky;bottom:0;z-index:5;box-shadow:0 -6px 18px rgba(23,63,50,.12)}
+.booking-mini-head{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:12px;font-weight:700;margin-bottom:7px}
+.booking-mini-items{max-height:92px;overflow:auto;display:grid;gap:4px;margin-bottom:8px}
+.booking-mini-item{display:flex;justify-content:space-between;gap:8px;font-size:10px;color:rgba(255,255,255,.86)}
+.booking-mini-item span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.booking-mini-total{display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(255,255,255,.22);padding-top:8px}
+.booking-mini-total strong{font-size:18px}
+.booking-mini-actions{display:flex;gap:7px;margin-top:8px}
+.booking-mini-actions button{flex:1;border:1px solid rgba(255,255,255,.4);background:transparent;color:#fff;border-radius:10px;padding:8px;font-size:10px;font-weight:700;cursor:pointer}
+.booking-mini-actions button:first-child{background:#fff;color:var(--green);border-color:#fff}
+.booking-warning{background:#f5efe3;border:1px solid #dfcfb7;border-radius:14px;padding:11px 12px;margin-top:14px;color:var(--text)}
+.booking-warning b{color:var(--green);font-size:12px}.booking-warning p{font-size:10px;color:var(--muted);margin-top:3px}
+.nav-cart{border:1px solid var(--green);background:transparent;color:var(--green);padding:10px 13px;border-radius:22px;cursor:pointer;font-weight:700;display:inline-flex;align-items:center;gap:6px}
+.nav-cart:hover{background:var(--soft)}
+.nav-cart-badge{min-width:20px;height:20px;padding:0 5px;border-radius:10px;background:var(--green);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:11px}
+.booking-service small{display:block;color:var(--muted);font-size:10px;margin-top:2px}.booking-service strong,.booking-extra strong{color:var(--green);white-space:nowrap}.booking-subtitle{font:18px Georgia,serif;color:var(--green);margin:20px 0 8px}.booking-extra{font-size:12px;margin-bottom:7px}.fur-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:13px}.fur-btn{border:1px solid var(--line);background:white;border-radius:12px;padding:10px 7px;font-size:11px;color:var(--green);cursor:pointer}.fur-btn.active{background:var(--green);color:white;border-color:var(--green)}
 .cart-mini{display:flex;align-items:center;gap:9px;background:var(--green);color:white;border-radius:15px;padding:11px 12px;margin-top:18px;font-size:12px}.cart-mini strong{margin-left:auto}.cart-mini button{border:1px solid rgba(255,255,255,.45);background:transparent;color:white;border-radius:10px;padding:6px 9px;font-size:10px;cursor:pointer}.cart-mini button:disabled{opacity:.45;cursor:not-allowed}.full-btn{width:100%;margin-top:10px}.cart-list{margin:12px 0}.cart-row{display:grid;grid-template-columns:1fr auto 28px;align-items:center;gap:8px;padding:12px 0;border-bottom:1px solid var(--line)}.cart-row b{display:block;color:var(--green);font-size:13px}.cart-row small{display:block;color:var(--muted);font-size:10px;margin-top:2px}.cart-row strong{white-space:nowrap;color:var(--green)}.cart-row button{width:26px;height:26px;border:0;border-radius:50%;background:#edf2eb;color:var(--green);cursor:pointer}.empty-cart{text-align:center;color:var(--muted);padding:30px 0}.cart-total{display:flex;justify-content:space-between;align-items:center;background:var(--soft);border-radius:16px;padding:16px;margin-top:10px;font-weight:700;color:var(--green)}.cart-total strong{font-size:22px}.cart-duration{font-size:11px;color:var(--muted);margin:8px 0 14px}.modal-special{background:var(--soft);border-radius:15px;padding:13px;margin:10px 0}.modal-special b{color:var(--green);font-size:13px}.modal-special p{font-size:10px;color:var(--muted);margin-top:4px}
 @media(max-width:900px){
   nav{display:none}
@@ -240,6 +260,7 @@ footer{background:#12372b;color:white;padding:24px 0}
   <a href="#tarifs">Tarifs</a>
   <a href="#salon">Le salon</a>
   <a href="#contact">Contact</a>
+  <button class="nav-cart" type="button" onclick="openCart()">🛒 <span>Panier</span><span class="nav-cart-badge" id="cartCount">0</span></button>
   <a class="nav-book" href="#contact" onclick="openBooking(event)">📅 Prendre rendez-vous</a>
 </nav>
 <button class="menu-toggle" onclick="toggleMenu()">☰ Menu</button>
@@ -251,6 +272,7 @@ footer{background:#12372b;color:white;padding:24px 0}
     <a href="#tarifs" class="btn btn-outline" onclick="closeMenu()">Tarifs</a>
     <a href="#salon" class="btn btn-outline" onclick="closeMenu()">Le salon</a>
     <a href="#contact" class="btn btn-outline" onclick="closeMenu()">Contact</a>
+    <button class="btn btn-outline" onclick="closeMenu();openCart()">🛒 Panier <span id="cartCountMobile">0</span></button>
     <button class="btn btn-primary" onclick="closeMenu();openBooking()">📅 Rendez-vous</button>
   </div>
 </div>
@@ -561,24 +583,53 @@ const extrasCat=[['cat-claws','Coupe des griffes',7,'15 min'],['cat-hyg-cut','Co
 function dogSizeIndex(w){ return w<=5?0:w<=15?1:2; }
 function dogSizeLabel(w){ return w<=5?'Petite — jusqu’à 5 kg':w<=15?'Moyenne — 5 à 15 kg':'Grande — 15 à 30 kg'; }
 function catFurLabel(k){return {short:'Poil court',medium:'Poil mi-long',long:'Poil long',maine:'Maine Coon'}[k]}
-function money(n){return n.toFixed(0)+' €'}
-function totalCart(){return CART.reduce((a,x)=>a+x.price,0)}
-function cartDuration(){return CART.map(x=>x.duration).join(' + ')}
-function addCart(item){ CART.push({...item}); renderBooking('cart'); }
-function removeCart(i){CART.splice(i,1);renderBooking('cart')}
+function money(n){return Number(n).toFixed(0)+' €'}
+function totalCart(){return CART.reduce((a,x)=>a+Number(x.price),0)}
+function durationMinutes(value){const h=(value.match(/(\d+)\s*h/)||[])[1];const m=(value.match(/(\d+)\s*min/)||[])[1];return (h?Number(h)*60:0)+(m?Number(m):0)}
+function cartDuration(){const total=CART.reduce((a,x)=>a+durationMinutes(x.duration),0);if(!total)return '—';const h=Math.floor(total/60),m=total%60;return h?(m?`${h} h ${m} min`:`${h} h`):`${m} min`}
+function updateCartBadge(){
+ const count=document.getElementById('cartCount');
+ const mobile=document.getElementById('cartCountMobile');
+ if(count) count.textContent=CART.length;
+ if(mobile) mobile.textContent=CART.length;
+}
+function hasCart(key){return CART.some(x=>x.key===key)}
+function toggleCart(item, view){
+ const idx=CART.findIndex(x=>x.key===item.key);
+ const baseKeys=view==='dog'?['dog-basic','dog-hygiene','dog-complete']:['cat-basic','cat-complete'];
+ if(idx>=0){ CART.splice(idx,1); }
+ else {
+   if(baseKeys.includes(item.key)){
+     for(let i=CART.length-1;i>=0;i--) if(baseKeys.includes(CART[i].key)) CART.splice(i,1);
+   }
+   CART.push({...item});
+ }
+ updateCartBadge();
+ renderBooking(view);
+}
+function removeCart(i){CART.splice(i,1);updateCartBadge();renderCart()}
+function openCart(){
+ document.getElementById('modal').classList.add('open');
+ renderCart();
+}
+function continueBooking(){
+ if(bookingAnimal==='dog') renderBooking('dog');
+ else if(bookingAnimal==='cat') renderBooking('cat');
+ else renderChooseAnimal();
+}
 
 function renderBooking(view='choose'){
  const c=document.getElementById('modalContent');
  if(view==='cart'){renderCart();return;}
- if(view==='dog'){renderDog();return;}
- if(view==='cat'){renderCat();return;}
+ if(view==='dog'){bookingAnimal='dog';renderDog();return;}
+ if(view==='cat'){bookingAnimal='cat';renderCat();return;}
  renderChooseAnimal();
 }
 function renderChooseAnimal(){
  document.getElementById('modalContent').innerHTML=`
  <div class="eyebrow">CŒUR DE FAMILLE • RÉSERVATION</div>
  <h3>Choisissez votre compagnon</h3>
- <div class="modal-sub">Commencez par sélectionner le type d’animal. Vous pourrez ensuite choisir les prestations et les ajouter à votre panier.</div>
+ <div class="modal-sub">Commencez par sélectionner le type d’animal. Vous pourrez ensuite choisir les prestations et les ajouter à votre panier sans quitter cette fenêtre.</div>
  <div class="booking-choice-grid">
    <button class="booking-choice" onclick="renderBooking('dog')"><span>🐶</span><b>Chien</b><small>Poids et formule</small></button>
    <button class="booking-choice" onclick="renderBooking('cat')"><span>🐱</span><b>Chat</b><small>Type de pelage</small></button>
@@ -589,48 +640,75 @@ function renderDog(){
  const w=bookingWeight||''; const idx=w!==''?dogSizeIndex(Number(w)):0;
  document.getElementById('modalContent').innerHTML=`
  <div class="eyebrow">🐶 CHIEN</div><h3>Choisissez les soins</h3>
- <div class="modal-sub">Indiquez le poids pour afficher automatiquement la bonne catégorie et le tarif correspondant.</div>
+ <div class="modal-sub">Indiquez le poids pour afficher automatiquement la bonne catégorie et le tarif correspondant. Cliquez sur une prestation pour l’ajouter à votre sélection ; elle devient foncée lorsqu’elle est choisie.</div>
  <label class="booking-label">Poids de l’animal (kg)</label>
- <input class="booking-input" type="number" min="0.1" step="0.1" value="${w}" placeholder="Ex. : 5,5" oninput="bookingWeight=this.value;renderDog()">
+ <input class="booking-input" type="number" min="0.1" step="0.1" value="${w}" placeholder="Ex. : 5,5" oninput="changeDogWeight(this.value)">
  <div class="booking-info">${w?`Catégorie : <b>${dogSizeLabel(Number(w))}</b>`:'Saisissez le poids de votre chien.'}</div>
+ <div class="booking-subtitle">Formule de toilettage</div>
  <div class="booking-service-list">
- ${dogServices.map((x,i)=>`<button class="booking-service" ${w?'':'disabled'} onclick="addCart({animal:'Chien',category:'${dogSizeLabel(Number(w||1))}',name:'${x.name}',price:${x.price[idx]},duration:'${x.duration}'})">
+ ${dogServices.map((x,i)=>`<button class="booking-service ${hasCart(x.id)?'selected':''}" ${w?'':'disabled'} onclick="toggleCart({key:'${x.id}',animal:'Chien',category:'${dogSizeLabel(Number(w||1))}',name:'${x.name}',price:${x.price[idx]},duration:'${x.duration}'},'dog')">
    <span><b>${x.name}</b><small>${x.desc} • ${x.duration}</small></span><strong>${w?money(x.price[idx]):'—'}</strong></button>`).join('')}
  </div>
  <div class="booking-subtitle">Services supplémentaires</div>
- ${extrasDog.map(x=>`<button class="booking-extra" onclick="addCart({animal:'Chien',category:'${w?dogSizeLabel(Number(w)):'Selon poids'}',name:'${x[1]}',price:${x[2]},duration:'${x[3]}'})"><span>＋ ${x[1]}</span><strong>${money(x[2])}</strong></button>`).join('')}
+ ${extrasDog.map(x=>`<button class="booking-extra ${hasCart(x[0])?'selected':''}" onclick="toggleCart({key:'${x[0]}',animal:'Chien',category:'${w?dogSizeLabel(Number(w)):'Selon poids'}',name:'${x[1]}',price:${x[2]},duration:'${x[3]}'},'dog')"><span>＋ ${x[1]}</span><strong>${money(x[2])}</strong></button>`).join('')}
+ <div class="booking-warning"><b>+20 € si nécessaire</b><p>Une majoration peut être appliquée en cas d’animal particulièrement difficile, de fortes bourres/poils emmêlés ou de forte salissure, lorsque du temps supplémentaire est nécessaire.</p></div>
  ${cartMini()}<button class="btn btn-outline full-btn" onclick="renderChooseAnimal()">← Changer d’animal</button>`;
+}
+function changeDogWeight(value){
+ const old=bookingWeight;
+ bookingWeight=value;
+ if(old!==value){
+   const baseKeys=['dog-basic','dog-hygiene','dog-complete'];
+   for(let i=CART.length-1;i>=0;i--) if(baseKeys.includes(CART[i].key)) CART.splice(i,1);
+   updateCartBadge();
+ }
+ renderDog();
 }
 function renderCat(){
  document.getElementById('modalContent').innerHTML=`
  <div class="eyebrow">🐱 CHAT</div><h3>Choisissez les soins</h3>
- <div class="modal-sub">Sélectionnez le type de pelage pour afficher les tarifs adaptés.</div>
+ <div class="modal-sub">Sélectionnez le type de pelage pour afficher les tarifs adaptés. Cliquez sur une prestation pour l’ajouter ; votre choix reste visible dans le petit récapitulatif en bas.</div>
  <label class="booking-label">Type de pelage</label>
- <div class="fur-grid">${[['short','Poil court'],['medium','Poil mi-long'],['long','Poil long'],['maine','Maine Coon']].map(x=>`<button class="fur-btn ${bookingFur===x[0]?'active':''}" onclick="bookingFur='${x[0]}';renderCat()">${x[1]}</button>`).join('')}</div>
+ <div class="fur-grid">${[['short','Poil court'],['medium','Poil mi-long'],['long','Poil long'],['maine','Maine Coon']].map(x=>`<button class="fur-btn ${bookingFur===x[0]?'active':''}" onclick="changeCatFur('${x[0]}')">${x[1]}</button>`).join('')}</div>
  <div class="booking-service-list">
- ${catServices.map(x=>`<button class="booking-service" ${bookingFur?'':'disabled'} onclick="addCart({animal:'Chat',category:'${catFurLabel(bookingFur||'short')}',name:'${x.name}',price:${bookingFur?x.price[bookingFur]:0},duration:'${x.duration}'})"><span><b>${x.name}</b><small>Soin adapté au pelage • ${x.duration}</small></span><strong>${bookingFur?money(x.price[bookingFur]):'—'}</strong></button>`).join('')}
+ ${catServices.map(x=>`<button class="booking-service ${hasCart(x.id)?'selected':''}" ${bookingFur?'':'disabled'} onclick="toggleCart({key:'${x.id}',animal:'Chat',category:'${catFurLabel(bookingFur||'short')}',name:'${x.name}',price:${bookingFur?x.price[bookingFur]:0},duration:'${x.duration}'},'cat')"><span><b>${x.name}</b><small>Soin adapté au pelage • ${x.duration}</small></span><strong>${bookingFur?money(x.price[bookingFur]):'—'}</strong></button>`).join('')}
  </div>
  <div class="booking-subtitle">Services supplémentaires</div>
- ${extrasCat.map(x=>`<button class="booking-extra" onclick="addCart({animal:'Chat',category:'${bookingFur?catFurLabel(bookingFur):'Selon pelage'}',name:'${x[1]}',price:${x[2]},duration:'${x[3]}'})"><span>＋ ${x[1]}</span><strong>${money(x[2])}</strong></button>`).join('')}
+ ${extrasCat.map(x=>`<button class="booking-extra ${hasCart(x[0])?'selected':''}" onclick="toggleCart({key:'${x[0]}',animal:'Chat',category:'${bookingFur?catFurLabel(bookingFur):'Selon pelage'}',name:'${x[1]}',price:${x[2]},duration:'${x[3]}'},'cat')"><span>＋ ${x[1]}</span><strong>${money(x[2])}</strong></button>`).join('')}
+ <div class="booking-warning"><b>+20 € si nécessaire</b><p>Une majoration peut être appliquée en cas d’animal particulièrement difficile, de fortes bourres/poils emmêlés ou de forte salissure, lorsque du temps supplémentaire est nécessaire.</p></div>
  ${cartMini()}<button class="btn btn-outline full-btn" onclick="renderChooseAnimal()">← Changer d’animal</button>`;
 }
-function cartMini(){return `<div class="cart-mini"><span>🛒 <b>${CART.length}</b> prestation${CART.length>1?'s':''}</span><strong>${money(totalCart())}</strong><button onclick="renderBooking('cart')" ${CART.length?'':'disabled'}>Voir le panier</button></div>`}
+function changeCatFur(value){
+ const old=bookingFur;
+ bookingFur=value;
+ if(old!==value){
+   for(let i=CART.length-1;i>=0;i--) if(CART[i].key==='cat-basic'||CART[i].key==='cat-complete') CART.splice(i,1);
+   updateCartBadge();
+ }
+ renderCat();
+}
+function cartMini(){
+ const items=CART.length?CART.map(x=>`<div class="booking-mini-item"><span>${x.name} <small>• ${x.duration}</small></span><strong>${money(x.price)}</strong></div>`).join(''):'<div class="booking-mini-item"><span>Votre sélection est vide</span><span>—</span></div>';
+ return `<div class="booking-mini-cart"><div class="booking-mini-head"><span>🛒 Ma sélection</span><span>${CART.length} prestation${CART.length>1?'s':''}</span></div><div class="booking-mini-items">${items}</div><div class="booking-mini-total"><span>Total</span><strong>${money(totalCart())}</strong></div><div class="booking-mini-actions"><button type="button" onclick="openCart()">Voir le panier</button><button type="button" onclick="continueBooking()" ${bookingAnimal?'':'disabled'}>Continuer</button></div></div>`;
+}
 function renderCart(){
  const rows=CART.map((x,i)=>`<div class="cart-row"><div><b>${x.name}</b><small>${x.animal} • ${x.category} • ${x.duration}</small></div><strong>${money(x.price)}</strong><button onclick="removeCart(${i})">×</button></div>`).join('');
  document.getElementById('modalContent').innerHTML=`
  <div class="eyebrow">🛒 VOTRE PANIER</div><h3>Récapitulatif des prestations</h3>
- <div class="modal-sub">Vérifiez votre sélection avant de passer au choix de la date et de l’heure.</div>
+ <div class="modal-sub">Vous pouvez supprimer une prestation, puis revenir au choix des soins pour en ajouter d’autres.</div>
  <div class="cart-list">${rows||'<div class="empty-cart">Votre panier est vide.</div>'}</div>
  ${CART.length?`<div class="cart-total"><span>Total des prestations</span><strong>${money(totalCart())}</strong></div>
- <div class="cart-duration">Durées affichées : ${cartDuration()}</div>
- <div class="modal-special"><b>+20 € si nécessaire</b><p>Une majoration peut être appliquée en cas d’animal particulièrement difficile, de fortes bourres/poils emmêlés ou de forte salissure, lorsque du temps supplémentaire est nécessaire.</p></div>
+ <div class="cart-duration">Durée totale estimée : ${cartDuration()}</div>
+ <div class="booking-warning"><b>+20 € si nécessaire</b><p>Une majoration peut être appliquée en cas d’animal particulièrement difficile, de fortes bourres/poils emmêlés ou de forte salissure, lorsque du temps supplémentaire est nécessaire.</p></div>
  <button class="btn btn-primary full-btn" onclick="goToCal()">📅 Choisir la date et l’heure</button>
- <button class="btn btn-outline full-btn" onclick="renderChooseAnimal()">＋ Ajouter une prestation</button>`:
+ <button class="btn btn-outline full-btn" onclick="continueBooking()">＋ Ajouter une prestation</button>`:
  `<button class="btn btn-primary full-btn" onclick="renderChooseAnimal()">Choisir une prestation</button>`}`;
 }
 function goToCal(){
  window.open('https://cal.com/0-1-qkuiav/toilettage-complet','_blank');
 }
+
+updateCartBadge();
 
 function closeModal(e){
  if(e && e.target && e.target.id!=="modal") return;
