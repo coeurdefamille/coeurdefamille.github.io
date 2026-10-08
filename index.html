@@ -320,8 +320,9 @@ header{
   box-shadow:0 4px 20px rgba(22,61,49,.05)
 }
 .brand-logo,.hero-logo,.hero-card-logo,.footer-logo img{
-  border:2px solid var(--gold2)!important;
-  background:var(--gold);
+  border:0!important;
+  outline:0!important;
+  background:transparent;
   padding:2px;
   filter:saturate(1.22) contrast(1.04);
   box-shadow:0 0 0 3px rgba(214,182,106,.12),0 8px 22px rgba(22,61,49,.13)!important;
@@ -432,6 +433,18 @@ footer{background:var(--green)!important;border-top:1px solid rgba(214,182,106,.
   .hero-card{margin-top:10px;padding:22px 16px;min-height:250px}
   .hero-card-logo{width:128px;height:94px}
   .section-head h2{font-size:40px}
+}
+</style>
+
+<style id="logo-no-border-final">
+/* Logo: no decorative outer border anywhere */
+.brand-logo,
+.hero-logo,
+.hero-card-logo,
+.footer-logo img {
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
 }
 </style>
 </head>
