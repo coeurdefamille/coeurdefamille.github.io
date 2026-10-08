@@ -434,6 +434,15 @@ footer{background:var(--green)!important;border-top:1px solid rgba(214,182,106,.
   .hero-card-logo{width:128px;height:94px}
   .section-head h2{font-size:40px}
 }
+
+/* Pricing explanation readability */
+.modal-special{background:#f1eee4;border:1px solid rgba(164,123,82,.35);padding:18px 20px;margin:14px 0 16px}
+.modal-special strong{display:block;font-size:30px;line-height:1.1;color:#173f32!important;margin-bottom:8px}
+.modal-special p{font-size:14px!important;line-height:1.55!important;color:#3f4b45!important;margin:0!important}
+.modal-explain{font-size:14px!important;line-height:1.65!important;color:#3f4b45!important;margin-top:16px;padding:14px 16px;background:#faf7ed;border-left:3px solid #a47b52;border-radius:0 10px 10px 0}
+.modal-legend{font-size:12px!important;line-height:1.5;color:#4d5a53!important;margin-top:7px}
+.price-sub{color:#173f32!important}
+
 </style>
 
 <style id="logo-no-border-final">
@@ -577,7 +586,7 @@ footer{background:var(--green)!important;border-top:1px solid rgba(214,182,106,.
     </table>
   </div>
 
-  <div class="price-sub">Prestations supplémentaires — chiens</div>
+  <div class="price-sub">Soins complémentaires — chiens</div>
   <div class="price-row"><span>Coupe des griffes</span><strong>10 €</strong></div>
   <div class="price-row"><span>Nettoyage des oreilles</span><strong>15 €</strong></div>
   <div class="price-row"><span>Coupe / épilation des oreilles</span><strong>15 €</strong></div>
@@ -602,7 +611,7 @@ footer{background:var(--green)!important;border-top:1px solid rgba(214,182,106,.
     </table>
   </div>
 
-  <div class="price-sub">Prestations supplémentaires — chats</div>
+  <div class="price-sub">Soins complémentaires — chats</div>
   <div class="price-row"><span>Coupe des griffes</span><strong>7 €</strong></div>
   <div class="price-row"><span>Coupe hygiénique</span><strong>7 €</strong></div>
   <div class="price-row"><span>Démêlage / brossage</span><strong>15 €</strong></div>
@@ -697,22 +706,22 @@ footer{background:var(--green)!important;border-top:1px solid rgba(214,182,106,.
 const serviceData = {
  complete: {
   title:"Toilettage complet — tarifs",
-  sub:"Voici les tarifs complets du fichier Excel, avec la distinction Basique / Hygiène / Complet.",
+  sub:"Tarifs selon le type de soin et le gabarit de votre compagnon.",
   html:`<div class="mini-title">🐶 Chiens</div>
   <div class="modal-table"><div><span>Petite — jusqu'à 5 kg</span><b>40 € / 50 € / 60 €</b></div>
   <div><span>Moyenne — 5 à 15 kg</span><b>50 € / 60 € / 70 €</b></div>
   <div><span>Grande — 15 à 30 kg</span><b>100 € / 120 € / 130 €</b></div></div>
-  <div class="modal-legend">Dans l'ordre : <b>Basique / Hygiène / Complet</b></div>
+  <div class="modal-legend">Dans l'ordre : <b>Basique / Hygiène / Complet</b>.</div>
   <div class="mini-title">🐱 Chats</div>
   <div class="modal-table"><div><span>Poil court</span><b>40 € / — / 50 €</b></div>
   <div><span>Poil mi-long</span><b>45 € / — / 55 €</b></div>
   <div><span>Poil long</span><b>55 € / — / 65 €</b></div>
   <div><span>Maine Coon</span><b>60 € / — / 80 €</b></div></div>
-  <div class="modal-legend">Pour les chats, aucune colonne « Hygiène » n'est indiquée dans le fichier Excel.</div>`
+  <div class="modal-legend">Pour les chats, la formule Hygiène n'est pas proposée.</div>`
  },
  coupe: {
   title:"Coupe & entretien — tarifs",
-  sub:"Prestations supplémentaires indiquées dans le fichier Excel.",
+  sub:"Les soins complémentaires peuvent être ajoutés selon les besoins de votre animal.",
   html:`<div class="mini-title">🐶 Chiens</div>
   <div class="modal-table"><div><span>Coupe des griffes</span><b>10 €</b></div>
   <div><span>Nettoyage des oreilles</span><b>15 €</b></div>
@@ -728,12 +737,12 @@ const serviceData = {
  },
  hygiene: {
   title:"Soins d'hygiène — tarifs",
-  sub:"La colonne « Hygiène » concerne les chiens dans le fichier Excel ; les chats n'ont pas de colonne Hygiène renseignée.",
-  html:`<div class="mini-title">🐶 Chiens — colonne Hygiène</div>
+  sub:"La formule Hygiène est proposée pour les chiens.",
+  html:`<div class="mini-title">🐶 Chiens — formule Hygiène</div>
   <div class="modal-table"><div><span>Petite — jusqu'à 5 kg</span><b>50 €</b></div>
   <div><span>Moyenne — 5 à 15 kg</span><b>60 €</b></div>
   <div><span>Grande — 15 à 30 kg</span><b>120 €</b></div></div>
-  <div class="mini-title">Prestations d'hygiène supplémentaires</div>
+  <div class="mini-title">Soins complémentaires</div>
   <div class="modal-table"><div><span>Coupe des griffes — chien</span><b>10 €</b></div>
   <div><span>Nettoyage des oreilles</span><b>15 €</b></div>
   <div><span>Coupe hygiénique</span><b>15 €</b></div>
@@ -741,8 +750,8 @@ const serviceData = {
  },
  personal: {
   title:"Soins personnalisés — conditions particulières",
-  sub:"Le fichier Excel prévoit une majoration uniquement lorsque des conditions particulières nécessitent du temps ou une attention supplémentaire.",
-  html:`<div class="modal-special"><strong>+20 €</strong><p>Supplément applicable uniquement en cas de conditions particulières et de nécessité d'un temps de travail supplémentaire (jusqu'à 30 minutes) ou d'une attention accrue.</p></div>
+  sub:"Un supplément peut s'appliquer lorsque les conditions de toilettage demandent davantage de temps ou d'attention.",
+  html:`<div class="modal-special"><strong>+20 €</strong><p>Ce supplément s'applique uniquement si le toilettage demande jusqu'à 30 minutes supplémentaires ou une attention particulière.</p></div>
   <div class="modal-table"><div><span>Animal particulièrement difficile / peu coopératif</span><b>+20 €</b></div>
   <div><span>Fortes bourres / poils emmêlés</span><b>+20 €</b></div>
   <div><span>Forte salissure</span><b>+20 €</b></div></div>
