@@ -648,8 +648,12 @@ function openCart(){
  renderCart();
 }
 function continueBooking(){
- // « Ajouter une prestation » doit toujours revenir au catalogue des soins,
- // sans ouvrir Cal.com. On conserve l’animal déjà sélectionné.
+ // « Continuer » valide le panier et ouvre le calendrier de réservation.
+ if(CART.length) goToCal();
+}
+function addService(){
+ // « Ajouter une prestation » ouvre le catalogue dans la même fenêtre.
+ // On conserve l’animal, le poids/pelage et les prestations déjà sélectionnées.
  if(bookingAnimal==='dog' || bookingAnimal==='cat'){
    renderBooking(bookingAnimal);
  } else {
@@ -764,7 +768,7 @@ function renderCart(){
  <div class="cart-duration">Durée totale estimée : ${cartDuration()}</div>
  <div class="booking-warning"><b>+20 € si nécessaire</b><p>Une majoration peut être appliquée en cas d’animal particulièrement difficile, de fortes bourres/poils emmêlés ou de forte salissure, lorsque du temps supplémentaire est nécessaire.</p></div>
  <button class="btn btn-primary full-btn" onclick="goToCal()">📅 Choisir la date et l’heure</button>
- <button class="btn btn-outline full-btn" onclick="continueBooking()">＋ Ajouter une prestation</button>`:
+ <button class="btn btn-outline full-btn" onclick="addService()">＋ Ajouter une prestation</button>`:
  `<button class="btn btn-primary full-btn" onclick="renderChooseAnimal()">Choisir une prestation</button>`}`;
 }
 function goToCal(){
