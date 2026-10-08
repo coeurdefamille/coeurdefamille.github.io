@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>CŒUR DE FAMILLE — Salon de toilettage</title>
 <meta name="description" content="CŒUR DE FAMILLE — salon de toilettage pour chiens et chats.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
   --green:#173f32;
@@ -279,6 +282,132 @@ footer{background:#173f32;color:white;padding:24px 0}
   .modal-actions .btn{min-height:44px}
   .full-btn{width:100%;margin-top:8px}
 }
+
+/* =========================================================
+   CŒUR DE FAMILLE — Premium visual direction
+   Forest green + antique gold + warm ivory
+   Functional layout/JS intentionally preserved.
+   ========================================================= */
+:root{
+  --green:#163d31;
+  --green2:#163d31;
+  --cream:#fbf8ef;
+  --soft:#f2eee3;
+  --soft2:#e9e2d2;
+  --gold:#b98a43;
+  --gold2:#d6b66a;
+  --gold-dark:#8e682e;
+  --text:#163d31;
+  --muted:#6c726d;
+  --line:#ddd4c3;
+  --shadow:0 16px 40px rgba(22,61,49,.11);
+}
+body{
+  font-family:'Manrope',Arial,Helvetica,sans-serif;
+  letter-spacing:.005em;
+}
+.brand-name,.hero h2,.hero-card-title,.service h3,.price-card h3,.salon-text h2,
+.section-head h2,.modal-box h3,.booking-choice b,.booking-subtitle,.mini-title,.footer-logo{
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-weight:600;
+  letter-spacing:.01em;
+}
+.brand-name{font-size:22px;letter-spacing:.08em}
+.brand-sub{color:var(--gold-dark);font-weight:700}
+header{
+  background:rgba(251,248,239,.96);
+  border-bottom:1px solid rgba(185,138,67,.28);
+  box-shadow:0 4px 20px rgba(22,61,49,.05)
+}
+.brand-logo,.hero-logo,.hero-card-logo,.footer-logo img{
+  border:2px solid var(--gold2)!important;
+  background:var(--gold);
+  padding:2px;
+  filter:saturate(1.22) contrast(1.04);
+  box-shadow:0 0 0 3px rgba(214,182,106,.12),0 8px 22px rgba(22,61,49,.13)!important;
+}
+.brand-logo{border-radius:50%}
+.hero-logo,.hero-card-logo{border-radius:18px}
+.nav-cart{border-color:var(--gold)!important;color:var(--green)!important}
+.nav-cart:hover{background:rgba(185,138,67,.10)!important}
+.nav-cart-badge{background:var(--gold)!important;color:#fff!important}
+.nav-book,.menu-toggle,.btn-primary{background:var(--green)!important}
+.nav-book:hover,.btn-primary:hover{background:var(--green)!important}
+nav a:hover,.service-hint,.eyebrow,.price-sub,.salon-sub{color:var(--gold-dark)!important}
+.btn{border-color:var(--gold)!important}
+.btn-outline{color:var(--green);background:transparent}
+.btn-outline:hover{background:rgba(185,138,67,.10)}
+.hero{position:relative}
+.hero:before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold2),transparent);opacity:.65}
+.hero-line{background:linear-gradient(90deg,var(--gold),var(--gold2))!important;height:2px;width:105px;border-radius:2px}
+.hero-card{
+  background:linear-gradient(145deg,#f2eee3 0%,#eee7d8 100%);
+  border:1px solid rgba(185,138,67,.25);
+  box-shadow:var(--shadow)
+}
+.hero-card:before,.hero-card:after{border-color:rgba(185,138,67,.26)!important}
+.benefit{color:var(--green)}
+.benefit-icon{color:var(--gold-dark)}
+section{position:relative}
+.section-head:after{
+  content:"✦";display:block;color:var(--gold);font-size:14px;margin-top:13px;letter-spacing:7px
+}
+.services{background:linear-gradient(180deg,#f2eee3 0%,#eee9dc 100%)}
+.service{
+  position:relative;
+  border:1px solid rgba(185,138,67,.20);
+  background:rgba(255,255,255,.78);
+  box-shadow:0 8px 24px rgba(22,61,49,.055)
+}
+.service:before{
+  content:"";position:absolute;top:0;left:18%;right:18%;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.65
+}
+.service:hover{border-color:rgba(185,138,67,.48);box-shadow:0 16px 35px rgba(22,61,49,.10)}
+.service-icon{background:linear-gradient(145deg,#f5efe2,#e9dfcb);border:1px solid rgba(185,138,67,.25);color:var(--gold-dark)}
+.service h3{font-size:25px}
+.prices{background:linear-gradient(180deg,#e9e2d2 0%,#eee9dc 100%)}
+.price-card{border:1px solid rgba(185,138,67,.22);box-shadow:0 12px 30px rgba(22,61,49,.08)}
+.price-card h3{font-size:32px}
+.price-sub{letter-spacing:.05em;text-transform:uppercase}
+.price-table th{background:var(--green)!important;border-bottom:2px solid var(--gold2)}
+.price-table td:not(:first-child),.modal-table b,.modal-special strong{color:var(--green)!important}
+.surcharge{border:1px solid rgba(185,138,67,.24);position:relative;overflow:hidden}
+.surcharge:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(var(--gold2),var(--gold-dark))}
+.salon-text h2{font-size:49px}
+.values .value b{color:var(--gold-dark)}
+.gallery{background:#fdfbf5}
+.gallery-item{border:1px solid rgba(185,138,67,.20);box-shadow:0 5px 15px rgba(22,61,49,.06)}
+.contact{background:var(--green)!important;position:relative;overflow:hidden}
+.contact:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 12% 15%,rgba(214,182,106,.10),transparent 28%),radial-gradient(circle at 88% 85%,rgba(214,182,106,.08),transparent 25%);pointer-events:none}
+.contact-card{border-color:rgba(214,182,106,.38)}
+.contact-card-icon{color:var(--gold2)}
+footer{background:var(--green)!important;border-top:1px solid rgba(214,182,106,.30)}
+.footer p{color:rgba(255,255,255,.72)}
+.modal-box{
+  border:1px solid rgba(185,138,67,.30);
+  box-shadow:0 25px 70px rgba(0,0,0,.28)
+}
+.modal-close{color:var(--green)}
+.modal-box h3{font-size:34px}
+.booking-choice,.booking-service,.booking-extra{border-color:rgba(185,138,67,.25)}
+.booking-choice:hover,.booking-service:hover,.booking-extra:hover{border-color:rgba(185,138,67,.55);box-shadow:0 8px 22px rgba(22,61,49,.08)}
+.booking-choice span{filter:saturate(.85)}
+.booking-service.selected,.booking-extra.selected,.booking-mini-cart,.cart-mini{background:var(--green)!important;border-color:var(--green)!important}
+.booking-mini-cart{box-shadow:0 12px 28px rgba(22,61,49,.18);border-top:2px solid var(--gold2)}
+.booking-mini-actions button:first-child{color:var(--green)}
+.booking-warning{border-color:rgba(185,138,67,.38);background:#f5eee0}
+.cart-total{border:1px solid rgba(185,138,67,.22);background:linear-gradient(145deg,#f2eee3,#ebe2d2)}
+.cart-row button{border:1px solid rgba(185,138,67,.20)}
+/* Gold details on primary decorative controls */
+.nav-book,.btn-primary,.menu-toggle{box-shadow:0 7px 18px rgba(22,61,49,.14),0 0 0 1px rgba(214,182,106,.18) inset}
+@media(max-width:600px){
+  .brand-name{font-size:18px}
+  .section-head:after{margin-top:10px}
+  .service h3{font-size:23px}
+  .modal-box h3{font-size:29px}
+}
+
 </style>
 </head>
 <body>
