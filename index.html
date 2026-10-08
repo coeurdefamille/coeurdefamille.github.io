@@ -188,8 +188,7 @@ footer{background:#173f32;color:white;padding:24px 0}
 .booking-mini-items{max-height:110px;overflow:auto;display:grid;gap:6px;margin-bottom:9px}
 .booking-mini-item{display:flex;justify-content:space-between;gap:8px;font-size:12px;line-height:1.35;color:rgba(255,255,255,.9)}
 .booking-mini-item span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.booking-mini-total{display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(255,255,255,.25);padding-top:10px;font-size:14px}
-.booking-mini-total strong{font-size:21px}
+.booking-mini-total{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;border-top:1px solid rgba(255,255,255,.25);padding-top:11px;font-size:13px}.booking-mini-total .mini-duration{display:flex;flex-direction:column;gap:3px}.booking-mini-total .mini-duration b{font-size:18px;line-height:1.1}.booking-mini-total .mini-price{display:flex;flex-direction:column;align-items:flex-end;gap:3px}.booking-mini-total .mini-price strong{font-size:22px;line-height:1.1}.booking-mini-total .mini-label{font-size:10px;opacity:.78;text-transform:uppercase;letter-spacing:.04em}
 .booking-mini-actions{display:flex;gap:8px;margin-top:10px}
 .booking-mini-actions button{flex:1;border:1px solid rgba(255,255,255,.45);background:transparent;color:#fff;border-radius:11px;padding:10px 8px;font-size:12px;font-weight:800;cursor:pointer}
 .booking-mini-actions button:first-child{background:#fff;color:var(--green);border-color:#fff}
@@ -649,6 +648,7 @@ function openCart(){
  renderCart();
 }
 function continueBooking(){
+ if(CART.length){ goToCal(); return; }
  if(bookingAnimal==='dog') renderBooking('dog');
  else if(bookingAnimal==='cat') renderBooking('cat');
  else renderChooseAnimal();
@@ -749,7 +749,7 @@ function changeCatFur(value){
 }
 function cartMini(){
  const items=CART.length?CART.map(x=>`<div class="booking-mini-item"><span>${x.name} <small>• ${x.duration}</small></span><strong>${money(x.price)}</strong></div>`).join(''):'<div class="booking-mini-item"><span>Votre sélection est vide</span><span>—</span></div>';
- return `<div class="booking-mini-cart"><div class="booking-mini-head"><span>🛒 Ma sélection</span><span>${CART.length} prestation${CART.length>1?'s':''}</span></div><div class="booking-mini-items">${items}</div><div class="booking-mini-total"><span>Total</span><strong>${money(totalCart())}</strong></div><div class="booking-mini-actions"><button type="button" onclick="openCart()">Voir le panier</button><button type="button" onclick="continueBooking()" ${bookingAnimal?'':'disabled'}>Continuer</button></div></div>`;
+ return `<div class="booking-mini-cart"><div class="booking-mini-head"><span>🛒 Ma sélection</span><span>${CART.length} prestation${CART.length>1?'s':''}</span></div><div class="booking-mini-items">${items}</div><div class="booking-mini-total"><div class="mini-duration"><span class="mini-label">Durée totale</span><b>${cartDuration()}</b></div><div class="mini-price"><span class="mini-label">Total</span><strong>${money(totalCart())}</strong></div></div><div class="booking-mini-actions"><button type="button" onclick="openCart()">Voir le panier</button><button type="button" onclick="continueBooking()" ${CART.length?'':'disabled'}>Continuer</button></div></div>`;
 }
 function renderCart(){
  const rows=CART.map((x,i)=>`<div class="cart-row"><div><b>${x.name}</b><small>${x.animal} • ${x.category} • ${x.duration}</small></div><strong>${money(x.price)}</strong><button onclick="removeCart(${i})">×</button></div>`).join('');
