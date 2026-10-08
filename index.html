@@ -648,10 +648,13 @@ function openCart(){
  renderCart();
 }
 function continueBooking(){
- if(CART.length){ goToCal(); return; }
- if(bookingAnimal==='dog') renderBooking('dog');
- else if(bookingAnimal==='cat') renderBooking('cat');
- else renderChooseAnimal();
+ // « Ajouter une prestation » doit toujours revenir au catalogue des soins,
+ // sans ouvrir Cal.com. On conserve l’animal déjà sélectionné.
+ if(bookingAnimal==='dog' || bookingAnimal==='cat'){
+   renderBooking(bookingAnimal);
+ } else {
+   renderChooseAnimal();
+ }
 }
 
 function renderBooking(view='choose'){
