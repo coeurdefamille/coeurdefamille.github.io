@@ -137,9 +137,9 @@ footer{background:#12372b;color:white;padding:24px 0}
 .footer-logo img{width:42px;height:34px;object-fit:cover;border-radius:8px}
 .footer p{font-size:11px;color:rgba(255,255,255,.65)}
 
-.modal{display:none;position:fixed;inset:0;background:rgba(12,31,24,.6);z-index:300;align-items:center;justify-content:center;padding:18px}
+.modal{display:none;position:fixed;inset:0;background:rgba(12,31,24,.6);z-index:300;align-items:center;justify-content:center;padding:18px;overscroll-behavior:contain;touch-action:pan-y}
 .modal.open{display:flex}
-.modal-box{width:min(520px,100%);max-height:90vh;overflow:auto;background:var(--cream);border-radius:26px;padding:28px;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.modal-box{width:min(520px,100%);max-height:90dvh;overflow:auto;background:var(--cream);border-radius:26px;padding:28px;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.25);-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
 .modal-close{position:absolute;right:14px;top:10px;border:0;background:none;font-size:28px;color:var(--green);cursor:pointer}
 .modal-box h3{font:30px Georgia,serif;color:var(--green);margin-bottom:7px}
 .modal-box .modal-sub{font-size:13px;color:var(--muted);margin-bottom:18px}
@@ -176,22 +176,22 @@ footer{background:#12372b;color:white;padding:24px 0}
 .booking-choice{border:1px solid var(--line);background:white;border-radius:20px;padding:22px 14px;cursor:pointer;color:var(--green);transition:.2s}
 .booking-choice:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:#b7c8b2}
 .booking-choice span{display:block;font-size:42px;margin-bottom:8px}.booking-choice b{display:block;font:22px Georgia,serif}.booking-choice small{display:block;color:var(--muted);font-size:11px;margin-top:3px}
-.booking-label{display:block;font-size:12px;font-weight:700;color:var(--green);margin:10px 0 6px}.booking-input{width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:13px;background:white;color:var(--text);outline:none}.booking-input:focus{border-color:var(--green)}
+.booking-label{display:block;font-size:12px;font-weight:700;color:var(--green);margin:10px 0 6px}.booking-input{width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:13px;background:white;color:var(--text);outline:none;font-size:16px;line-height:1.35;-webkit-appearance:none;appearance:none;touch-action:manipulation}.booking-input:focus{border-color:var(--green);box-shadow:0 0 0 2px rgba(23,63,50,.08)}
 .booking-info{background:var(--soft);border-radius:12px;padding:9px 12px;margin:10px 0;font-size:12px;color:var(--muted)}
 .booking-service-list{display:grid;gap:9px;margin:12px 0}.booking-service,.booking-extra{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid var(--line);background:white;border-radius:14px;padding:13px 14px;text-align:left;cursor:pointer;color:var(--text)}.booking-service:hover,.booking-extra:hover{border-color:#9db49a;background:#fbfcf8}.booking-service:disabled{opacity:.55;cursor:not-allowed}.booking-service b{display:block;color:var(--green);font-size:14px}
 .booking-service.selected,.booking-extra.selected{background:var(--green);border-color:var(--green);color:#fff;box-shadow:0 6px 16px rgba(23,63,50,.16)}
 .booking-service.selected b,.booking-service.selected small,.booking-service.selected strong,.booking-extra.selected strong{color:#fff}
 .booking-service.selected small,.booking-extra.selected{color:rgba(255,255,255,.9)}
 .booking-service.selected:after,.booking-extra.selected:after{content:'✓';font-weight:800;margin-left:8px}
-.booking-mini-cart{background:#173f32;color:#fff;border-radius:16px;padding:12px;margin-top:18px;position:sticky;bottom:0;z-index:5;box-shadow:0 -6px 18px rgba(23,63,50,.12)}
-.booking-mini-head{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:12px;font-weight:700;margin-bottom:7px}
-.booking-mini-items{max-height:92px;overflow:auto;display:grid;gap:4px;margin-bottom:8px}
-.booking-mini-item{display:flex;justify-content:space-between;gap:8px;font-size:10px;color:rgba(255,255,255,.86)}
+.booking-mini-cart{background:#173f32;color:#fff;border-radius:18px;padding:16px 17px;margin:28px -8px 4px;width:calc(100% + 16px);position:relative;z-index:2;box-shadow:0 7px 20px rgba(23,63,50,.14)}
+.booking-mini-head{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:15px;font-weight:800;margin-bottom:9px}
+.booking-mini-items{max-height:110px;overflow:auto;display:grid;gap:6px;margin-bottom:9px}
+.booking-mini-item{display:flex;justify-content:space-between;gap:8px;font-size:12px;line-height:1.35;color:rgba(255,255,255,.9)}
 .booking-mini-item span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.booking-mini-total{display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(255,255,255,.22);padding-top:8px}
-.booking-mini-total strong{font-size:18px}
-.booking-mini-actions{display:flex;gap:7px;margin-top:8px}
-.booking-mini-actions button{flex:1;border:1px solid rgba(255,255,255,.4);background:transparent;color:#fff;border-radius:10px;padding:8px;font-size:10px;font-weight:700;cursor:pointer}
+.booking-mini-total{display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(255,255,255,.25);padding-top:10px;font-size:14px}
+.booking-mini-total strong{font-size:21px}
+.booking-mini-actions{display:flex;gap:8px;margin-top:10px}
+.booking-mini-actions button{flex:1;border:1px solid rgba(255,255,255,.45);background:transparent;color:#fff;border-radius:11px;padding:10px 8px;font-size:12px;font-weight:800;cursor:pointer}
 .booking-mini-actions button:first-child{background:#fff;color:var(--green);border-color:#fff}
 .booking-warning{background:#f5efe3;border:1px solid #dfcfb7;border-radius:14px;padding:11px 12px;margin-top:14px;color:var(--text)}
 .booking-warning b{color:var(--green);font-size:12px}.booking-warning p{font-size:10px;color:var(--muted);margin-top:3px}
@@ -200,6 +200,35 @@ footer{background:#12372b;color:white;padding:24px 0}
 .nav-cart-badge{min-width:20px;height:20px;padding:0 5px;border-radius:10px;background:var(--green);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:11px}
 .booking-service small{display:block;color:var(--muted);font-size:10px;margin-top:2px}.booking-service strong,.booking-extra strong{color:var(--green);white-space:nowrap}.booking-subtitle{font:18px Georgia,serif;color:var(--green);margin:20px 0 8px}.booking-extra{font-size:12px;margin-bottom:7px}.fur-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:13px}.fur-btn{border:1px solid var(--line);background:white;border-radius:12px;padding:10px 7px;font-size:11px;color:var(--green);cursor:pointer}.fur-btn.active{background:var(--green);color:white;border-color:var(--green)}
 .cart-mini{display:flex;align-items:center;gap:9px;background:var(--green);color:white;border-radius:15px;padding:11px 12px;margin-top:18px;font-size:12px}.cart-mini strong{margin-left:auto}.cart-mini button{border:1px solid rgba(255,255,255,.45);background:transparent;color:white;border-radius:10px;padding:6px 9px;font-size:10px;cursor:pointer}.cart-mini button:disabled{opacity:.45;cursor:not-allowed}.full-btn{width:100%;margin-top:10px}.cart-list{margin:12px 0}.cart-row{display:grid;grid-template-columns:1fr auto 28px;align-items:center;gap:8px;padding:12px 0;border-bottom:1px solid var(--line)}.cart-row b{display:block;color:var(--green);font-size:13px}.cart-row small{display:block;color:var(--muted);font-size:10px;margin-top:2px}.cart-row strong{white-space:nowrap;color:var(--green)}.cart-row button{width:26px;height:26px;border:0;border-radius:50%;background:#edf2eb;color:var(--green);cursor:pointer}.empty-cart{text-align:center;color:var(--muted);padding:30px 0}.cart-total{display:flex;justify-content:space-between;align-items:center;background:var(--soft);border-radius:16px;padding:16px;margin-top:10px;font-weight:700;color:var(--green)}.cart-total strong{font-size:22px}.cart-duration{font-size:11px;color:var(--muted);margin:8px 0 14px}.modal-special{background:var(--soft);border-radius:15px;padding:13px;margin:10px 0}.modal-special b{color:var(--green);font-size:13px}.modal-special p{font-size:10px;color:var(--muted);margin-top:4px}
+@media(max-width:600px){
+  .modal{align-items:flex-start;padding:10px}
+  .modal-box{
+    width:100%;
+    max-width:100%;
+    max-height:calc(100dvh - 20px);
+    border-radius:20px;
+    padding:22px 16px 18px;
+    margin:0;
+  }
+  .modal-box h3{font-size:25px;padding-right:28px}
+  .modal-box .modal-sub{font-size:13px;line-height:1.55}
+  .booking-label{font-size:13px;margin-top:14px}
+  .booking-input{min-height:50px;font-size:16px;padding:13px 14px}
+  .booking-service,.booking-extra{min-height:52px;padding:12px 11px}
+  .booking-service b{font-size:14px}
+  .booking-service small{font-size:10px;line-height:1.35}
+  .booking-service strong,.booking-extra strong{font-size:13px}
+  .booking-mini-cart{margin:26px -4px 2px;width:calc(100% + 8px);padding:15px 14px;box-shadow:none;border-radius:17px}
+  .booking-mini-items{max-height:120px}
+  .booking-mini-actions button{min-height:44px;font-size:12px}
+  .booking-warning{padding:12px;margin-top:12px}
+  .booking-warning p{font-size:11px;line-height:1.45}
+  .booking-choice{padding:18px 12px}
+  .booking-choice span{font-size:36px}
+  .fur-btn{min-height:44px;font-size:12px}
+  /* The keyboard can shrink the viewport; keep the cart in normal flow so it never covers the field. */
+  .modal-box:focus-within{scroll-padding-bottom:20px}
+}
 @media(max-width:900px){
   nav{display:none}
   .menu-toggle{display:block}
@@ -243,6 +272,13 @@ footer{background:#12372b;color:white;padding:24px 0}
   .gallery-item{height:145px}
   .footer{flex-direction:column;text-align:center}
   .footer-logo{justify-content:center}
+}
+@media(max-width:600px){
+  body{overflow-x:hidden}
+  .container{width:calc(100% - 28px)}
+  .modal-actions{gap:8px}
+  .modal-actions .btn{min-height:44px}
+  .full-btn{width:100%;margin-top:8px}
 }
 </style>
 </head>
@@ -642,11 +678,11 @@ function renderDog(){
  <div class="eyebrow">🐶 CHIEN</div><h3>Choisissez les soins</h3>
  <div class="modal-sub">Indiquez le poids pour afficher automatiquement la bonne catégorie et le tarif correspondant. Cliquez sur une prestation pour l’ajouter à votre sélection ; elle devient foncée lorsqu’elle est choisie.</div>
  <label class="booking-label">Poids de l’animal (kg)</label>
- <input class="booking-input" type="number" min="0.1" step="0.1" value="${w}" placeholder="Ex. : 5,5" oninput="changeDogWeight(this.value)">
- <div class="booking-info">${w?`Catégorie : <b>${dogSizeLabel(Number(w))}</b>`:'Saisissez le poids de votre chien.'}</div>
+ <input id="dogWeightInput" class="booking-input" type="number" min="0.1" step="0.1" inputmode="decimal" autocomplete="off" value="${w}" placeholder="Ex. : 5,5" oninput="changeDogWeightLive(this.value)" onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}">
+ <div class="booking-info" id="dogCategoryInfo">${w?`Catégorie : <b>${dogSizeLabel(Number(w))}</b>`:'Saisissez le poids de votre chien.'}</div>
  <div class="booking-subtitle">Formule de toilettage</div>
  <div class="booking-service-list">
- ${dogServices.map((x,i)=>`<button class="booking-service ${hasCart(x.id)?'selected':''}" ${w?'':'disabled'} onclick="toggleCart({key:'${x.id}',animal:'Chien',category:'${dogSizeLabel(Number(w||1))}',name:'${x.name}',price:${x.price[idx]},duration:'${x.duration}'},'dog')">
+ ${dogServices.map((x,i)=>`<button id="dogService-${x.id}" class="booking-service ${hasCart(x.id)?'selected':''}" ${w?'':'disabled'} onclick="toggleCart({key:'${x.id}',animal:'Chien',category:'${dogSizeLabel(Number(w||1))}',name:'${x.name}',price:${x.price[idx]},duration:'${x.duration}'},'dog')">
    <span><b>${x.name}</b><small>${x.desc} • ${x.duration}</small></span><strong>${w?money(x.price[idx]):'—'}</strong></button>`).join('')}
  </div>
  <div class="booking-subtitle">Services supplémentaires</div>
@@ -654,15 +690,39 @@ function renderDog(){
  <div class="booking-warning"><b>+20 € si nécessaire</b><p>Une majoration peut être appliquée en cas d’animal particulièrement difficile, de fortes bourres/poils emmêlés ou de forte salissure, lorsque du temps supplémentaire est nécessaire.</p></div>
  ${cartMini()}<button class="btn btn-outline full-btn" onclick="renderChooseAnimal()">← Changer d’animal</button>`;
 }
-function changeDogWeight(value){
- const old=bookingWeight;
- bookingWeight=value;
- if(old!==value){
-   const baseKeys=['dog-basic','dog-hygiene','dog-complete'];
-   for(let i=CART.length-1;i>=0;i--) if(baseKeys.includes(CART[i].key)) CART.splice(i,1);
-   updateCartBadge();
+function changeDogWeightLive(value){
+ const clean=String(value).replace(',','.');
+ if(clean!=='' && Number(clean)>0){
+   const old=bookingWeight;
+   bookingWeight=clean;
+   if(old!==clean){
+     const baseKeys=['dog-basic','dog-hygiene','dog-complete'];
+     for(let i=CART.length-1;i>=0;i--) if(baseKeys.includes(CART[i].key)) CART.splice(i,1);
+     updateCartBadge();
+   }
+   const idx=dogSizeIndex(Number(clean));
+   const info=document.getElementById('dogCategoryInfo');
+   if(info) info.innerHTML=`Catégorie : <b>${dogSizeLabel(Number(clean))}</b>`;
+   dogServices.forEach(x=>{
+     const btn=document.getElementById('dogService-'+x.id);
+     if(!btn) return;
+     btn.disabled=false;
+     const price=btn.querySelector('strong');
+     if(price) price.textContent=money(x.price[idx]);
+     btn.classList.remove('selected');
+   });
+ } else {
+   bookingWeight='';
+   const info=document.getElementById('dogCategoryInfo');
+   if(info) info.textContent='Saisissez le poids de votre chien.';
+   dogServices.forEach(x=>{
+     const btn=document.getElementById('dogService-'+x.id);
+     if(!btn) return;
+     btn.disabled=true;
+     const price=btn.querySelector('strong');
+     if(price) price.textContent='—';
+   });
  }
- renderDog();
 }
 function renderCat(){
  document.getElementById('modalContent').innerHTML=`
