@@ -525,17 +525,11 @@ function openService(key){
  document.getElementById("modal").classList.add("open");
 }
 
+const BOOKING_URL = "https://cal.com/0-1-qkuiav/toilettage-complet";
+
 function openBooking(e){
  if(e)e.preventDefault();
- document.getElementById("modalContent").innerHTML=
- `<div class="eyebrow">CŒUR DE FAMILLE</div>
-  <h3>Prendre rendez-vous</h3>
-  <div class="modal-sub">La réservation en ligne sera activée dès que le téléphone, l'adresse ou le système de réservation du salon seront disponibles.</div>
-  <div class="modal-price-row"><span>📞 Téléphone</span><strong>À venir</strong></div>
-  <div class="modal-price-row"><span>📍 Adresse</span><strong>À venir</strong></div>
-  <div class="modal-price-row"><span>◎ Instagram</span><strong>À venir</strong></div>
-  <div class="modal-actions"><button class="btn btn-primary" onclick="closeModal()">Fermer</button></div>`;
- document.getElementById("modal").classList.add("open");
+ window.location.href = BOOKING_URL;
 }
 
 function closeModal(e){
