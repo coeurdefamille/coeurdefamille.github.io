@@ -41,7 +41,7 @@ header{
 .brand{display:flex;align-items:center;gap:12px}
 .brand-logo{
   width:54px;height:54px;border-radius:50%;object-fit:cover;
-  border:2px solid #b39463;box-shadow:0 2px 8px rgba(0,0,0,.08)
+  border:0;box-shadow:0 2px 8px rgba(23,63,50,.10)
 }
 .brand-name{font:700 20px Georgia,serif;color:var(--green);letter-spacing:.5px}
 .brand-sub{font-size:9px;letter-spacing:3px;color:var(--muted);margin-top:2px}
@@ -408,6 +408,31 @@ footer{background:var(--green)!important;border-top:1px solid rgba(214,182,106,.
   .modal-box h3{font-size:29px}
 }
 
+
+/* Logo & responsive refinement */
+.brand-logo{border:0!important;outline:0!important;box-shadow:0 2px 10px rgba(23,63,50,.10)!important;background:transparent}
+@media (max-width: 900px){
+  .brand-logo{width:48px;height:48px;box-shadow:0 2px 8px rgba(23,63,50,.08)!important}
+  .brand-name{font-size:19px;letter-spacing:.35px}
+  .hero{padding-top:34px}
+  .hero-logo{width:104px;height:78px}
+}
+@media (max-width: 600px){
+  header{padding:10px 16px}
+  .brand{gap:10px}
+  .brand-logo{width:46px;height:46px}
+  .brand-name{font-size:17px;letter-spacing:.25px}
+  .brand-sub{font-size:9px;letter-spacing:2.2px}
+  .menu-toggle{padding:11px 15px;border-radius:24px}
+  .hero{padding:30px 16px 20px}
+  .hero-logo{width:92px;height:70px;border-radius:14px}
+  h1{font-size:clamp(40px,12vw,58px);letter-spacing:-1.2px}
+  .hero h2{font-size:22px}
+  .btn{min-height:50px;padding:13px 17px}
+  .hero-card{margin-top:10px;padding:22px 16px;min-height:250px}
+  .hero-card-logo{width:128px;height:94px}
+  .section-head h2{font-size:40px}
+}
 </style>
 </head>
 <body>
