@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{
   --green:#173f32;
@@ -1162,6 +1163,12 @@ END:VCALENDAR`;
  const blob=new Blob([ics],{type:'text/calendar;charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='coeur-de-famille-rendez-vous.ics';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
 }
 
+</script>
+<script>
+const supabaseClient = window.supabase.createClient(
+  'https://phmkbsifgzjzlxahwthu.supabase.co',
+  'sb_publishable_LTmDui4-JcQsc0oeaiR7dQ_ZbhVJ-PU'
+);
 </script>
 </body>
 </html>
