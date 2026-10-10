@@ -444,6 +444,9 @@ footer{background:var(--green)!important;border-top:1px solid rgba(214,182,106,.
 .modal-legend{font-size:12px!important;line-height:1.5;color:#4d5a53!important;margin-top:7px}
 .price-sub{color:#173f32!important}
 
+
+.price-table td small{display:block;font-size:10px;font-weight:500;color:var(--muted);margin-top:3px;white-space:nowrap}
+.price-table th{vertical-align:middle}
 </style>
 
 <style id="logo-no-border-final">
@@ -593,71 +596,57 @@ footer{background:var(--green)!important;border-top:1px solid rgba(214,182,106,.
 <div class="section-head">
   <div class="eyebrow">Nos tarifs</div>
   <h2>Nos tarifs</h2>
-  <p>Les prix sont présentés clairement par type de prestation : <b>soins de base</b>, <b>hygiène</b> et <b>soins complets</b>.</p>
+  <p>Tarifs selon le type de pelage, le poids et la prestation. Les durées sont indiquées à titre de référence.</p>
 </div>
-
 <div class="price-grid">
-
 <div class="price-card">
   <h3>🐶 Chiens</h3>
-  <div class="price-table-wrap">
-    <table class="price-table">
-      <thead>
-        <tr><th>Type / Poids</th><th>Basique</th><th>Hygiène</th><th>Complet</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>Petite — jusqu'à 5 kg</td><td>40 €</td><td>50 €</td><td>60 €</td></tr>
-        <tr><td>Moyenne — 5 à 15 kg</td><td>50 €</td><td>60 €</td><td>70 €</td></tr>
-        <tr><td>Grande — 15 à 30 kg</td><td>100 €</td><td>120 €</td><td>130 €</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="price-sub">Soins complémentaires — chiens</div>
-  <div class="price-row"><span>Coupe des griffes</span><strong>10 €</strong></div>
-  <div class="price-row"><span>Nettoyage des oreilles</span><strong>15 €</strong></div>
+  <div class="price-table-wrap"><table class="price-table">
+    <thead><tr><th>Type / Poids</th><th>Soins de base</th><th>Hygiène</th><th>Soins complets</th><th>Coupe express</th></tr></thead>
+    <tbody>
+      <tr><td>Petit — jusqu’à 5 kg</td><td>40 €<small>60 min</small></td><td>50 €<small>60 min</small></td><td>60 €<small>90 min</small></td><td>50 €<small>60 min</small></td></tr>
+      <tr><td>Moyen — 5 à 15 kg</td><td>50 €<small>60 min</small></td><td>60 €<small>60 min</small></td><td>70 €<small>90 min</small></td><td>60 €<small>60 min</small></td></tr>
+      <tr><td>Cocker spaniel / anglais / américain</td><td>65 €<small>90 min</small></td><td>75 €<small>90 min</small></td><td>85 €<small>120 min</small></td><td>—</td></tr>
+      <tr><td>Grand — 15 à 30 kg</td><td>110 €<small>90 min</small></td><td>120 €<small>90 min</small></td><td>130 €<small>120 min</small></td><td>110 €<small>60 min</small></td></tr>
+    </tbody>
+  </table></div>
+  <div class="price-sub">Soins complémentaires — chiens (15 min chacun)</div>
+  <div class="price-row"><span>Nettoyage des glandes anales</span><strong>10 €</strong></div>
+  <div class="price-row"><span>Coupe des griffes</span><strong>15 €</strong></div>
+  <div class="price-row"><span>Nettoyage des yeux</span><strong>15 €</strong></div>
   <div class="price-row"><span>Coupe / épilation des oreilles</span><strong>15 €</strong></div>
   <div class="price-row"><span>Coupe hygiénique</span><strong>15 €</strong></div>
   <div class="price-row"><span>Coupe du ventre</span><strong>15 €</strong></div>
-  <div class="price-row"><span>Retrait / tonte des nœuds</span><strong>15 €</strong></div>
+  <div class="price-row"><span>Retrait des nœuds / tonte</span><strong>15 €</strong></div>
 </div>
-
 <div class="price-card">
   <h3>🐱 Chats</h3>
-  <div class="price-table-wrap">
-    <table class="price-table">
-      <thead>
-        <tr><th>Poil / Type</th><th>Basique</th><th>Hygiène</th><th>Complet</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>Poil court</td><td>40 €</td><td>—</td><td>50 €</td></tr>
-        <tr><td>Poil mi-long</td><td>45 €</td><td>—</td><td>55 €</td></tr>
-        <tr><td>Poil long</td><td>55 €</td><td>—</td><td>65 €</td></tr>
-        <tr><td>Maine Coon</td><td>60 €</td><td>—</td><td>80 €</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="price-sub">Soins complémentaires — chats</div>
+  <div class="price-table-wrap"><table class="price-table">
+    <thead><tr><th>Type de pelage</th><th>Soins de base</th><th>Soins complets</th></tr></thead>
+    <tbody>
+      <tr><td>Poil court</td><td>40 €<small>60 min</small></td><td>50 €<small>90 min</small></td></tr>
+      <tr><td>Poil mi-long</td><td>45 €<small>60 min</small></td><td>55 €<small>90 min</small></td></tr>
+      <tr><td>Poil long</td><td>55 €<small>60 min</small></td><td>65 €<small>90 min</small></td></tr>
+      <tr><td>Maine Coon</td><td>60 €<small>60 min</small></td><td>65 €<small>90 min</small></td></tr>
+    </tbody>
+  </table></div>
+  <div class="price-sub">Soins complémentaires — chats (15 min chacun)</div>
   <div class="price-row"><span>Coupe des griffes</span><strong>7 €</strong></div>
   <div class="price-row"><span>Coupe hygiénique</span><strong>7 €</strong></div>
   <div class="price-row"><span>Démêlage / brossage</span><strong>15 €</strong></div>
-  <div class="price-row"><span>Retrait des nœuds / tonte</span><strong>15 €</strong></div>
+  <div class="price-row"><span>Retrait des nœuds</span><strong>15 €</strong></div>
 </div>
-
 </div>
-
 <div class="surcharge">
   <div class="price-sub">⚠️ Supplément pour conditions particulières — chiens / chats</div>
-  <p><strong>+20 €</strong> uniquement en cas de conditions particulières et lorsqu'un temps de travail supplémentaire (jusqu'à 30 minutes) ou une attention accrue est nécessaire.</p>
+  <p><strong>+20 €</strong> uniquement si des conditions particulières nécessitent jusqu’à 30 minutes supplémentaires ou une attention accrue.</p>
   <div class="special-grid">
-    <div><strong>Animal particulièrement difficile / peu coopératif</strong><span>L'animal résiste fortement, ne permet pas de réaliser la procédure ou nécessite une attention supplémentaire constante.</span></div>
-    <div><strong>Fortes bourres / poils emmêlés</strong><span>Le pelage est fortement feutré ; il faut beaucoup plus de temps pour démêler ou retirer les nœuds.</span></div>
-    <div><strong>Forte salissure</strong><span>L'animal est très sale ; la procédure standard ne suffit pas et un temps supplémentaire de nettoyage est nécessaire.</span></div>
+    <div><strong>Animal difficile / peu coopératif</strong><span>L’animal résiste fortement ou demande une attention constante.</span></div>
+    <div><strong>Forte présence de nœuds / pelage feutré</strong><span>Le démêlage ou le retrait des nœuds demande beaucoup plus de temps.</span></div>
+    <div><strong>Forte salissure</strong><span>La procédure habituelle ne suffit pas et un nettoyage supplémentaire est nécessaire.</span></div>
   </div>
 </div>
-
-<p class="price-note">Les tarifs pourront être ajustés selon l'état du pelage et les besoins particuliers de l'animal, conformément aux conditions indiquées ci-dessus.</p>
+<p class="price-note">Les tarifs complémentaires sont indiqués pour des prestations de 15 minutes. Le supplément de 20 € s’applique uniquement dans les conditions décrites ci-dessus.</p>
 </div>
 </section>
 
@@ -815,28 +804,29 @@ const serviceData = {
  complete: {
   title:"Toilettage complet — tarifs",
   sub:"Tarifs selon le type de soin et le gabarit de votre compagnon.",
-  html:`<div class="mini-title">🐶 Chiens</div>
-  <div class="modal-table"><div><span>Petite — jusqu'à 5 kg</span><b>40 € / 50 € / 60 €</b></div>
-  <div><span>Moyenne — 5 à 15 kg</span><b>50 € / 60 € / 70 €</b></div>
-  <div><span>Grande — 15 à 30 kg</span><b>100 € / 120 € / 130 €</b></div></div>
-  <div class="modal-legend">Dans l'ordre : <b>Basique / Hygiène / Complet</b>.</div>
-  <div class="mini-title">🐱 Chats</div>
-  <div class="modal-table"><div><span>Poil court</span><b>40 € / — / 50 €</b></div>
-  <div><span>Poil mi-long</span><b>45 € / — / 55 €</b></div>
-  <div><span>Poil long</span><b>55 € / — / 65 €</b></div>
-  <div><span>Maine Coon</span><b>60 € / — / 80 €</b></div></div>
-  <div class="modal-legend">Pour les chats, la formule Hygiène n'est pas proposée.</div>`
+  html:`<div class="mini-title">🐶 Chiens — prix / durée</div>
+  <div class="modal-table"><div><span>Petit — jusqu’à 5 kg</span><b>40 € / 60 min · 50 € / 60 min · 60 € / 90 min · Express 50 € / 60 min</b></div>
+  <div><span>Moyen — 5 à 15 kg</span><b>50 € / 60 min · 60 € / 60 min · 70 € / 90 min · Express 60 € / 60 min</b></div>
+  <div><span>Cocker spaniel / anglais / américain</span><b>65 € / 90 min · 75 € / 90 min · 85 € / 120 min · Express —</b></div>
+  <div><span>Grand — 15 à 30 kg</span><b>110 € / 90 min · 120 € / 90 min · 130 € / 120 min · Express 110 € / 60 min</b></div></div>
+  <div class="modal-legend">Dans l’ordre : <b>Base / Hygiène / Complet / Coupe express</b>.</div>
+  <div class="mini-title">🐱 Chats — prix / durée</div>
+  <div class="modal-table"><div><span>Poil court</span><b>Base 40 € / 60 min · Complet 50 € / 90 min</b></div>
+  <div><span>Poil mi-long</span><b>Base 45 € / 60 min · Complet 55 € / 90 min</b></div>
+  <div><span>Poil long</span><b>Base 55 € / 60 min · Complet 65 € / 90 min</b></div>
+  <div><span>Maine Coon</span><b>Base 60 € / 60 min · Complet 65 € / 90 min</b></div></div>`
  },
  coupe: {
   title:"Coupe & entretien — tarifs",
   sub:"Les soins complémentaires peuvent être ajoutés selon les besoins de votre animal.",
   html:`<div class="mini-title">🐶 Chiens</div>
-  <div class="modal-table"><div><span>Coupe des griffes</span><b>10 €</b></div>
-  <div><span>Nettoyage des oreilles</span><b>15 €</b></div>
-  <div><span>Coupe / épilation des oreilles</span><b>15 €</b></div>
-  <div><span>Coupe hygiénique</span><b>15 €</b></div>
-  <div><span>Coupe du ventre</span><b>15 €</b></div>
-  <div><span>Retrait / tonte des nœuds</span><b>15 €</b></div></div>
+  <div class="modal-table"><div><span>Nettoyage des glandes anales — 15 min</span><b>10 €</b></div>
+  <div><span>Coupe des griffes — 15 min</span><b>15 €</b></div>
+  <div><span>Nettoyage des yeux — 15 min</span><b>15 €</b></div>
+  <div><span>Coupe / épilation des oreilles — 15 min</span><b>15 €</b></div>
+  <div><span>Coupe hygiénique — 15 min</span><b>15 €</b></div>
+  <div><span>Coupe du ventre — 15 min</span><b>15 €</b></div>
+  <div><span>Retrait des nœuds / tonte — 15 min</span><b>15 €</b></div></div>
   <div class="mini-title">🐱 Chats</div>
   <div class="modal-table"><div><span>Coupe des griffes</span><b>7 €</b></div>
   <div><span>Coupe hygiénique</span><b>7 €</b></div>
@@ -847,12 +837,14 @@ const serviceData = {
   title:"Soins d'hygiène — tarifs",
   sub:"La formule Hygiène est proposée pour les chiens.",
   html:`<div class="mini-title">🐶 Chiens — formule Hygiène</div>
-  <div class="modal-table"><div><span>Petite — jusqu'à 5 kg</span><b>50 €</b></div>
-  <div><span>Moyenne — 5 à 15 kg</span><b>60 €</b></div>
-  <div><span>Grande — 15 à 30 kg</span><b>120 €</b></div></div>
-  <div class="mini-title">Soins complémentaires</div>
-  <div class="modal-table"><div><span>Coupe des griffes — chien</span><b>10 €</b></div>
-  <div><span>Nettoyage des oreilles</span><b>15 €</b></div>
+  <div class="modal-table"><div><span>Petit — jusqu’à 5 kg (60 min)</span><b>50 €</b></div>
+  <div><span>Moyen — 5 à 15 kg (60 min)</span><b>60 €</b></div>
+  <div><span>Cocker spaniel / anglais / américain (90 min)</span><b>75 €</b></div>
+  <div><span>Grand — 15 à 30 kg (90 min)</span><b>120 €</b></div></div>
+  <div class="mini-title">Soins complémentaires — 15 min chacun</div>
+  <div class="modal-table"><div><span>Nettoyage des glandes anales</span><b>10 €</b></div>
+  <div><span>Coupe des griffes</span><b>15 €</b></div>
+  <div><span>Nettoyage des yeux</span><b>15 €</b></div>
   <div><span>Coupe hygiénique</span><b>15 €</b></div>
   <div><span>Coupe du ventre</span><b>15 €</b></div></div>`
  },
@@ -886,21 +878,23 @@ const CART = [];
 let bookingAnimal = null;
 let bookingWeight = null;
 let bookingFur = null;
+let bookingDogBreed = 'standard';
 
 const dogServices = [
- {id:'dog-basic',name:'Basique',price:[40,50,100],duration:'1 h',desc:'Toilettage de base selon le poids'},
- {id:'dog-hygiene',name:'Hygiène',price:[50,60,120],duration:'1 h',desc:'Soin hygiène selon le poids'},
- {id:'dog-complete',name:'Complet',price:[60,70,130],duration:'1 h 30',desc:'Toilettage complet selon le poids'}
+ {id:'dog-basic',name:'Soins de base',price:[40,50,65,110],duration:['1 h','1 h','1 h 30','1 h 30'],desc:'Toilettage de base selon la catégorie'},
+ {id:'dog-hygiene',name:'Hygiène',price:[50,60,75,120],duration:['1 h','1 h','1 h 30','1 h 30'],desc:'Soin hygiène selon la catégorie'},
+ {id:'dog-complete',name:'Soins complets',price:[60,70,85,130],duration:['1 h 30','1 h 30','2 h','2 h'],desc:'Toilettage complet selon la catégorie'},
+ {id:'dog-express',name:'Coupe express',price:[50,60,null,110],duration:['1 h','1 h',null,'1 h'],desc:'Coupe express selon la catégorie'}
 ];
 const catServices = [
- {id:'cat-basic',name:'Basique',price:{short:40,medium:45,long:55,maine:60},duration:'1 h',desc:'Soin de base selon le pelage'},
- {id:'cat-complete',name:'Complet',price:{short:50,medium:55,long:65,maine:80},duration:'1 h 30',desc:'Toilettage complet selon le pelage'}
+ {id:'cat-basic',name:'Soins de base',price:{short:40,medium:45,long:55,maine:60},duration:'1 h',desc:'Soin de base selon le pelage'},
+ {id:'cat-complete',name:'Soins complets',price:{short:50,medium:55,long:65,maine:65},duration:'1 h 30',desc:'Toilettage complet selon le pelage'}
 ];
-const extrasDog=[['dog-claws','Coupe des griffes',10,'15 min'],['dog-ears','Nettoyage des oreilles',15,'15 min'],['dog-ear-cut','Coupe / épilation des oreilles',15,'15 min'],['dog-hyg-cut','Coupe hygiénique',15,'15 min'],['dog-belly','Coupe du ventre',15,'15 min'],['dog-knots','Retrait des nœuds',15,'15 min']];
+const extrasDog=[['dog-anal-glands','Nettoyage des glandes anales',10,'15 min'],['dog-claws','Coupe des griffes',15,'15 min'],['dog-eyes','Nettoyage des yeux',15,'15 min'],['dog-ear-cut','Coupe / épilation des oreilles',15,'15 min'],['dog-hyg-cut','Coupe hygiénique',15,'15 min'],['dog-belly','Coupe du ventre',15,'15 min'],['dog-knots','Retrait des nœuds / tonte',15,'15 min']];
 const extrasCat=[['cat-claws','Coupe des griffes',7,'15 min'],['cat-hyg-cut','Coupe hygiénique',7,'15 min'],['cat-brush','Démêlage / brossage',15,'15 min'],['cat-knots','Retrait des nœuds',15,'15 min']];
 
-function dogSizeIndex(w){ return w<=5?0:w<=15?1:2; }
-function dogSizeLabel(w){ return w<=5?'Petite — jusqu’à 5 kg':w<=15?'Moyenne — 5 à 15 kg':'Grande — 15 à 30 kg'; }
+function dogSizeIndex(w){ return bookingDogBreed==='cocker'?2:(w<=5?0:w<=15?1:3); }
+function dogSizeLabel(w){ return bookingDogBreed==='cocker'?'Cocker spaniel / anglais / américain':(w<=5?'Petit — jusqu’à 5 kg':w<=15?'Moyen — 5 à 15 kg':'Grand — 15 à 30 kg'); }
 function catFurLabel(k){return {short:'Poil court',medium:'Poil mi-long',long:'Poil long',maine:'Maine Coon'}[k]}
 function money(n){return Number(n).toFixed(0)+' €'}
 function totalCart(){return CART.reduce((a,x)=>a+Number(x.price),0)}
@@ -915,7 +909,7 @@ function updateCartBadge(){
 function hasCart(key){return CART.some(x=>x.key===key)}
 function toggleCart(item, view){
  const idx=CART.findIndex(x=>x.key===item.key);
- const baseKeys=view==='dog'?['dog-basic','dog-hygiene','dog-complete']:['cat-basic','cat-complete'];
+ const baseKeys=view==='dog'?['dog-basic','dog-hygiene','dog-complete','dog-express']:['cat-basic','cat-complete'];
  if(idx>=0){ CART.splice(idx,1); }
  else {
    if(baseKeys.includes(item.key)){
@@ -970,24 +964,26 @@ function renderDog(){
  <div class="modal-sub">Indiquez le poids pour afficher automatiquement la bonne catégorie et le tarif correspondant. Cliquez sur une prestation pour l’ajouter à votre sélection ; elle devient foncée lorsqu’elle est choisie.</div>
  <label class="booking-label">Poids de l’animal (kg)</label>
  <input id="dogWeightInput" class="booking-input" type="number" min="0.1" step="0.1" inputmode="decimal" autocomplete="off" value="${w}" placeholder="Ex. : 5,5" oninput="changeDogWeightLive(this.value)" onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}">
+ <label class="booking-label">Race spécifique</label>
+ <select class="booking-input" id="dogBreedSelect" onchange="changeDogBreed(this.value)"><option value="standard" ${bookingDogBreed==='standard'?'selected':''}>Autre race — tarif selon le poids</option><option value="cocker" ${bookingDogBreed==='cocker'?'selected':''}>Cocker spaniel (anglais / américain)</option></select>
  <div class="booking-info" id="dogCategoryInfo">${w?`Catégorie : <b>${dogSizeLabel(Number(w))}</b>`:'Saisissez le poids de votre chien.'}</div>
  <div class="booking-subtitle">Formule de toilettage</div>
  <div class="booking-service-list">
- ${dogServices.map((x,i)=>`<button id="dogService-${x.id}" class="booking-service ${hasCart(x.id)?'selected':''}" ${w?'':'disabled'} onclick="toggleCart({key:'${x.id}',animal:'Chien',category:'${dogSizeLabel(Number(w||1))}',name:'${x.name}',price:${x.price[idx]},duration:'${x.duration}'},'dog')">
-   <span><b>${x.name}</b><small>${x.desc} • ${x.duration}</small></span><strong>${w?money(x.price[idx]):'—'}</strong></button>`).join('')}
+ ${dogServices.map(x=>{const d=Array.isArray(x.duration)?x.duration[idx]:x.duration;const p=x.price[idx];return `<button id="dogService-${x.id}" class="booking-service ${hasCart(x.id)?'selected':''}" ${w&&p!=null?'':'disabled'} onclick="toggleCart({key:'${x.id}',animal:'Chien',category:'${dogSizeLabel(Number(w||1))}',name:'${x.name}',price:${p==null?0:p},duration:'${d||''}'},'dog')"><span><b>${x.name}</b><small>${x.desc} • ${d||'Non proposée pour cette catégorie'}</small></span><strong>${w&&p!=null?money(p):'—'}</strong></button>`}).join('')}
  </div>
  <div class="booking-subtitle">Services supplémentaires</div>
  ${extrasDog.map(x=>`<button class="booking-extra ${hasCart(x[0])?'selected':''}" onclick="toggleCart({key:'${x[0]}',animal:'Chien',category:'${w?dogSizeLabel(Number(w)):'Selon poids'}',name:'${x[1]}',price:${x[2]},duration:'${x[3]}'},'dog')"><span>＋ ${x[1]}</span><strong>${money(x[2])}</strong></button>`).join('')}
  <div class="booking-warning"><b>+20 € si nécessaire</b><p>Une majoration peut être appliquée en cas d’animal particulièrement difficile, de fortes bourres/poils emmêlés ou de forte salissure, lorsque du temps supplémentaire est nécessaire.</p></div>
  ${cartMini()}<button class="btn btn-outline full-btn" onclick="renderChooseAnimal()">← Changer d’animal</button>`;
 }
+function changeDogBreed(value){bookingDogBreed=value;renderDog();}
 function changeDogWeightLive(value){
  const clean=String(value).replace(',','.');
  if(clean!=='' && Number(clean)>0){
    const old=bookingWeight;
    bookingWeight=clean;
    if(old!==clean){
-     const baseKeys=['dog-basic','dog-hygiene','dog-complete'];
+     const baseKeys=['dog-basic','dog-hygiene','dog-complete','dog-express'];
      for(let i=CART.length-1;i>=0;i--) if(baseKeys.includes(CART[i].key)) CART.splice(i,1);
      updateCartBadge();
    }
@@ -999,7 +995,10 @@ function changeDogWeightLive(value){
      if(!btn) return;
      btn.disabled=false;
      const price=btn.querySelector('strong');
-     if(price) price.textContent=money(x.price[idx]);
+     const p=x.price[idx]; const d=Array.isArray(x.duration)?x.duration[idx]:x.duration;
+     btn.disabled=p==null;
+     if(price) price.textContent=p==null?'—':money(p);
+     const small=btn.querySelector('small'); if(small) small.textContent=`${x.desc} • ${d||'Non proposée pour cette catégorie'}`;
      btn.classList.remove('selected');
    });
  } else {
@@ -1329,10 +1328,12 @@ END:VCALENDAR`;
         const {data:visits,error:visitsError} = await sb.from('grooming_visits').select('*').eq('pet_id',petId).order('created_at',{ascending:false}).limit(10);
         if (!visitsError && visits && visits.length) {
           visitsHtml = visits.map(v => {
-            const labelMap = {created_at:'Date',visit_date:'Date de visite',service_name:'Prestation',service:'Prestation',services:'Prestations',price:'Prix',total_price:'Total',amount:'Montant',duration_minutes:'Durée (min)',notes:'Notes',status:'Statut'};
+            const labelMap = {created_at:'Date de création',visit_date:'Date de visite',appointment_at:'Rendez-vous',service_name:'Prestation',service:'Prestation',services:'Prestations',price:'Prix',total_price:'Total',amount:'Montant',duration_minutes:'Durée (min)',notes:'Notes',status:'Statut'};
             const fields = Object.entries(v).filter(([k,val]) => val !== null && val !== '' && !['id','pet_id','owner_id'].includes(k))
               .map(([k,val]) => `<p><b>${esc(labelMap[k]||k.replace(/_/g,' '))} :</b> ${esc(typeof val==='object'?JSON.stringify(val):String(val))}</p>`).join('');
-            return `<div class="profile-card">${fields||'<p class="modal-sub">Visite enregistrée</p>'}</div>`;
+            const canManage = v.appointment_at && ['confirmed','pending'].includes(v.status) && new Date(v.appointment_at).getTime() - Date.now() >= 24*60*60*1000;
+            const controls = canManage ? `<div class="profile-actions">${btn('Déplacer le rendez-vous','cdfOpenReschedule('+JSON.stringify(v.id)+','+JSON.stringify(petId)+','+Number(v.duration_minutes||60)+')','btn btn-secondary')}${btn('Annuler le rendez-vous','cdfCancelVisit('+JSON.stringify(v.id)+','+JSON.stringify(petId)+')','btn btn-secondary')}</div>` : '';
+            return `<div class="profile-card">${fields||'<p class="modal-sub">Visite enregistrée</p>'}${controls}</div>`;
           }).join('');
         }
       } catch(_) {}
@@ -1351,6 +1352,7 @@ END:VCALENDAR`;
           ${btn('Ajouter une photo','cdfUploadPhoto('+JSON.stringify(petId)+')')}
           ${btn('Voir toutes les photos','cdfShowPhotos('+JSON.stringify(petId)+')','btn btn-secondary')}
           ${btn('Modifier la fiche','cdfEditPet('+JSON.stringify(petId)+')','btn btn-secondary')}
+          ${btn('Réserver un rendez-vous','cdfStartBooking('+JSON.stringify(petId)+')')}
           ${btn('Mes compagnons','cdfShowPets()','btn btn-secondary')}
         </div>`));
     } catch(e) { modal(shell('Mon espace client',notice(errorText(e)))); }
@@ -1438,6 +1440,118 @@ END:VCALENDAR`;
       if (error) throw error;
       await window.cdfShowPhotos(petId);
     } catch(e) { alert(errorText(e)); }
+  };
+
+  // Online booking: availability and booking are validated server-side by Supabase RPC.
+  const CDF_BOOKING_RULES = { open: '08:00', close: '19:00', step: 30, timezone: 'Europe/Paris' };
+  function durationToMinutes(value) {
+    if (typeof value === 'number') return value;
+    const s = String(value || '').toLowerCase().trim();
+    const hm = s.match(/(\d+)\s*h(?:\s*(\d+)\s*(?:min|m)?)?/);
+    if (hm) return Number(hm[1])*60 + Number(hm[2]||0);
+    const mins = s.match(/(\d+)\s*(?:min|m)\b/);
+    if (mins) return Number(mins[1]);
+    const decimal = s.match(/^(\d+(?:[.,]\d+)?)$/);
+    if (decimal) return Math.round(Number(decimal[1].replace(',','.'))*60);
+    return 60;
+  }
+  function getSavedSelection() {
+    try { const x = JSON.parse(localStorage.getItem('cdf_last_selection') || 'null'); return x && Array.isArray(x.items) ? x : null; } catch (_) { return null; }
+  }
+  function bookingDateMin() {
+    const d = new Date(); d.setDate(d.getDate()+1); return d.toISOString().slice(0,10);
+  }
+  window.cdfStartBooking = async function(petId) {
+    try {
+      const user = await getUser(); if (!user) throw new Error('Connectez-vous pour réserver.');
+      const {data:pet,error} = await sb.from('pets').select('id,name,animal_type,owner_id').eq('id',petId).eq('owner_id',user.id).single();
+      if (error) throw error;
+      const selection = getSavedSelection();
+      if (!selection || !selection.items.length) {
+        modal(shell('Choisir une prestation', `<p class="modal-sub">Choisissez d’abord vos prestations dans « Prendre rendez-vous » sur le site. Revenez ensuite dans la fiche de ${esc(pet.name)} pour choisir un créneau.</p><div class="profile-actions">${btn('Choisir une prestation','closeModal();openBooking()')}${btn('Retour à la fiche','cdfShowPetDashboard('+JSON.stringify(petId)+')','btn btn-secondary')}</div>`));
+        return;
+      }
+      const items = selection.items;
+      const duration = items.reduce((sum,x)=>sum+durationToMinutes(x.duration),0);
+      const price = items.reduce((sum,x)=>sum+Number(x.price||0),0);
+      if (!duration || duration > 660) throw new Error('La durée totale de la sélection est invalide.');
+      const summary = items.map(x=>x.name).join(' + ');
+      modal(shell('Réserver pour '+esc(pet.name), `<p class="modal-sub">${esc(summary)} · ${duration} min · ${price.toFixed(2).replace('.',',')} €</p>
+        <div class="profile-card"><div class="profile-form">
+        <div><label for="cdfBookingDate">Date (lundi–samedi)</label><input id="cdfBookingDate" type="date" min="${bookingDateMin()}" value="${bookingDateMin()}" onchange="window.cdfLoadSlots(${JSON.stringify(petId)})" required></div>
+        </div><p class="modal-sub">Horaires : 08:00–19:00 · départs toutes les 30 minutes · heure de Paris. Les créneaux tiennent compte de la durée totale.</p>
+        <div id="cdfSlotsArea"><p class="modal-sub">Recherche des créneaux…</p></div><div id="cdfBookingMessage"></div>
+        <div class="profile-actions">${btn('Retour à la fiche','cdfShowPetDashboard('+JSON.stringify(petId)+')','btn btn-secondary')}</div></div>`));
+      window.cdfBookingContext = {petId,petName:pet.name,summary,duration,price};
+      await window.cdfLoadSlots(petId);
+    } catch(e) { modal(shell('Réservation',notice(errorText(e)))); }
+  };
+  window.cdfLoadSlots = async function(petId) {
+    const area = $('cdfSlotsArea'), date = $('cdfBookingDate')?.value, ctx = window.cdfBookingContext;
+    if (!area || !date || !ctx) return;
+    const day = new Date(date+'T12:00:00').getDay();
+    if (day === 0) { area.innerHTML = notice('Le salon est fermé le dimanche. Choisissez une autre date.'); return; }
+    area.innerHTML = '<p class="modal-sub">Recherche des créneaux disponibles…</p>';
+    try {
+      const {data,error} = await sb.rpc('cdf_available_slots',{p_day:date,p_duration_minutes:ctx.duration});
+      if (error) throw error;
+      const slots = (data||[]).map(x=>typeof x==='string'?x:(x.slot_start||x.available_at)).filter(Boolean);
+      if (!slots.length) { area.innerHTML = notice('Aucun créneau disponible pour cette date. Choisissez un autre jour.'); return; }
+      area.innerHTML = `<div class="profile-actions" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px">${slots.map((slot,i)=>{const d=new Date(slot);const label=d.toLocaleTimeString('fr-FR',{timeZone:'Europe/Paris',hour:'2-digit',minute:'2-digit'});return `<button type="button" class="btn btn-secondary" onclick="window.cdfConfirmBooking(${i})">${label}</button>`}).join('')}</div>`;
+      window.cdfAvailableSlots = slots;
+    } catch(e) { area.innerHTML = notice('Impossible de charger les créneaux : '+errorText(e)); }
+  };
+  window.cdfConfirmBooking = async function(index) {
+    const ctx = window.cdfBookingContext, slot = window.cdfAvailableSlots?.[index];
+    if (!ctx || !slot) return;
+    const msg = $('cdfBookingMessage');
+    if (msg) msg.innerHTML = notice('Confirmation de votre réservation…');
+    try {
+      const user = await getUser(); if (!user) throw new Error('Votre session a expiré. Reconnectez-vous.');
+      const {data,error} = await sb.rpc('cdf_book_grooming_visit',{
+        p_pet_id:ctx.petId,p_appointment_at:slot,p_service_name:ctx.summary,
+        p_duration_minutes:ctx.duration,p_price:ctx.price
+      });
+      if (error) throw error;
+      modal(shell('Réservation confirmée', `<div class="profile-card"><h4>${esc(ctx.petName)}</h4><p><b>Prestation :</b> ${esc(ctx.summary)}</p><p><b>Date :</b> ${new Date(slot).toLocaleString('fr-FR',{timeZone:'Europe/Paris',dateStyle:'full',timeStyle:'short'})}</p><p><b>Durée :</b> ${ctx.duration} min</p><p><b>Prix estimé :</b> ${ctx.price.toFixed(2).replace('.',',')} €</p><p class="modal-sub">Votre rendez-vous est confirmé automatiquement. Vous pouvez le modifier ou l’annuler au plus tard 24 heures avant l’heure prévue.</p></div><div class="profile-actions">${btn('Voir mon espace client','cdfShowPetDashboard('+JSON.stringify(ctx.petId)+')')}</div>`));
+    } catch(e) { if(msg) msg.innerHTML=notice(errorText(e)); else alert(errorText(e)); }
+  };
+
+  window.cdfCancelVisit = async function(visitId, petId) {
+    if (!confirm('Annuler ce rendez-vous ? Cette action est possible uniquement au moins 24 heures avant le début.')) return;
+    try {
+      const {error} = await sb.rpc('cdf_cancel_grooming_visit',{p_visit_id:visitId});
+      if (error) throw error;
+      await window.cdfShowPetDashboard(petId);
+    } catch(e) { alert(errorText(e)); }
+  };
+  window.cdfOpenReschedule = async function(visitId, petId, duration) {
+    try {
+      const user = await getUser(); if (!user) throw new Error('Connectez-vous.');
+      const {data:visit,error} = await sb.from('grooming_visits').select('id,appointment_at,status,duration_minutes').eq('id',visitId).eq('owner_id',user.id).single();
+      if (error) throw error;
+      if (!visit.appointment_at || !['confirmed','pending'].includes(visit.status)) throw new Error('Ce rendez-vous ne peut pas être déplacé.');
+      if (new Date(visit.appointment_at).getTime()-Date.now()<24*60*60*1000) throw new Error('Modification possible uniquement au moins 24 heures avant le rendez-vous.');
+      window.cdfRescheduleContext={visitId,petId,duration:Number(duration||visit.duration_minutes||60)};
+      modal(shell('Déplacer le rendez-vous',`<p class="modal-sub">Choisissez une nouvelle date et un nouveau créneau. Le rendez-vous actuel sera remplacé après confirmation.</p><div class="profile-card"><label for="cdfRescheduleDate">Nouvelle date</label><input id="cdfRescheduleDate" type="date" min="${bookingDateMin()}" value="${bookingDateMin()}" onchange="window.cdfLoadRescheduleSlots()"><div id="cdfRescheduleSlots"><p class="modal-sub">Chargement des créneaux…</p></div><div id="cdfRescheduleMessage"></div><div class="profile-actions">${btn('Retour','cdfShowPetDashboard('+JSON.stringify(petId)+')','btn btn-secondary')}</div></div>`));
+      await window.cdfLoadRescheduleSlots();
+    } catch(e) { alert(errorText(e)); }
+  };
+  window.cdfLoadRescheduleSlots = async function() {
+    const ctx=window.cdfRescheduleContext, date=$('cdfRescheduleDate')?.value, area=$('cdfRescheduleSlots'); if(!ctx||!date||!area)return;
+    if(new Date(date+'T12:00:00').getDay()===0){area.innerHTML=notice('Le salon est fermé le dimanche.');return;}
+    area.innerHTML='<p class="modal-sub">Recherche des créneaux…</p>';
+    try {
+      const {data,error}=await sb.rpc('cdf_available_slots',{p_day:date,p_duration_minutes:ctx.duration}); if(error)throw error;
+      const slots=(data||[]).map(x=>typeof x==='string'?x:x.slot_start).filter(Boolean);
+      area.innerHTML=slots.length?`<div class="profile-actions" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px">${slots.map((slot,i)=>`<button type="button" class="btn btn-secondary" onclick="window.cdfSaveReschedule(${i})">${new Date(slot).toLocaleTimeString('fr-FR',{timeZone:'Europe/Paris',hour:'2-digit',minute:'2-digit'})}</button>`).join('')}</div>`:notice('Aucun créneau disponible ce jour.');
+      window.cdfRescheduleSlots=slots;
+    } catch(e){area.innerHTML=notice(errorText(e));}
+  };
+  window.cdfSaveReschedule = async function(i) {
+    const ctx=window.cdfRescheduleContext, slot=window.cdfRescheduleSlots?.[i], msg=$('cdfRescheduleMessage'); if(!ctx||!slot)return;
+    try { const {error}=await sb.rpc('cdf_reschedule_grooming_visit',{p_visit_id:ctx.visitId,p_new_appointment_at:slot}); if(error)throw error; await window.cdfShowPetDashboard(ctx.petId); }
+    catch(e){if(msg)msg.innerHTML=notice(errorText(e));else alert(errorText(e));}
   };
 
   // Expose client for the module without adding another global alias in HTML.
