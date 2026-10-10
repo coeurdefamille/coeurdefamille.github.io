@@ -484,6 +484,21 @@ footer{background:var(--green)!important;border-top:1px solid rgba(214,182,106,.
 <style>
 .gallery-before-after{padding:90px 0;background:var(--cream)}.gallery-before-after h2{font-family:"Cormorant Garamond",serif;font-size:clamp(40px,5vw,64px);line-height:.98;margin:8px 0 16px;color:var(--green)}.before-after-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:32px}.before-after-grid article{border:1px solid rgba(164,123,82,.35);border-radius:22px;overflow:hidden;background:#fff}.ba-image{aspect-ratio:4/3;overflow:hidden}.ba-image img{width:100%;height:100%;object-fit:cover;display:block}.before-after-grid article>span,.before-after-grid article>b{display:block;padding:0 18px}.before-after-grid article>span{padding-top:16px;color:var(--gold);font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}.before-after-grid article>b{padding-top:5px;padding-bottom:20px;font-family:"Cormorant Garamond",serif;font-size:25px}.ba-placeholder{aspect-ratio:4/3;background:var(--soft);display:flex;align-items:center;justify-content:center;gap:22px;color:var(--green);font-weight:800}.ba-placeholder i{font-style:normal;color:var(--gold);font-size:30px}@media(max-width:900px){.before-after-grid{grid-template-columns:1fr 1fr}}@media(max-width:640px){.before-after-grid{grid-template-columns:1fr}.gallery-before-after{padding:62px 0}}
 </style>
+
+<style id="cdf-password-controls-style">
+.cdf-password-wrap{position:relative;display:flex;align-items:center;width:100%}
+.cdf-password-wrap input{width:100%;padding-right:3.2rem!important;box-sizing:border-box}
+.cdf-password-eye{position:absolute;right:.45rem;top:50%;transform:translateY(-50%);border:0;background:transparent;color:#173f35;cursor:pointer;font-size:1.05rem;line-height:1;padding:.45rem;border-radius:50%;z-index:2}
+.cdf-password-eye:focus-visible,.cdf-link-button:focus-visible{outline:2px solid #b59b58;outline-offset:2px}
+.cdf-forgot-password{margin:.65rem 0 .25rem;text-align:right}
+.cdf-link-button{border:0;background:transparent;color:#17483d;text-decoration:underline;cursor:pointer;font:inherit;font-size:.92rem;padding:.3rem}
+
+/* Navigation du panier : retour au menu ou ajout d'un autre animal */
+.booking-pet-nav{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.booking-pet-nav .btn{width:100%;min-width:0;margin:0;padding:12px 10px;font-size:12px;line-height:1.25;white-space:normal}
+@media(max-width:420px){.booking-pet-nav{gap:7px}.booking-pet-nav .btn{font-size:11px;padding:11px 6px}}
+</style>
+
 </head>
 <body>
 
@@ -653,7 +668,7 @@ footer{background:var(--green)!important;border-top:1px solid rgba(214,182,106,.
 
 <section class="salon" id="salon">
 <div class="container salon-grid">
-<div class="salon-photo"><img src="https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=1000&q=85" alt="Espace de toilettage"></div>
+<div class="salon-photo"><img src="https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=1000&q=85" alt="Espace de toilettage"></div>
 <div class="salon-text">
   <div class="eyebrow">Notre univers</div><h2>Le salon</h2>
   <div class="salon-sub">Un espace chaleureux et sécurisé</div>
@@ -875,6 +890,9 @@ function openBooking(e){
 }
 
 const CART = [];
+// Le panier fonctionne aussi sans compte : chaque animal possède sa propre sélection.
+let bookingPetId = 1;
+let bookingPetCounter = 1;
 let bookingAnimal = null;
 let bookingWeight = null;
 let bookingFur = null;
@@ -906,9 +924,12 @@ function updateCartBadge(){
  if(count) count.textContent=CART.length;
  if(mobile) mobile.textContent=CART.length;
 }
-function hasCart(key){return CART.some(x=>x.key===key)}
+function hasCart(key){return CART.some(x=>x.key===key && x.petId===bookingPetId)}
+function itemsForCurrentPet(){return CART.filter(x=>x.petId===bookingPetId)}
+function startAddingAnotherPet(){bookingPetCounter++;bookingPetId=bookingPetCounter;bookingAnimal=null;bookingWeight=null;bookingFur=null;bookingDogBreed='standard';renderChooseAnimal();document.getElementById('modal').classList.add('open');}
+function switchBookingPet(id){const item=CART.find(x=>x.petId===id);if(!item)return;bookingPetId=id;bookingAnimal=item.animal==='Chien'?'dog':'cat';bookingWeight=item.bookingWeight??bookingWeight;bookingFur=item.bookingFur??bookingFur;bookingDogBreed=item.bookingDogBreed||'standard';if(bookingAnimal==='cat'&&!bookingFur){const catMap={'Poil court':'short','Poil mi-long':'medium','Poil long':'long','Maine Coon':'maine'};bookingFur=catMap[item.category]||null;}renderBooking(bookingAnimal);}
 function toggleCart(item, view){
- const idx=CART.findIndex(x=>x.key===item.key);
+ const idx=CART.findIndex(x=>x.key===item.key && x.petId===bookingPetId);
  const baseKeys=view==='dog'?['dog-basic','dog-hygiene','dog-complete','dog-express']:['cat-basic','cat-complete'];
  const dogExtras=extrasDog.map(x=>x[0]);
  if(view==='dog' && dogExtras.includes(item.key) && !hasCart('dog-basic')){
@@ -918,17 +939,17 @@ function toggleCart(item, view){
  if(idx>=0){ CART.splice(idx,1); }
  else {
    if(baseKeys.includes(item.key)){
-     for(let i=CART.length-1;i>=0;i--) if(baseKeys.includes(CART[i].key)) CART.splice(i,1);
+     for(let i=CART.length-1;i>=0;i--) if(CART[i].petId===bookingPetId && baseKeys.includes(CART[i].key)) CART.splice(i,1);
      // Les suppléments pour chiens ne sont autorisés qu'avec la formule de base.
      if(view==='dog' && item.key!=='dog-basic'){
-       for(let i=CART.length-1;i>=0;i--) if(dogExtras.includes(CART[i].key)) CART.splice(i,1);
+       for(let i=CART.length-1;i>=0;i--) if(CART[i].petId===bookingPetId && dogExtras.includes(CART[i].key)) CART.splice(i,1);
      }
    }
-   CART.push({...item});
+   CART.push({...item, petId:bookingPetId, petNumber:bookingPetId, bookingWeight, bookingFur, bookingDogBreed});
  }
  // Si la formule de base est retirée, retirer aussi ses suppléments.
  if(view==='dog' && !hasCart('dog-basic')){
-   for(let i=CART.length-1;i>=0;i--) if(dogExtras.includes(CART[i].key)) CART.splice(i,1);
+   for(let i=CART.length-1;i>=0;i--) if(CART[i].petId===bookingPetId && dogExtras.includes(CART[i].key)) CART.splice(i,1);
  }
  updateCartBadge();
  renderBooking(view);
@@ -987,7 +1008,7 @@ function renderDog(){
  ${hasCart('dog-basic') ? `<div class="booking-subtitle">Services supplémentaires — disponibles uniquement avec les Soins de base</div>
  ${extrasDog.map(x=>`<button class="booking-extra ${hasCart(x[0])?'selected':''}" onclick="toggleCart({key:'${x[0]}',animal:'Chien',category:'${w?dogSizeLabel(Number(w)):'Selon poids'}',name:'${x[1]}',price:${x[2]},duration:'${x[3]}'},'dog')"><span>＋ ${x[1]}</span><strong>${money(x[2])}</strong></button>`).join('')}` : `<div class="booking-subtitle">Services supplémentaires</div><p class="booking-info">Choisissez d’abord la formule <b>Soins de base</b> pour ajouter des services supplémentaires. Ils ne sont pas proposés avec Hygiène ni Soins complets.</p>`}
  <div class="booking-warning"><b>+20 € si nécessaire</b><p>Une majoration peut être appliquée en cas d’animal particulièrement difficile, de fortes bourres/poils emmêlés ou de forte salissure, lorsque du temps supplémentaire est nécessaire.</p></div>
- ${cartMini()}<button class="btn btn-outline full-btn" onclick="renderChooseAnimal()">← Changer d’animal</button>`;
+ ${cartMini()}<div class="booking-pet-nav"><button type="button" class="btn btn-outline" onclick="renderChooseAnimal()">← Retour au menu</button><button type="button" class="btn btn-primary" onclick="startAddingAnotherPet()">＋ Ajouter un animal</button></div>`;
 }
 function changeDogBreed(value){bookingDogBreed=value;renderDog();}
 function changeDogWeightLive(value){
@@ -997,7 +1018,7 @@ function changeDogWeightLive(value){
    bookingWeight=clean;
    if(old!==clean){
      const baseKeys=['dog-basic','dog-hygiene','dog-complete','dog-express'];
-     for(let i=CART.length-1;i>=0;i--) if(baseKeys.includes(CART[i].key)) CART.splice(i,1);
+     for(let i=CART.length-1;i>=0;i--) if(CART[i].petId===bookingPetId && baseKeys.includes(CART[i].key)) CART.splice(i,1);
      updateCartBadge();
    }
    const idx=dogSizeIndex(Number(clean));
@@ -1039,13 +1060,13 @@ function renderCat(){
  <div class="booking-subtitle">Services supplémentaires</div>
  ${extrasCat.map(x=>`<button class="booking-extra ${hasCart(x[0])?'selected':''}" onclick="toggleCart({key:'${x[0]}',animal:'Chat',category:'${bookingFur?catFurLabel(bookingFur):'Selon pelage'}',name:'${x[1]}',price:${x[2]},duration:'${x[3]}'},'cat')"><span>＋ ${x[1]}</span><strong>${money(x[2])}</strong></button>`).join('')}
  <div class="booking-warning"><b>+20 € si nécessaire</b><p>Une majoration peut être appliquée en cas d’animal particulièrement difficile, de fortes bourres/poils emmêlés ou de forte salissure, lorsque du temps supplémentaire est nécessaire.</p></div>
- ${cartMini()}<button class="btn btn-outline full-btn" onclick="renderChooseAnimal()">← Changer d’animal</button>`;
+ ${cartMini()}<div class="booking-pet-nav"><button type="button" class="btn btn-outline" onclick="renderChooseAnimal()">← Retour au menu</button><button type="button" class="btn btn-primary" onclick="startAddingAnotherPet()">＋ Ajouter un animal</button></div>`;
 }
 function changeCatFur(value){
  const old=bookingFur;
  bookingFur=value;
  if(old!==value){
-   for(let i=CART.length-1;i>=0;i--) if(CART[i].key==='cat-basic'||CART[i].key==='cat-complete') CART.splice(i,1);
+   for(let i=CART.length-1;i>=0;i--) if(CART[i].petId===bookingPetId && (CART[i].key==='cat-basic'||CART[i].key==='cat-complete')) CART.splice(i,1);
    updateCartBadge();
  }
  renderCat();
@@ -1060,11 +1081,17 @@ function cartMini(){
  return `<div class="booking-mini-cart"><div class="booking-mini-head"><span>🛒 Ma sélection</span><span>${CART.length} prestation${CART.length>1?'s':''}</span></div><div class="booking-mini-items">${items}</div><div class="booking-mini-total"><div class="mini-duration"><span class="mini-label">Durée totale</span><b>${cartDuration()}</b></div><div class="mini-price"><span class="mini-label">Total</span><strong>${money(totalCart())}</strong></div></div><div class="booking-mini-actions"><button type="button" onclick="openCart()">Voir le panier</button><button type="button" onclick="continueBooking()" ${CART.length?'':'disabled'}>Continuer</button></div></div>`;
 }
 function renderCart(){
- const rows=CART.map((x,i)=>`<div class="cart-row"><div><b>${x.name}</b><small>${x.animal} • ${x.category} • ${x.duration}</small></div><strong>${money(x.price)}</strong><button type="button" class="remove-service-btn" onclick="removeCart(${i})" aria-label="Supprimer ${x.name}" title="Supprimer cette prestation">×</button></div>`).join('');
+ const groups=[...new Set(CART.map(x=>x.petId))].map(id=>({id,items:CART.filter(x=>x.petId===id)}));
+ const rows=groups.map((g,gi)=>{
+   const first=g.items[0];
+   const groupTotal=g.items.reduce((sum,x)=>sum+Number(x.price),0);
+   return `<div class="profile-card" style="margin:12px 0;padding:14px"><div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><h4 style="margin:0">${first.animal==='Chien'?'🐶':'🐱'} Animal ${gi+1} — ${first.animal}</h4><button type="button" class="btn btn-outline" onclick="switchBookingPet(${g.id})">Modifier les soins</button></div><div class="cart-list">${g.items.map(x=>`<div class="cart-row"><div><b>${x.name}</b><small>${x.category} • ${x.duration}</small></div><strong>${money(x.price)}</strong><button type="button" class="remove-service-btn" onclick="removeCartItemForPet(${x.petId},'${x.key}')" aria-label="Supprimer ${x.name}" title="Supprimer cette prestation">×</button></div>`).join('')}</div><div style="text-align:right;font-weight:700;color:var(--green)">Sous-total : ${money(groupTotal)}</div></div>`;
+ }).join('');
  document.getElementById('modalContent').innerHTML=`
  <div class="eyebrow">🛒 VOTRE PANIER</div><h3>Récapitulatif des prestations</h3>
- <div class="modal-sub">Vous pouvez supprimer une prestation, puis revenir au choix des soins pour en ajouter d’autres.</div>
+ <div class="modal-sub">Ajoutez plusieurs animaux, même sans créer de compte. Chaque animal conserve ses propres soins et son tarif.</div>
  <div class="cart-list">${rows||'<div class="empty-cart">Votre panier est vide.</div>'}</div>
+ <div class="profile-card" style="margin-top:16px"><h4>🐾 Vos animaux</h4><p class="modal-sub">Ajoutez un autre compagnon ou revenez modifier les soins d’un animal déjà dans le panier.</p><div class="profile-actions"><button type="button" class="btn btn-secondary" onclick="startAddingAnotherPet()">＋ Ajouter un animal</button></div></div>
  ${CART.length?`<div class="cart-total"><span>Total des prestations</span><strong>${money(totalCart())}</strong></div>
  <div class="cart-duration">Durée totale estimée : ${cartDuration()}</div>
  <div class="booking-warning"><b>+20 € si nécessaire</b><p>Une majoration peut être appliquée en cas d’animal particulièrement difficile, de fortes bourres/poils emmêlés ou de forte salissure, lorsque du temps supplémentaire est nécessaire.</p></div>
@@ -1072,6 +1099,16 @@ function renderCart(){
  <button class="btn btn-outline full-btn" onclick="addService()">＋ Ajouter une prestation</button>`:
  `<button class="btn btn-primary full-btn" onclick="renderChooseAnimal()">Choisir une prestation</button>`}`;
 }
+function removeCartItemForPet(petId,key){const i=CART.findIndex(x=>x.petId===petId&&x.key===key);if(i>=0)CART.splice(i,1);updateCartBadge();renderCart();}
+window.cdfCartAddPet = function(){startAddingAnotherPet();};
+window.cdfCartEditPet = async function(){
+ const ids=[...new Set(CART.map(x=>x.petId))];
+ if(ids.length===1){switchBookingPet(ids[0]);return;}
+ const options=ids.map((id,i)=>`${i+1}. ${CART.find(x=>x.petId===id)?.animal||'Animal'} (ID ${id})`).join('\n');
+ const choice=prompt('Quel animal souhaitez-vous modifier ?\n'+options+'\nSaisissez le numéro.');
+ const index=Number(choice)-1;if(Number.isInteger(index)&&ids[index])switchBookingPet(ids[index]);
+};
+
 function goToCal(){
  if(!CART.length) return;
  saveLastSelection();
@@ -1195,7 +1232,9 @@ END:VCALENDAR`;
   };
   const notice = (message) => `<p class="modal-sub" role="status">${esc(message)}</p>`;
   const field = (label, id, type='text', value='', extra='') =>
-    `<div><label for="${id}">${label}</label><input id="${id}" type="${type}" value="${esc(value)}" ${extra}></div>`;
+    type === 'password'
+      ? `<div class="cdf-password-field"><label for="${id}">${label}</label><div class="cdf-password-wrap"><input id="${id}" type="password" value="${esc(value)}" ${extra}><button type="button" class="cdf-password-eye" aria-label="Afficher le mot de passe" aria-pressed="false" onclick="cdfTogglePassword('${id}', this)" title="Afficher/masquer le mot de passe">👁</button></div></div>`
+      : `<div><label for="${id}">${label}</label><input id="${id}" type="${type}" value="${esc(value)}" ${extra}></div>`;
   const btn = (label, action, cls='btn btn-primary') =>
     // Escape quotes inside the inline handler so UUID arguments remain inside the HTML attribute.
     `<button type="button" class="${cls}" onclick="${String(action).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;')}">${label}</button>`;
@@ -1216,8 +1255,48 @@ END:VCALENDAR`;
       </div><div class="profile-actions">
       ${btn('Se connecter','cdfSignIn()')}
       ${btn('Créer un compte','cdfSignUp()','btn btn-secondary')}
-      </div><div id="cdfAuthMessage"></div></div>`));
+      </div><p class="cdf-forgot-password"><button type="button" class="cdf-link-button" onclick="cdfForgotPassword()">Mot de passe oublié ?</button></p><div id="cdfAuthMessage"></div></div>`));
     try { const u = await getUser(); if (u) await window.cdfShowPets(); } catch(e) { console.error(e); }
+  };
+
+  window.cdfTogglePassword = function(id, button) {
+    const input = $(id);
+    if (!input) return;
+    const show = input.type === 'password';
+    input.type = show ? 'text' : 'password';
+    button.setAttribute('aria-pressed', show ? 'true' : 'false');
+    button.setAttribute('aria-label', show ? 'Masquer le mot de passe' : 'Afficher le mot de passe');
+    button.title = show ? 'Masquer le mot de passe' : 'Afficher le mot de passe';
+    button.textContent = show ? '◉' : '👁';
+  };
+
+  window.cdfForgotPassword = async function() {
+    const email = $('cdfEmail')?.value.trim();
+    if (!email) {
+      $('cdfAuthMessage').innerHTML = notice('Saisissez votre adresse e-mail ci-dessus pour recevoir le lien de réinitialisation.');
+      $('cdfEmail')?.focus();
+      return;
+    }
+    const redirectTo = window.location.origin + window.location.pathname + '?reset-password=1';
+    const { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo });
+    if (error) { $('cdfAuthMessage').innerHTML = notice(errorText(error)); return; }
+    $('cdfAuthMessage').innerHTML = notice('Si cette adresse correspond à un compte, un e-mail de réinitialisation vient d’être envoyé. Ouvrez le lien reçu pour choisir un nouveau mot de passe.');
+  };
+
+  window.cdfShowResetPassword = function() {
+    modal(shell('Nouveau mot de passe', `<p class="modal-sub">Choisissez un nouveau mot de passe pour votre compte.</p><div class="profile-card"><div class="profile-form">${field('Nouveau mot de passe','cdfNewPassword','password','','autocomplete="new-password" minlength="8" required')}${field('Confirmer le mot de passe','cdfConfirmPassword','password','','autocomplete="new-password" minlength="8" required')}</div><div class="profile-actions">${btn('Enregistrer le nouveau mot de passe','cdfSaveNewPassword()')}</div><div id="cdfResetMessage"></div></div>`));
+  };
+
+  window.cdfSaveNewPassword = async function() {
+    const password = $('cdfNewPassword')?.value || '';
+    const confirm = $('cdfConfirmPassword')?.value || '';
+    const target = $('cdfResetMessage');
+    if (password.length < 8) { target.innerHTML = notice('Le mot de passe doit contenir au moins 8 caractères.'); return; }
+    if (password !== confirm) { target.innerHTML = notice('Les deux mots de passe ne correspondent pas.'); return; }
+    const { error } = await sb.auth.updateUser({ password });
+    if (error) { target.innerHTML = notice(errorText(error)); return; }
+    history.replaceState({}, document.title, window.location.pathname);
+    await window.cdfShowPets();
   };
 
   window.cdfSignUp = async function() {
@@ -1575,9 +1654,16 @@ END:VCALENDAR`;
 
   // Expose client for the module without adding another global alias in HTML.
   window.supabaseClient = sb;
-  sb.auth.onAuthStateChange((_event, session) => {
+  sb.auth.onAuthStateChange((event, session) => {
+    if (event === 'PASSWORD_RECOVERY') {
+      setTimeout(() => window.cdfShowResetPassword(), 0);
+      return;
+    }
     if (session?.user) sb.from('profiles').upsert({id:session.user.id,full_name:''},{onConflict:'id',ignoreDuplicates:true});
   });
+  if (new URLSearchParams(window.location.search).has('reset-password')) {
+    setTimeout(() => window.cdfShowResetPassword(), 350);
+  }
 })();
 </script>
 
