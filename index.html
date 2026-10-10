@@ -1164,11 +1164,214 @@ END:VCALENDAR`;
 }
 
 </script>
+<script>window.supabaseClient = window.supabase.createClient("https://phmkbsifgzjzlxahwthu.supabase.co", "sb_publishable_LTmDui4-JcQsc0oeaiR7dQ_ZbhVJ-PU"); const supabaseClient = window.supabaseClient;</script>
+
 <script>
-const supabaseClient = window.supabase.createClient(
-  'https://phmkbsifgzjzlxahwthu.supabase.co',
-  'sb_publishable_LTmDui4-JcQsc0oeaiR7dQ_ZbhVJ-PU'
-);
+(() => {
+  'use strict';
+  const sb = window.supabaseClient;
+  if (!sb) { console.error('CŒUR DE FAMILLE: Supabase client not initialized.'); return; }
+
+  let activePetId = null;
+  const $ = (id) => document.getElementById(id);
+  const esc = (v) => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const modal = (html) => {
+    const box = $('modalContent'), wrap = $('modal');
+    if (!box || !wrap) { alert('La fenêtre du compte est indisponible.'); return; }
+    box.innerHTML = html;
+    wrap.classList.add('open');
+  };
+  const notice = (message) => `<p class="modal-sub" role="status">${esc(message)}</p>`;
+  const field = (label, id, type='text', value='', extra='') =>
+    `<div><label for="${id}">${label}</label><input id="${id}" type="${type}" value="${esc(value)}" ${extra}></div>`;
+  const btn = (label, action, cls='btn btn-primary') =>
+    `<button type="button" class="${cls}" onclick="${action}">${label}</button>`;
+  const shell = (title, body) => `<div class="eyebrow">ESPACE CLIENT</div><h3>${title}</h3>${body}`;
+  const errorText = (e) => e?.message || 'Une erreur est survenue. Réessayez.';
+
+  async function getUser() {
+    const { data, error } = await sb.auth.getUser();
+    if (error) throw error;
+    return data.user || null;
+  }
+
+  window.openPetProfile = async function() {
+    modal(shell('Mon compagnon', `<div class="modal-sub">Connectez-vous pour retrouver les informations de vos animaux et leurs photos sur vos appareils.</div>
+      <div class="profile-card"><div class="profile-form">
+      ${field('Adresse e-mail', 'cdfEmail', 'email', '', 'autocomplete="email" required')}
+      ${field('Mot de passe', 'cdfPassword', 'password', '', 'autocomplete="current-password" required')}
+      </div><div class="profile-actions">
+      ${btn('Se connecter','cdfSignIn()')}
+      ${btn('Créer un compte','cdfSignUp()','btn btn-secondary')}
+      </div><div id="cdfAuthMessage"></div></div>`));
+    try { const u = await getUser(); if (u) await window.cdfShowPets(); } catch(e) { console.error(e); }
+  };
+
+  window.cdfSignUp = async function() {
+    const email = $('cdfEmail')?.value.trim(), password = $('cdfPassword')?.value;
+    if (!email || !password) { $('cdfAuthMessage').innerHTML = notice('Saisissez votre e-mail et un mot de passe.'); return; }
+    if (password.length < 8) { $('cdfAuthMessage').innerHTML = notice('Le mot de passe doit contenir au moins 8 caractères.'); return; }
+    const { data, error } = await sb.auth.signUp({ email, password });
+    if (error) { $('cdfAuthMessage').innerHTML = notice(errorText(error)); return; }
+    if (data.user && data.session) {
+      await sb.from('profiles').upsert({id:data.user.id, full_name:''}, {onConflict:'id'});
+      await window.cdfShowPets();
+    } else {
+      $('cdfAuthMessage').innerHTML = notice('Compte créé. Vérifiez votre boîte e-mail pour confirmer votre adresse, puis connectez-vous.');
+    }
+  };
+
+  window.cdfSignIn = async function() {
+    const email = $('cdfEmail')?.value.trim(), password = $('cdfPassword')?.value;
+    if (!email || !password) { $('cdfAuthMessage').innerHTML = notice('Saisissez votre e-mail et votre mot de passe.'); return; }
+    const { data, error } = await sb.auth.signInWithPassword({email, password});
+    if (error) { $('cdfAuthMessage').innerHTML = notice(errorText(error)); return; }
+    await sb.from('profiles').upsert({id:data.user.id, full_name:''}, {onConflict:'id', ignoreDuplicates:true});
+    await window.cdfShowPets();
+  };
+
+  window.cdfSignOut = async function() {
+    const {error} = await sb.auth.signOut();
+    if (error) alert(errorText(error)); else window.openPetProfile();
+  };
+
+  window.cdfShowPets = async function() {
+    try {
+      const user = await getUser();
+      if (!user) return window.openPetProfile();
+      const {data: profile} = await sb.from('profiles').select('full_name').eq('id',user.id).maybeSingle();
+      const {data:pets, error} = await sb.from('pets').select('*').eq('owner_id',user.id).order('created_at',{ascending:false});
+      if (error) throw error;
+      const cards = (pets||[]).map(p => `<div class="profile-card"><h4>${esc(p.name)}</h4>
+        <p class="modal-sub">${p.animal_type==='cat'?'Chat':'Chien'}${p.breed?' · '+esc(p.breed):''}${p.weight_kg?' · '+esc(p.weight_kg)+' kg':''}</p>
+        ${p.notes?`<p>${esc(p.notes)}</p>`:''}
+        <div class="profile-actions">${btn('Modifier','cdfEditPet('+JSON.stringify(p.id)+')','btn btn-secondary')}${btn('Photos','cdfShowPhotos('+JSON.stringify(p.id)+')','btn btn-secondary')}${btn('Ajouter une photo','cdfUploadPhoto('+JSON.stringify(p.id)+')','btn btn-secondary')}</div></div>`).join('');
+      modal(shell('Mes compagnons', `<p class="modal-sub">Connecté : ${esc(user.email||'')}</p>
+        ${profile?.full_name?`<p>${esc(profile.full_name)}</p>`:''}
+        ${cards || '<p class="modal-sub">Aucun animal enregistré pour le moment.</p>'}
+        <div class="profile-actions">${btn('Ajouter un animal','cdfNewPet()')}${btn('Déconnexion','cdfSignOut()','btn btn-secondary')}</div>`));
+    } catch(e) { modal(shell('Mes compagnons', notice('Impossible de charger les données : '+errorText(e)))); }
+  };
+
+  window.cdfNewPet = () => petForm(null);
+  window.cdfEditPet = async (id) => {
+    try {
+      const user = await getUser();
+      const {data, error} = await sb.from('pets').select('*').eq('id',id).eq('owner_id',user.id).single();
+      if (error) throw error;
+      petForm(data);
+    } catch(e) { alert(errorText(e)); }
+  };
+
+  function petForm(p) {
+    activePetId = p?.id || null;
+    modal(shell(p?'Modifier un compagnon':'Ajouter un compagnon', `<div class="profile-card"><div class="profile-form">
+      ${field('Nom','cdfPetName','text',p?.name||'','required maxlength="100"')}
+      <div><label for="cdfPetType">Animal</label><select id="cdfPetType"><option value="dog" ${p?.animal_type!=='cat'?'selected':''}>Chien</option><option value="cat" ${p?.animal_type==='cat'?'selected':''}>Chat</option></select></div>
+      ${field('Race','cdfPetBreed','text',p?.breed||'','maxlength="120"')}
+      ${field('Date de naissance','cdfPetBirth','date',p?.birth_date||'')}
+      ${field('Poids (kg)','cdfPetWeight','number',p?.weight_kg??'','min="0" max="200" step="0.01"')}
+      <div><label for="cdfPetBehavior">Comportement</label><textarea id="cdfPetBehavior" rows="2">${esc(p?.behavior||'')}</textarea></div>
+      <div><label for="cdfPetCoat">État du pelage</label><textarea id="cdfPetCoat" rows="2">${esc(p?.coat_condition||'')}</textarea></div>
+      ${field('Dernier toilettage','cdfPetLast','date',p?.last_grooming||'')}
+      <div><label for="cdfPetNotes">Notes utiles</label><textarea id="cdfPetNotes" rows="3">${esc(p?.notes||'')}</textarea></div>
+      </div><div id="cdfPetMessage"></div><div class="profile-actions">${btn('Enregistrer','cdfSavePet()')}${btn('Annuler','cdfShowPets()','btn btn-secondary')}</div></div>`));
+  }
+
+  window.cdfSavePet = async function() {
+    try {
+      const user = await getUser();
+      if (!user) throw new Error('Reconnectez-vous pour enregistrer.');
+      const name = $('cdfPetName').value.trim();
+      if (!name) { $('cdfPetMessage').innerHTML = notice('Le nom de l’animal est obligatoire.'); return; }
+      const weightRaw = $('cdfPetWeight').value;
+      const payload = {
+        owner_id:user.id, name, animal_type:$('cdfPetType').value,
+        breed:$('cdfPetBreed').value.trim()||null,
+        birth_date:$('cdfPetBirth').value||null,
+        weight_kg:weightRaw?Number(weightRaw):null,
+        behavior:$('cdfPetBehavior').value.trim()||null,
+        coat_condition:$('cdfPetCoat').value.trim()||null,
+        last_grooming:$('cdfPetLast').value||null,
+        notes:$('cdfPetNotes').value.trim()||null
+      };
+      let result;
+      if (activePetId) result = await sb.from('pets').update(payload).eq('id',activePetId).eq('owner_id',user.id);
+      else result = await sb.from('pets').insert(payload);
+      if (result.error) throw result.error;
+      await window.cdfShowPets();
+    } catch(e) { const el=$('cdfPetMessage'); if(el) el.innerHTML=notice(errorText(e)); else alert(errorText(e)); }
+  };
+
+  window.cdfUploadPhoto = async function(petId) {
+    try {
+      const user = await getUser();
+      if (!user) throw new Error('Reconnectez-vous.');
+      const {data:pet, error:petError} = await sb.from('pets').select('id').eq('id',petId).eq('owner_id',user.id).single();
+      if (petError) throw petError;
+      activePetId = petId;
+      modal(shell('Ajouter une photo', `<p class="modal-sub">Formats JPG, PNG, WebP ou HEIC. Taille maximale : 5 Mo.</p>
+        <div class="profile-card"><input id="cdfPhotoFile" type="file" accept="image/jpeg,image/png,image/webp,image/heic">
+        ${field('Légende (facultatif)','cdfPhotoCaption','text','','maxlength="200"')}
+        <div id="cdfPhotoMessage"></div><div class="profile-actions">${btn('Envoyer la photo','cdfSavePhoto()')}${btn('Retour','cdfShowPhotos('+JSON.stringify(petId)+')','btn btn-secondary')}</div></div>`));
+    } catch(e) { alert(errorText(e)); }
+  };
+
+  window.cdfSavePhoto = async function() {
+    try {
+      const user = await getUser(), file = $('cdfPhotoFile')?.files?.[0];
+      if (!file) throw new Error('Choisissez une photo.');
+      if (file.size > 5*1024*1024) throw new Error('La photo doit faire 5 Mo maximum.');
+      if (!['image/jpeg','image/png','image/webp','image/heic'].includes(file.type)) throw new Error('Format non accepté.');
+      if (!activePetId) throw new Error('Aucun animal sélectionné.');
+      const safeName = file.name.normalize('NFKD').replace(/[^a-zA-Z0-9._-]/g,'_');
+      const path = `${user.id}/${activePetId}/${crypto.randomUUID()}-${safeName}`;
+      const up = await sb.storage.from('pet-photos').upload(path,file,{upsert:false,contentType:file.type});
+      if (up.error) throw up.error;
+      const row = await sb.from('pet_photos').insert({pet_id:activePetId,owner_id:user.id,file_path:path,caption:$('cdfPhotoCaption').value.trim()||null});
+      if (row.error) throw row.error;
+      await window.cdfShowPhotos(activePetId);
+    } catch(e) { const el=$('cdfPhotoMessage'); if(el) el.innerHTML=notice(errorText(e)); else alert(errorText(e)); }
+  };
+
+  window.cdfShowPhotos = async function(petId) {
+    try {
+      const user = await getUser();
+      const {data:pet,error:pe} = await sb.from('pets').select('id,name').eq('id',petId).eq('owner_id',user.id).single();
+      if (pe) throw pe;
+      activePetId = petId;
+      const {data:photos,error} = await sb.from('pet_photos').select('*').eq('pet_id',petId).eq('owner_id',user.id).order('created_at',{ascending:false});
+      if (error) throw error;
+      const rendered = await Promise.all((photos||[]).map(async ph => {
+        const {data:link,error:le} = await sb.storage.from('pet-photos').createSignedUrl(ph.file_path,3600);
+        if (le) return `<div class="profile-card"><p>${esc(ph.caption||'Photo')}</p><p class="modal-sub">Image inaccessible — vérifiez les règles du bucket.</p></div>`;
+        return `<div class="profile-card"><img src="${esc(link.signedUrl)}" alt="${esc(ph.caption||pet.name)}" style="width:100%;max-height:280px;object-fit:cover;border-radius:12px"><p>${esc(ph.caption||'')}</p>${btn('Supprimer','cdfDeletePhoto('+JSON.stringify(ph.id)+','+JSON.stringify(ph.file_path)+','+JSON.stringify(petId)+')','btn btn-secondary')}</div>`;
+      }));
+      modal(shell('Photos de '+esc(pet.name), `${rendered.join('')||'<p class="modal-sub">Aucune photo pour le moment.</p>'}
+        <div class="profile-actions">${btn('Ajouter une photo','cdfUploadPhoto('+JSON.stringify(petId)+')')}${btn('Retour aux animaux','cdfShowPets()','btn btn-secondary')}</div>`));
+    } catch(e) { modal(shell('Photos',notice(errorText(e)))); }
+  };
+
+  window.cdfDeletePhoto = async function(photoId,path,petId) {
+    if (!confirm('Supprimer cette photo ?')) return;
+    try {
+      const user = await getUser();
+      const {error:se} = await sb.storage.from('pet-photos').remove([path]);
+      if (se) throw se;
+      const {error} = await sb.from('pet_photos').delete().eq('id',photoId).eq('owner_id',user.id);
+      if (error) throw error;
+      await window.cdfShowPhotos(petId);
+    } catch(e) { alert(errorText(e)); }
+  };
+
+  // Expose client for the module without adding another global alias in HTML.
+  window.supabaseClient = sb;
+  sb.auth.onAuthStateChange((_event, session) => {
+    if (session?.user) sb.from('profiles').upsert({id:session.user.id,full_name:''},{onConflict:'id',ignoreDuplicates:true});
+  });
+})();
 </script>
+
+
 </body>
 </html>
