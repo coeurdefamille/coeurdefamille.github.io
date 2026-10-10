@@ -664,7 +664,7 @@ footer{background:var(--green)!important;border-top:1px solid rgba(214,182,106,.
 
 <section class="salon" id="salon">
 <div class="container salon-grid">
-<div class="salon-photo"><img src="https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=1000&q=85" alt="Espace de toilettage"></div>
+<div class="salon-photo"><img src="https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=1400&q=85" alt="Espace de toilettage"></div>
 <div class="salon-text">
   <div class="eyebrow">Notre univers</div><h2>Le salon</h2>
   <div class="salon-sub">Un espace chaleureux et sécurisé</div>
@@ -1339,23 +1339,41 @@ END:VCALENDAR`;
   };
 
   window.cdfSavePhoto = async function() {
+    const message = $('cdfPhotoMessage');
+    const saveButton = [...document.querySelectorAll('#modalContent button')].find(b => /Enregistrer la photo|Sauvegarder la photo/.test(b.textContent));
+    if (saveButton) { saveButton.disabled = true; saveButton.textContent = 'Enregistrement…'; }
+    if (message) message.textContent = '';
+    let uploadedPath = null;
     try {
-      const user = await getUser(), file = $('cdfPhotoFile')?.files?.[0];
-      if (!file) throw new Error('Choisissez une photo.');
+      const user = await getUser();
+      if (!user) throw new Error('Votre session a expiré. Reconnectez-vous puis réessayez.');
+      const file = $('cdfPhotoFile')?.files?.[0];
+      if (!file) throw new Error('Choisissez une photo avec « Choisissez un fichier » avant de l’enregistrer.');
       if (file.size > 5*1024*1024) throw new Error('La photo doit faire 5 Mo maximum.');
-      if (!['image/jpeg','image/png','image/webp','image/heic'].includes(file.type)) throw new Error('Format non accepté.');
-      if (!activePetId) throw new Error('Aucun animal sélectionné.');
+      if (!['image/jpeg','image/png','image/webp','image/heic'].includes(file.type)) throw new Error('Format non accepté. Utilisez JPG, PNG, WebP ou HEIC.');
+      if (!activePetId) throw new Error('Aucun animal sélectionné. Retournez à la fiche du compagnon et réessayez.');
+      const {data:petCheck,error:petCheckError} = await sb.from('pets').select('id').eq('id',activePetId).eq('owner_id',user.id).single();
+      if (petCheckError || !petCheck) throw new Error('Impossible de retrouver ce compagnon dans votre compte. Retournez à vos animaux et réessayez.');
       const safeName = file.name.normalize('NFKD').replace(/[^a-zA-Z0-9._-]/g,'_');
       const path = `${user.id}/${activePetId}/${crypto.randomUUID()}-${safeName}`;
-      const up = await sb.storage.from('pet-photos').upload(path,file,{upsert:false,contentType:file.type});
-      if (up.error) throw up.error;
-      const row = await sb.from('pet_photos').insert({pet_id:activePetId,owner_id:user.id,file_path:path,caption:$('cdfPhotoCaption').value.trim()||null});
-      if (row.error) {
-        await sb.storage.from('pet-photos').remove([path]);
-        throw row.error;
-      }
+      const up = await sb.storage.from('pet-photos').upload(path,file,{upsert:false,contentType:file.type || 'application/octet-stream'});
+      if (up.error) throw new Error('Échec du téléversement dans Storage : ' + up.error.message);
+      uploadedPath = path;
+      const row = await sb.from('pet_photos').insert({pet_id:activePetId,owner_id:user.id,file_path:path,caption:$('cdfPhotoCaption')?.value.trim()||null}).select('id').single();
+      if (row.error) throw new Error('Le fichier a été téléversé, mais son enregistrement dans la galerie a échoué : ' + row.error.message);
+      uploadedPath = null;
       await window.cdfShowPhotos(activePetId);
-    } catch(e) { const el=$('cdfPhotoMessage'); if(el) el.innerHTML=notice(errorText(e)); else alert(errorText(e)); }
+    } catch(e) {
+      if (uploadedPath) {
+        const cleanup = await sb.storage.from('pet-photos').remove([uploadedPath]);
+        if (cleanup.error) console.warn('Nettoyage Storage impossible:', cleanup.error.message);
+      }
+      const el = $('cdfPhotoMessage');
+      if (el) el.innerHTML = notice(errorText(e)); else alert(errorText(e));
+    } finally {
+      const currentButton = [...document.querySelectorAll('#modalContent button')].find(b => /Enregistrement…/.test(b.textContent));
+      if (currentButton) { currentButton.disabled = false; currentButton.textContent = 'Enregistrer la photo'; }
+    }
   };
 
   window.cdfShowPhotos = async function(petId) {
