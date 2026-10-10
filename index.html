@@ -1468,7 +1468,7 @@ END:VCALENDAR`;
         <label for="cdfPhotoFile">Photo de votre animal</label>
         <input id="cdfPhotoFile" type="file" accept="image/jpeg,image/png,image/webp,image/heic" onchange="window.cdfPreviewPhoto()">
         <div id="cdfPhotoPreviewWrap" style="display:none;margin-top:14px"><img id="cdfPhotoPreview" alt="Aperçu de la photo sélectionnée" style="display:block;width:100%;max-height:280px;object-fit:contain;border-radius:12px"><p id="cdfPhotoFileName" class="modal-sub"></p></div>
-        ${field('Légende (facultatif)','cdfPhotoCaption','text','','maxlength="200"')}
+        <div><label for="cdfPhotoCaption">Légende (facultatif)</label><input id="cdfPhotoCaption" type="text" maxlength="200" placeholder="Ex. Romashka après le toilettage"></div>
         <div id="cdfPhotoMessage" role="status"></div><div class="profile-actions">${btn('Enregistrer la photo','cdfSavePhoto()')}${btn('Annuler','cdfShowPhotos('+JSON.stringify(petId)+')','btn btn-secondary')}</div></div>`));
     } catch(e) { alert(errorText(e)); }
   };
@@ -1493,6 +1493,7 @@ END:VCALENDAR`;
   window.cdfSavePhoto = async function() {
     try {
       const user = await getUser(), file = $('cdfPhotoFile')?.files?.[0];
+      if (!user) throw new Error('Votre session a expiré. Reconnectez-vous puis réessayez.');
       if (!file) throw new Error('Choisissez une photo.');
       if (file.size > 5*1024*1024) throw new Error('La photo doit faire 5 Mo maximum.');
       if (!['image/jpeg','image/png','image/webp','image/heic'].includes(file.type)) throw new Error('Format non accepté.');
@@ -1501,7 +1502,7 @@ END:VCALENDAR`;
       const path = `${user.id}/${activePetId}/${crypto.randomUUID()}-${safeName}`;
       const up = await sb.storage.from('pet-photos').upload(path,file,{upsert:false,contentType:file.type});
       if (up.error) throw up.error;
-      const row = await sb.from('pet_photos').insert({pet_id:activePetId,owner_id:user.id,file_path:path,caption:$('cdfPhotoCaption').value.trim()||null});
+      const row = await sb.from('pet_photos').insert({pet_id:activePetId,owner_id:user.id,file_path:path,caption:$('cdfPhotoCaption')?.value?.trim() || null});
       if (row.error) {
         await sb.storage.from('pet-photos').remove([path]);
         throw row.error;
