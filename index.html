@@ -910,12 +910,25 @@ function hasCart(key){return CART.some(x=>x.key===key)}
 function toggleCart(item, view){
  const idx=CART.findIndex(x=>x.key===item.key);
  const baseKeys=view==='dog'?['dog-basic','dog-hygiene','dog-complete','dog-express']:['cat-basic','cat-complete'];
+ const dogExtras=extrasDog.map(x=>x[0]);
+ if(view==='dog' && dogExtras.includes(item.key) && !hasCart('dog-basic')){
+   alert('Les services supplémentaires sont disponibles uniquement avec la formule Soins de base pour les chiens.');
+   return;
+ }
  if(idx>=0){ CART.splice(idx,1); }
  else {
    if(baseKeys.includes(item.key)){
      for(let i=CART.length-1;i>=0;i--) if(baseKeys.includes(CART[i].key)) CART.splice(i,1);
+     // Les suppléments pour chiens ne sont autorisés qu'avec la formule de base.
+     if(view==='dog' && item.key!=='dog-basic'){
+       for(let i=CART.length-1;i>=0;i--) if(dogExtras.includes(CART[i].key)) CART.splice(i,1);
+     }
    }
    CART.push({...item});
+ }
+ // Si la formule de base est retirée, retirer aussi ses suppléments.
+ if(view==='dog' && !hasCart('dog-basic')){
+   for(let i=CART.length-1;i>=0;i--) if(dogExtras.includes(CART[i].key)) CART.splice(i,1);
  }
  updateCartBadge();
  renderBooking(view);
@@ -971,8 +984,8 @@ function renderDog(){
  <div class="booking-service-list">
  ${dogServices.map(x=>{const d=Array.isArray(x.duration)?x.duration[idx]:x.duration;const p=x.price[idx];return `<button id="dogService-${x.id}" class="booking-service ${hasCart(x.id)?'selected':''}" ${w&&p!=null?'':'disabled'} onclick="toggleCart({key:'${x.id}',animal:'Chien',category:'${dogSizeLabel(Number(w||1))}',name:'${x.name}',price:${p==null?0:p},duration:'${d||''}'},'dog')"><span><b>${x.name}</b><small>${x.desc} • ${d||'Non proposée pour cette catégorie'}</small></span><strong>${w&&p!=null?money(p):'—'}</strong></button>`}).join('')}
  </div>
- <div class="booking-subtitle">Services supplémentaires</div>
- ${extrasDog.map(x=>`<button class="booking-extra ${hasCart(x[0])?'selected':''}" onclick="toggleCart({key:'${x[0]}',animal:'Chien',category:'${w?dogSizeLabel(Number(w)):'Selon poids'}',name:'${x[1]}',price:${x[2]},duration:'${x[3]}'},'dog')"><span>＋ ${x[1]}</span><strong>${money(x[2])}</strong></button>`).join('')}
+ ${hasCart('dog-basic') ? `<div class="booking-subtitle">Services supplémentaires — disponibles uniquement avec les Soins de base</div>
+ ${extrasDog.map(x=>`<button class="booking-extra ${hasCart(x[0])?'selected':''}" onclick="toggleCart({key:'${x[0]}',animal:'Chien',category:'${w?dogSizeLabel(Number(w)):'Selon poids'}',name:'${x[1]}',price:${x[2]},duration:'${x[3]}'},'dog')"><span>＋ ${x[1]}</span><strong>${money(x[2])}</strong></button>`).join('')}` : `<div class="booking-subtitle">Services supplémentaires</div><p class="booking-info">Choisissez d’abord la formule <b>Soins de base</b> pour ajouter des services supplémentaires. Ils ne sont pas proposés avec Hygiène ni Soins complets.</p>`}
  <div class="booking-warning"><b>+20 € si nécessaire</b><p>Une majoration peut être appliquée en cas d’animal particulièrement difficile, de fortes bourres/poils emmêlés ou de forte salissure, lorsque du temps supplémentaire est nécessaire.</p></div>
  ${cartMini()}<button class="btn btn-outline full-btn" onclick="renderChooseAnimal()">← Changer d’animal</button>`;
 }
@@ -1246,10 +1259,13 @@ END:VCALENDAR`;
         <p class="modal-sub">${p.animal_type==='cat'?'Chat':'Chien'}${p.breed?' · '+esc(p.breed):''}${p.weight_kg?' · '+esc(p.weight_kg)+' kg':''}</p>
         ${p.notes?`<p>${esc(p.notes)}</p>`:''}
         <div class="profile-actions">${btn('Ouvrir la fiche','cdfShowPetDashboard('+JSON.stringify(p.id)+')')}${btn('Modifier','cdfEditPet('+JSON.stringify(p.id)+')','btn btn-secondary')}${btn('Photos','cdfShowPhotos('+JSON.stringify(p.id)+')','btn btn-secondary')}${btn('Ajouter une photo','cdfUploadPhoto('+JSON.stringify(p.id)+')','btn btn-secondary')}</div></div>`).join('');
+      const petCount=(pets||[]).length;
+      const addPetButton=petCount>=10 ? '<p class="modal-sub">Vous avez atteint la limite de 10 compagnons par compte.</p>' : btn('Ajouter un animal ('+petCount+'/10)','cdfNewPet()');
       modal(shell('Mes compagnons', `<p class="modal-sub">Connecté : ${esc(user.email||'')}</p>
         ${profile?.full_name?`<p>${esc(profile.full_name)}</p>`:''}
+        <p class="modal-sub">${petCount} compagnon${petCount>1?'s':''} enregistré${petCount>1?'s':''} sur 10 maximum. Vous pouvez en ajouter 4, 6, 8 ou jusqu’à 10 sur le même compte.</p>
         ${cards || '<p class="modal-sub">Aucun animal enregistré pour le moment.</p>'}
-        <div class="profile-actions">${btn('Ajouter un animal','cdfNewPet()')}${btn('Déconnexion','cdfSignOut()','btn btn-secondary')}</div>`));
+        <div class="profile-actions">${addPetButton}${btn('Déconnexion','cdfSignOut()','btn btn-secondary')}</div>`));
     } catch(e) { modal(shell('Mes compagnons', notice('Impossible de charger les données : '+errorText(e)))); }
   };
 
@@ -1299,6 +1315,9 @@ END:VCALENDAR`;
       if (activePetId) {
         result = await sb.from('pets').update(payload).eq('id',activePetId).eq('owner_id',user.id).select('id').single();
       } else {
+        const {count, error:countError} = await sb.from('pets').select('id',{count:'exact',head:true}).eq('owner_id',user.id);
+        if (countError) throw countError;
+        if ((count||0)>=10) throw new Error('Un compte peut contenir jusqu’à 10 compagnons. Supprimez un profil avant d’en ajouter un autre.');
         result = await sb.from('pets').insert(payload).select('id').single();
       }
       if (result.error) throw result.error;
