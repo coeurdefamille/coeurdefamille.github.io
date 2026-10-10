@@ -1185,7 +1185,8 @@ END:VCALENDAR`;
   const field = (label, id, type='text', value='', extra='') =>
     `<div><label for="${id}">${label}</label><input id="${id}" type="${type}" value="${esc(value)}" ${extra}></div>`;
   const btn = (label, action, cls='btn btn-primary') =>
-    `<button type="button" class="${cls}" onclick="${action}">${label}</button>`;
+    // Escape quotes inside the inline handler so UUID arguments remain inside the HTML attribute.
+    `<button type="button" class="${cls}" onclick="${String(action).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;')}">${label}</button>`;
   const shell = (title, body) => `<div class="eyebrow">ESPACE CLIENT</div><h3>${title}</h3>${body}`;
   const errorText = (e) => e?.message || 'Une erreur est survenue. Réessayez.';
 
