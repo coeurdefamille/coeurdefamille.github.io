@@ -8,7 +8,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{
   --green:#173f32;
@@ -445,8 +444,19 @@ footer{background:var(--green)!important;border-top:1px solid rgba(214,182,106,.
 .price-sub{color:#173f32!important}
 
 
-.price-table td small{display:block;font-size:10px;font-weight:500;color:var(--muted);margin-top:3px;white-space:nowrap}
-.price-table th{vertical-align:middle}
+/* Panier : prestations regroupées par compagnon et récapitulatif aligné */
+.cart-pet-group{border:1px solid var(--line);border-radius:16px;padding:12px;margin:12px 0;background:rgba(255,255,255,.42)}
+.cart-pet-heading{display:flex;flex-direction:column;gap:3px;padding:2px 0 8px;border-bottom:1px solid var(--line);color:var(--green)}
+.cart-pet-heading strong{font-size:14px}
+.cart-pet-heading small{font-size:10px;color:var(--muted)}
+.cart-pet-group .cart-row{margin:0;padding:10px 0}
+.cart-pet-subtotal{display:flex;justify-content:space-between;gap:10px;padding-top:10px;font-size:11px;color:var(--muted)}
+.cart-pet-subtotal strong{color:var(--green)}
+.cart-summary-bottom{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:end;background:var(--green);color:#fff;border-radius:16px;padding:16px;margin-top:14px}
+.cart-summary-duration,.cart-summary-price{display:flex;flex-direction:column;gap:5px;min-width:0}
+.cart-summary-duration span,.cart-summary-price span{font-size:10px;line-height:1.35;opacity:.78;text-transform:uppercase}
+.cart-summary-duration strong,.cart-summary-price strong{font-size:clamp(17px,4vw,22px);line-height:1.2;overflow-wrap:anywhere}
+.cart-summary-price{text-align:right}
 </style>
 
 <style id="logo-no-border-final">
@@ -484,21 +494,6 @@ footer{background:var(--green)!important;border-top:1px solid rgba(214,182,106,.
 <style>
 .gallery-before-after{padding:90px 0;background:var(--cream)}.gallery-before-after h2{font-family:"Cormorant Garamond",serif;font-size:clamp(40px,5vw,64px);line-height:.98;margin:8px 0 16px;color:var(--green)}.before-after-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:32px}.before-after-grid article{border:1px solid rgba(164,123,82,.35);border-radius:22px;overflow:hidden;background:#fff}.ba-image{aspect-ratio:4/3;overflow:hidden}.ba-image img{width:100%;height:100%;object-fit:cover;display:block}.before-after-grid article>span,.before-after-grid article>b{display:block;padding:0 18px}.before-after-grid article>span{padding-top:16px;color:var(--gold);font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}.before-after-grid article>b{padding-top:5px;padding-bottom:20px;font-family:"Cormorant Garamond",serif;font-size:25px}.ba-placeholder{aspect-ratio:4/3;background:var(--soft);display:flex;align-items:center;justify-content:center;gap:22px;color:var(--green);font-weight:800}.ba-placeholder i{font-style:normal;color:var(--gold);font-size:30px}@media(max-width:900px){.before-after-grid{grid-template-columns:1fr 1fr}}@media(max-width:640px){.before-after-grid{grid-template-columns:1fr}.gallery-before-after{padding:62px 0}}
 </style>
-
-<style id="cdf-password-controls-style">
-.cdf-password-wrap{position:relative;display:flex;align-items:center;width:100%}
-.cdf-password-wrap input{width:100%;padding-right:3.2rem!important;box-sizing:border-box}
-.cdf-password-eye{position:absolute;right:.45rem;top:50%;transform:translateY(-50%);border:0;background:transparent;color:#173f35;cursor:pointer;font-size:1.05rem;line-height:1;padding:.45rem;border-radius:50%;z-index:2}
-.cdf-password-eye:focus-visible,.cdf-link-button:focus-visible{outline:2px solid #b59b58;outline-offset:2px}
-.cdf-forgot-password{margin:.65rem 0 .25rem;text-align:right}
-.cdf-link-button{border:0;background:transparent;color:#17483d;text-decoration:underline;cursor:pointer;font:inherit;font-size:.92rem;padding:.3rem}
-
-/* Navigation du panier : retour au menu ou ajout d'un autre animal */
-.booking-pet-nav{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
-.booking-pet-nav .btn{width:100%;min-width:0;margin:0;padding:12px 10px;font-size:12px;line-height:1.25;white-space:normal}
-@media(max-width:420px){.booking-pet-nav{gap:7px}.booking-pet-nav .btn{font-size:11px;padding:11px 6px}}
-</style>
-
 </head>
 <body>
 
@@ -611,64 +606,78 @@ footer{background:var(--green)!important;border-top:1px solid rgba(214,182,106,.
 <div class="section-head">
   <div class="eyebrow">Nos tarifs</div>
   <h2>Nos tarifs</h2>
-  <p>Tarifs selon le type de pelage, le poids et la prestation. Les durées sont indiquées à titre de référence.</p>
+  <p>Les prix sont présentés clairement par type de prestation : <b>soins de base</b>, <b>hygiène</b> et <b>soins complets</b>.</p>
 </div>
+
 <div class="price-grid">
+
 <div class="price-card">
   <h3>🐶 Chiens</h3>
-  <div class="price-table-wrap"><table class="price-table">
-    <thead><tr><th>Type / Poids</th><th>Soins de base</th><th>Hygiène</th><th>Soins complets</th><th>Coupe express</th></tr></thead>
-    <tbody>
-      <tr><td>Petit — jusqu’à 5 kg</td><td>40 €<small>60 min</small></td><td>50 €<small>60 min</small></td><td>60 €<small>90 min</small></td><td>50 €<small>60 min</small></td></tr>
-      <tr><td>Moyen — 5 à 15 kg</td><td>50 €<small>60 min</small></td><td>60 €<small>60 min</small></td><td>70 €<small>90 min</small></td><td>60 €<small>60 min</small></td></tr>
-      <tr><td>Cocker spaniel / anglais / américain</td><td>65 €<small>90 min</small></td><td>75 €<small>90 min</small></td><td>85 €<small>120 min</small></td><td>—</td></tr>
-      <tr><td>Grand — 15 à 30 kg</td><td>110 €<small>90 min</small></td><td>120 €<small>90 min</small></td><td>130 €<small>120 min</small></td><td>110 €<small>60 min</small></td></tr>
-    </tbody>
-  </table></div>
-  <div class="price-sub">Soins complémentaires — chiens (15 min chacun)</div>
-  <div class="price-row"><span>Nettoyage des glandes anales</span><strong>10 €</strong></div>
-  <div class="price-row"><span>Coupe des griffes</span><strong>15 €</strong></div>
-  <div class="price-row"><span>Nettoyage des yeux</span><strong>15 €</strong></div>
+  <div class="price-table-wrap">
+    <table class="price-table">
+      <thead>
+        <tr><th>Type / Poids</th><th>Basique</th><th>Hygiène</th><th>Complet</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Petite — jusqu'à 5 kg</td><td>40 €</td><td>50 €</td><td>60 €</td></tr>
+        <tr><td>Moyenne — 5 à 15 kg</td><td>50 €</td><td>60 €</td><td>70 €</td></tr>
+        <tr><td>Grande — 15 à 30 kg</td><td>100 €</td><td>120 €</td><td>130 €</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="price-sub">Soins complémentaires — chiens</div>
+  <div class="price-row"><span>Coupe des griffes</span><strong>10 €</strong></div>
+  <div class="price-row"><span>Nettoyage des oreilles</span><strong>15 €</strong></div>
   <div class="price-row"><span>Coupe / épilation des oreilles</span><strong>15 €</strong></div>
   <div class="price-row"><span>Coupe hygiénique</span><strong>15 €</strong></div>
   <div class="price-row"><span>Coupe du ventre</span><strong>15 €</strong></div>
-  <div class="price-row"><span>Retrait des nœuds / tonte</span><strong>15 €</strong></div>
+  <div class="price-row"><span>Retrait / tonte des nœuds</span><strong>15 €</strong></div>
 </div>
+
 <div class="price-card">
   <h3>🐱 Chats</h3>
-  <div class="price-table-wrap"><table class="price-table">
-    <thead><tr><th>Type de pelage</th><th>Soins de base</th><th>Soins complets</th></tr></thead>
-    <tbody>
-      <tr><td>Poil court</td><td>40 €<small>60 min</small></td><td>50 €<small>90 min</small></td></tr>
-      <tr><td>Poil mi-long</td><td>45 €<small>60 min</small></td><td>55 €<small>90 min</small></td></tr>
-      <tr><td>Poil long</td><td>55 €<small>60 min</small></td><td>65 €<small>90 min</small></td></tr>
-      <tr><td>Maine Coon</td><td>60 €<small>60 min</small></td><td>65 €<small>90 min</small></td></tr>
-    </tbody>
-  </table></div>
-  <div class="price-sub">Soins complémentaires — chats (15 min chacun)</div>
+  <div class="price-table-wrap">
+    <table class="price-table">
+      <thead>
+        <tr><th>Poil / Type</th><th>Basique</th><th>Hygiène</th><th>Complet</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Poil court</td><td>40 €</td><td>—</td><td>50 €</td></tr>
+        <tr><td>Poil mi-long</td><td>45 €</td><td>—</td><td>55 €</td></tr>
+        <tr><td>Poil long</td><td>55 €</td><td>—</td><td>65 €</td></tr>
+        <tr><td>Maine Coon</td><td>60 €</td><td>—</td><td>80 €</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="price-sub">Soins complémentaires — chats</div>
   <div class="price-row"><span>Coupe des griffes</span><strong>7 €</strong></div>
   <div class="price-row"><span>Coupe hygiénique</span><strong>7 €</strong></div>
   <div class="price-row"><span>Démêlage / brossage</span><strong>15 €</strong></div>
-  <div class="price-row"><span>Retrait des nœuds</span><strong>15 €</strong></div>
+  <div class="price-row"><span>Retrait des nœuds / tonte</span><strong>15 €</strong></div>
 </div>
+
 </div>
+
 <div class="surcharge">
   <div class="price-sub">⚠️ Supplément pour conditions particulières — chiens / chats</div>
-  <p><strong>+20 €</strong> uniquement si des conditions particulières nécessitent jusqu’à 30 minutes supplémentaires ou une attention accrue.</p>
+  <p><strong>+20 €</strong> uniquement en cas de conditions particulières et lorsqu'un temps de travail supplémentaire (jusqu'à 30 minutes) ou une attention accrue est nécessaire.</p>
   <div class="special-grid">
-    <div><strong>Animal difficile / peu coopératif</strong><span>L’animal résiste fortement ou demande une attention constante.</span></div>
-    <div><strong>Forte présence de nœuds / pelage feutré</strong><span>Le démêlage ou le retrait des nœuds demande beaucoup plus de temps.</span></div>
-    <div><strong>Forte salissure</strong><span>La procédure habituelle ne suffit pas et un nettoyage supplémentaire est nécessaire.</span></div>
+    <div><strong>Animal particulièrement difficile / peu coopératif</strong><span>L'animal résiste fortement, ne permet pas de réaliser la procédure ou nécessite une attention supplémentaire constante.</span></div>
+    <div><strong>Fortes bourres / poils emmêlés</strong><span>Le pelage est fortement feutré ; il faut beaucoup plus de temps pour démêler ou retirer les nœuds.</span></div>
+    <div><strong>Forte salissure</strong><span>L'animal est très sale ; la procédure standard ne suffit pas et un temps supplémentaire de nettoyage est nécessaire.</span></div>
   </div>
 </div>
-<p class="price-note">Les tarifs complémentaires sont indiqués pour des prestations de 15 minutes. Le supplément de 20 € s’applique uniquement dans les conditions décrites ci-dessus.</p>
+
+<p class="price-note">Les tarifs pourront être ajustés selon l'état du pelage et les besoins particuliers de l'animal, conformément aux conditions indiquées ci-dessus.</p>
 </div>
 </section>
 
 
 <section class="salon" id="salon">
 <div class="container salon-grid">
-<div class="salon-photo"><img src="https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=1000&q=85" alt="Espace de toilettage"></div>
+<div class="salon-photo"><img src="https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=1000&q=85" alt="Espace de toilettage"></div>
 <div class="salon-text">
   <div class="eyebrow">Notre univers</div><h2>Le salon</h2>
   <div class="salon-sub">Un espace chaleureux et sécurisé</div>
@@ -819,29 +828,28 @@ const serviceData = {
  complete: {
   title:"Toilettage complet — tarifs",
   sub:"Tarifs selon le type de soin et le gabarit de votre compagnon.",
-  html:`<div class="mini-title">🐶 Chiens — prix / durée</div>
-  <div class="modal-table"><div><span>Petit — jusqu’à 5 kg</span><b>40 € / 60 min · 50 € / 60 min · 60 € / 90 min · Express 50 € / 60 min</b></div>
-  <div><span>Moyen — 5 à 15 kg</span><b>50 € / 60 min · 60 € / 60 min · 70 € / 90 min · Express 60 € / 60 min</b></div>
-  <div><span>Cocker spaniel / anglais / américain</span><b>65 € / 90 min · 75 € / 90 min · 85 € / 120 min · Express —</b></div>
-  <div><span>Grand — 15 à 30 kg</span><b>110 € / 90 min · 120 € / 90 min · 130 € / 120 min · Express 110 € / 60 min</b></div></div>
-  <div class="modal-legend">Dans l’ordre : <b>Base / Hygiène / Complet / Coupe express</b>.</div>
-  <div class="mini-title">🐱 Chats — prix / durée</div>
-  <div class="modal-table"><div><span>Poil court</span><b>Base 40 € / 60 min · Complet 50 € / 90 min</b></div>
-  <div><span>Poil mi-long</span><b>Base 45 € / 60 min · Complet 55 € / 90 min</b></div>
-  <div><span>Poil long</span><b>Base 55 € / 60 min · Complet 65 € / 90 min</b></div>
-  <div><span>Maine Coon</span><b>Base 60 € / 60 min · Complet 65 € / 90 min</b></div></div>`
+  html:`<div class="mini-title">🐶 Chiens</div>
+  <div class="modal-table"><div><span>Petite — jusqu'à 5 kg</span><b>40 € / 50 € / 60 €</b></div>
+  <div><span>Moyenne — 5 à 15 kg</span><b>50 € / 60 € / 70 €</b></div>
+  <div><span>Grande — 15 à 30 kg</span><b>100 € / 120 € / 130 €</b></div></div>
+  <div class="modal-legend">Dans l'ordre : <b>Basique / Hygiène / Complet</b>.</div>
+  <div class="mini-title">🐱 Chats</div>
+  <div class="modal-table"><div><span>Poil court</span><b>40 € / — / 50 €</b></div>
+  <div><span>Poil mi-long</span><b>45 € / — / 55 €</b></div>
+  <div><span>Poil long</span><b>55 € / — / 65 €</b></div>
+  <div><span>Maine Coon</span><b>60 € / — / 80 €</b></div></div>
+  <div class="modal-legend">Pour les chats, la formule Hygiène n'est pas proposée.</div>`
  },
  coupe: {
   title:"Coupe & entretien — tarifs",
   sub:"Les soins complémentaires peuvent être ajoutés selon les besoins de votre animal.",
   html:`<div class="mini-title">🐶 Chiens</div>
-  <div class="modal-table"><div><span>Nettoyage des glandes anales — 15 min</span><b>10 €</b></div>
-  <div><span>Coupe des griffes — 15 min</span><b>15 €</b></div>
-  <div><span>Nettoyage des yeux — 15 min</span><b>15 €</b></div>
-  <div><span>Coupe / épilation des oreilles — 15 min</span><b>15 €</b></div>
-  <div><span>Coupe hygiénique — 15 min</span><b>15 €</b></div>
-  <div><span>Coupe du ventre — 15 min</span><b>15 €</b></div>
-  <div><span>Retrait des nœuds / tonte — 15 min</span><b>15 €</b></div></div>
+  <div class="modal-table"><div><span>Coupe des griffes</span><b>10 €</b></div>
+  <div><span>Nettoyage des oreilles</span><b>15 €</b></div>
+  <div><span>Coupe / épilation des oreilles</span><b>15 €</b></div>
+  <div><span>Coupe hygiénique</span><b>15 €</b></div>
+  <div><span>Coupe du ventre</span><b>15 €</b></div>
+  <div><span>Retrait / tonte des nœuds</span><b>15 €</b></div></div>
   <div class="mini-title">🐱 Chats</div>
   <div class="modal-table"><div><span>Coupe des griffes</span><b>7 €</b></div>
   <div><span>Coupe hygiénique</span><b>7 €</b></div>
@@ -852,14 +860,12 @@ const serviceData = {
   title:"Soins d'hygiène — tarifs",
   sub:"La formule Hygiène est proposée pour les chiens.",
   html:`<div class="mini-title">🐶 Chiens — formule Hygiène</div>
-  <div class="modal-table"><div><span>Petit — jusqu’à 5 kg (60 min)</span><b>50 €</b></div>
-  <div><span>Moyen — 5 à 15 kg (60 min)</span><b>60 €</b></div>
-  <div><span>Cocker spaniel / anglais / américain (90 min)</span><b>75 €</b></div>
-  <div><span>Grand — 15 à 30 kg (90 min)</span><b>120 €</b></div></div>
-  <div class="mini-title">Soins complémentaires — 15 min chacun</div>
-  <div class="modal-table"><div><span>Nettoyage des glandes anales</span><b>10 €</b></div>
-  <div><span>Coupe des griffes</span><b>15 €</b></div>
-  <div><span>Nettoyage des yeux</span><b>15 €</b></div>
+  <div class="modal-table"><div><span>Petite — jusqu'à 5 kg</span><b>50 €</b></div>
+  <div><span>Moyenne — 5 à 15 kg</span><b>60 €</b></div>
+  <div><span>Grande — 15 à 30 kg</span><b>120 €</b></div></div>
+  <div class="mini-title">Soins complémentaires</div>
+  <div class="modal-table"><div><span>Coupe des griffes — chien</span><b>10 €</b></div>
+  <div><span>Nettoyage des oreilles</span><b>15 €</b></div>
   <div><span>Coupe hygiénique</span><b>15 €</b></div>
   <div><span>Coupe du ventre</span><b>15 €</b></div></div>`
  },
@@ -890,29 +896,24 @@ function openBooking(e){
 }
 
 const CART = [];
-// Le panier fonctionne aussi sans compte : chaque animal possède sa propre sélection.
-let bookingPetId = 1;
-let bookingPetCounter = 1;
 let bookingAnimal = null;
 let bookingWeight = null;
 let bookingFur = null;
-let bookingDogBreed = 'standard';
 
 const dogServices = [
- {id:'dog-basic',name:'Soins de base',price:[40,50,65,110],duration:['1 h','1 h','1 h 30','1 h 30'],desc:'Toilettage de base selon la catégorie'},
- {id:'dog-hygiene',name:'Hygiène',price:[50,60,75,120],duration:['1 h','1 h','1 h 30','1 h 30'],desc:'Soin hygiène selon la catégorie'},
- {id:'dog-complete',name:'Soins complets',price:[60,70,85,130],duration:['1 h 30','1 h 30','2 h','2 h'],desc:'Toilettage complet selon la catégorie'},
- {id:'dog-express',name:'Coupe express',price:[50,60,null,110],duration:['1 h','1 h',null,'1 h'],desc:'Coupe express selon la catégorie'}
+ {id:'dog-basic',name:'Basique',price:[40,50,100],duration:'1 h',desc:'Toilettage de base selon le poids'},
+ {id:'dog-hygiene',name:'Hygiène',price:[50,60,120],duration:'1 h',desc:'Soin hygiène selon le poids'},
+ {id:'dog-complete',name:'Complet',price:[60,70,130],duration:'1 h 30',desc:'Toilettage complet selon le poids'}
 ];
 const catServices = [
- {id:'cat-basic',name:'Soins de base',price:{short:40,medium:45,long:55,maine:60},duration:'1 h',desc:'Soin de base selon le pelage'},
- {id:'cat-complete',name:'Soins complets',price:{short:50,medium:55,long:65,maine:65},duration:'1 h 30',desc:'Toilettage complet selon le pelage'}
+ {id:'cat-basic',name:'Basique',price:{short:40,medium:45,long:55,maine:60},duration:'1 h',desc:'Soin de base selon le pelage'},
+ {id:'cat-complete',name:'Complet',price:{short:50,medium:55,long:65,maine:80},duration:'1 h 30',desc:'Toilettage complet selon le pelage'}
 ];
-const extrasDog=[['dog-anal-glands','Nettoyage des glandes anales',10,'15 min'],['dog-claws','Coupe des griffes',15,'15 min'],['dog-eyes','Nettoyage des yeux',15,'15 min'],['dog-ear-cut','Coupe / épilation des oreilles',15,'15 min'],['dog-hyg-cut','Coupe hygiénique',15,'15 min'],['dog-belly','Coupe du ventre',15,'15 min'],['dog-knots','Retrait des nœuds / tonte',15,'15 min']];
+const extrasDog=[['dog-claws','Coupe des griffes',10,'15 min'],['dog-ears','Nettoyage des oreilles',15,'15 min'],['dog-ear-cut','Coupe / épilation des oreilles',15,'15 min'],['dog-hyg-cut','Coupe hygiénique',15,'15 min'],['dog-belly','Coupe du ventre',15,'15 min'],['dog-knots','Retrait des nœuds',15,'15 min']];
 const extrasCat=[['cat-claws','Coupe des griffes',7,'15 min'],['cat-hyg-cut','Coupe hygiénique',7,'15 min'],['cat-brush','Démêlage / brossage',15,'15 min'],['cat-knots','Retrait des nœuds',15,'15 min']];
 
-function dogSizeIndex(w){ return bookingDogBreed==='cocker'?2:(w<=5?0:w<=15?1:3); }
-function dogSizeLabel(w){ return bookingDogBreed==='cocker'?'Cocker spaniel / anglais / américain':(w<=5?'Petit — jusqu’à 5 kg':w<=15?'Moyen — 5 à 15 kg':'Grand — 15 à 30 kg'); }
+function dogSizeIndex(w){ return w<=5?0:w<=15?1:2; }
+function dogSizeLabel(w){ return w<=5?'Petite — jusqu’à 5 kg':w<=15?'Moyenne — 5 à 15 kg':'Grande — 15 à 30 kg'; }
 function catFurLabel(k){return {short:'Poil court',medium:'Poil mi-long',long:'Poil long',maine:'Maine Coon'}[k]}
 function money(n){return Number(n).toFixed(0)+' €'}
 function totalCart(){return CART.reduce((a,x)=>a+Number(x.price),0)}
@@ -924,32 +925,16 @@ function updateCartBadge(){
  if(count) count.textContent=CART.length;
  if(mobile) mobile.textContent=CART.length;
 }
-function hasCart(key){return CART.some(x=>x.key===key && x.petId===bookingPetId)}
-function itemsForCurrentPet(){return CART.filter(x=>x.petId===bookingPetId)}
-function startAddingAnotherPet(){bookingPetCounter++;bookingPetId=bookingPetCounter;bookingAnimal=null;bookingWeight=null;bookingFur=null;bookingDogBreed='standard';renderChooseAnimal();document.getElementById('modal').classList.add('open');}
-function switchBookingPet(id){const item=CART.find(x=>x.petId===id);if(!item)return;bookingPetId=id;bookingAnimal=item.animal==='Chien'?'dog':'cat';bookingWeight=item.bookingWeight??bookingWeight;bookingFur=item.bookingFur??bookingFur;bookingDogBreed=item.bookingDogBreed||'standard';if(bookingAnimal==='cat'&&!bookingFur){const catMap={'Poil court':'short','Poil mi-long':'medium','Poil long':'long','Maine Coon':'maine'};bookingFur=catMap[item.category]||null;}renderBooking(bookingAnimal);}
+function hasCart(key){return CART.some(x=>x.key===key)}
 function toggleCart(item, view){
- const idx=CART.findIndex(x=>x.key===item.key && x.petId===bookingPetId);
- const baseKeys=view==='dog'?['dog-basic','dog-hygiene','dog-complete','dog-express']:['cat-basic','cat-complete'];
- const dogExtras=extrasDog.map(x=>x[0]);
- if(view==='dog' && dogExtras.includes(item.key) && !hasCart('dog-basic')){
-   alert('Les services supplémentaires sont disponibles uniquement avec la formule Soins de base pour les chiens.');
-   return;
- }
+ const idx=CART.findIndex(x=>x.key===item.key);
+ const baseKeys=view==='dog'?['dog-basic','dog-hygiene','dog-complete']:['cat-basic','cat-complete'];
  if(idx>=0){ CART.splice(idx,1); }
  else {
    if(baseKeys.includes(item.key)){
-     for(let i=CART.length-1;i>=0;i--) if(CART[i].petId===bookingPetId && baseKeys.includes(CART[i].key)) CART.splice(i,1);
-     // Les suppléments pour chiens ne sont autorisés qu'avec la formule de base.
-     if(view==='dog' && item.key!=='dog-basic'){
-       for(let i=CART.length-1;i>=0;i--) if(CART[i].petId===bookingPetId && dogExtras.includes(CART[i].key)) CART.splice(i,1);
-     }
+     for(let i=CART.length-1;i>=0;i--) if(baseKeys.includes(CART[i].key)) CART.splice(i,1);
    }
-   CART.push({...item, petId:bookingPetId, petNumber:bookingPetId, bookingWeight, bookingFur, bookingDogBreed});
- }
- // Si la formule de base est retirée, retirer aussi ses suppléments.
- if(view==='dog' && !hasCart('dog-basic')){
-   for(let i=CART.length-1;i>=0;i--) if(CART[i].petId===bookingPetId && dogExtras.includes(CART[i].key)) CART.splice(i,1);
+   CART.push({...item});
  }
  updateCartBadge();
  renderBooking(view);
@@ -998,27 +983,25 @@ function renderDog(){
  <div class="modal-sub">Indiquez le poids pour afficher automatiquement la bonne catégorie et le tarif correspondant. Cliquez sur une prestation pour l’ajouter à votre sélection ; elle devient foncée lorsqu’elle est choisie.</div>
  <label class="booking-label">Poids de l’animal (kg)</label>
  <input id="dogWeightInput" class="booking-input" type="number" min="0.1" step="0.1" inputmode="decimal" autocomplete="off" value="${w}" placeholder="Ex. : 5,5" oninput="changeDogWeightLive(this.value)" onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}">
- <label class="booking-label">Race spécifique</label>
- <select class="booking-input" id="dogBreedSelect" onchange="changeDogBreed(this.value)"><option value="standard" ${bookingDogBreed==='standard'?'selected':''}>Autre race — tarif selon le poids</option><option value="cocker" ${bookingDogBreed==='cocker'?'selected':''}>Cocker spaniel (anglais / américain)</option></select>
  <div class="booking-info" id="dogCategoryInfo">${w?`Catégorie : <b>${dogSizeLabel(Number(w))}</b>`:'Saisissez le poids de votre chien.'}</div>
  <div class="booking-subtitle">Formule de toilettage</div>
  <div class="booking-service-list">
- ${dogServices.map(x=>{const d=Array.isArray(x.duration)?x.duration[idx]:x.duration;const p=x.price[idx];return `<button id="dogService-${x.id}" class="booking-service ${hasCart(x.id)?'selected':''}" ${w&&p!=null?'':'disabled'} onclick="toggleCart({key:'${x.id}',animal:'Chien',category:'${dogSizeLabel(Number(w||1))}',name:'${x.name}',price:${p==null?0:p},duration:'${d||''}'},'dog')"><span><b>${x.name}</b><small>${x.desc} • ${d||'Non proposée pour cette catégorie'}</small></span><strong>${w&&p!=null?money(p):'—'}</strong></button>`}).join('')}
+ ${dogServices.map((x,i)=>`<button id="dogService-${x.id}" class="booking-service ${hasCart(x.id)?'selected':''}" ${w?'':'disabled'} onclick="toggleCart({key:'${x.id}',animal:'Chien',category:'${dogSizeLabel(Number(w||1))}',name:'${x.name}',price:${x.price[idx]},duration:'${x.duration}'},'dog')">
+   <span><b>${x.name}</b><small>${x.desc} • ${x.duration}</small></span><strong>${w?money(x.price[idx]):'—'}</strong></button>`).join('')}
  </div>
- ${hasCart('dog-basic') ? `<div class="booking-subtitle">Services supplémentaires</div>
- ${extrasDog.map(x=>`<button class="booking-extra ${hasCart(x[0])?'selected':''}" onclick="toggleCart({key:'${x[0]}',animal:'Chien',category:'${w?dogSizeLabel(Number(w)):'Selon poids'}',name:'${x[1]}',price:${x[2]},duration:'${x[3]}'},'dog')"><span>＋ ${x[1]}</span><strong>${money(x[2])}</strong></button>`).join('')}` : `<div class="booking-subtitle">Services supplémentaires</div><p class="booking-info">Choisissez d’abord la formule <b>Soins de base</b> pour ajouter des services supplémentaires. Ils ne sont pas proposés avec Hygiène ni Soins complets.</p>`}
+ <div class="booking-subtitle">Services supplémentaires</div>
+ ${extrasDog.map(x=>`<button class="booking-extra ${hasCart(x[0])?'selected':''}" onclick="toggleCart({key:'${x[0]}',animal:'Chien',category:'${w?dogSizeLabel(Number(w)):'Selon poids'}',name:'${x[1]}',price:${x[2]},duration:'${x[3]}'},'dog')"><span>＋ ${x[1]}</span><strong>${money(x[2])}</strong></button>`).join('')}
  <div class="booking-warning"><b>+20 € si nécessaire</b><p>Une majoration peut être appliquée en cas d’animal particulièrement difficile, de fortes bourres/poils emmêlés ou de forte salissure, lorsque du temps supplémentaire est nécessaire.</p></div>
- ${cartMini()}<div class="booking-pet-nav"><button type="button" class="btn btn-outline" onclick="renderChooseAnimal()">← Retour au menu</button><button type="button" class="btn btn-primary" onclick="startAddingAnotherPet()">＋ Ajouter un animal</button></div>`;
+ ${cartMini()}<button class="btn btn-outline full-btn" onclick="renderChooseAnimal()">← Changer d’animal</button>`;
 }
-function changeDogBreed(value){bookingDogBreed=value;renderDog();}
 function changeDogWeightLive(value){
  const clean=String(value).replace(',','.');
  if(clean!=='' && Number(clean)>0){
    const old=bookingWeight;
    bookingWeight=clean;
    if(old!==clean){
-     const baseKeys=['dog-basic','dog-hygiene','dog-complete','dog-express'];
-     for(let i=CART.length-1;i>=0;i--) if(CART[i].petId===bookingPetId && baseKeys.includes(CART[i].key)) CART.splice(i,1);
+     const baseKeys=['dog-basic','dog-hygiene','dog-complete'];
+     for(let i=CART.length-1;i>=0;i--) if(baseKeys.includes(CART[i].key)) CART.splice(i,1);
      updateCartBadge();
    }
    const idx=dogSizeIndex(Number(clean));
@@ -1029,10 +1012,7 @@ function changeDogWeightLive(value){
      if(!btn) return;
      btn.disabled=false;
      const price=btn.querySelector('strong');
-     const p=x.price[idx]; const d=Array.isArray(x.duration)?x.duration[idx]:x.duration;
-     btn.disabled=p==null;
-     if(price) price.textContent=p==null?'—':money(p);
-     const small=btn.querySelector('small'); if(small) small.textContent=`${x.desc} • ${d||'Non proposée pour cette catégorie'}`;
+     if(price) price.textContent=money(x.price[idx]);
      btn.classList.remove('selected');
    });
  } else {
@@ -1060,13 +1040,13 @@ function renderCat(){
  <div class="booking-subtitle">Services supplémentaires</div>
  ${extrasCat.map(x=>`<button class="booking-extra ${hasCart(x[0])?'selected':''}" onclick="toggleCart({key:'${x[0]}',animal:'Chat',category:'${bookingFur?catFurLabel(bookingFur):'Selon pelage'}',name:'${x[1]}',price:${x[2]},duration:'${x[3]}'},'cat')"><span>＋ ${x[1]}</span><strong>${money(x[2])}</strong></button>`).join('')}
  <div class="booking-warning"><b>+20 € si nécessaire</b><p>Une majoration peut être appliquée en cas d’animal particulièrement difficile, de fortes bourres/poils emmêlés ou de forte salissure, lorsque du temps supplémentaire est nécessaire.</p></div>
- ${cartMini()}<div class="booking-pet-nav"><button type="button" class="btn btn-outline" onclick="renderChooseAnimal()">← Retour au menu</button><button type="button" class="btn btn-primary" onclick="startAddingAnotherPet()">＋ Ajouter un animal</button></div>`;
+ ${cartMini()}<button class="btn btn-outline full-btn" onclick="renderChooseAnimal()">← Changer d’animal</button>`;
 }
 function changeCatFur(value){
  const old=bookingFur;
  bookingFur=value;
  if(old!==value){
-   for(let i=CART.length-1;i>=0;i--) if(CART[i].petId===bookingPetId && (CART[i].key==='cat-basic'||CART[i].key==='cat-complete')) CART.splice(i,1);
+   for(let i=CART.length-1;i>=0;i--) if(CART[i].key==='cat-basic'||CART[i].key==='cat-complete') CART.splice(i,1);
    updateCartBadge();
  }
  renderCat();
@@ -1077,37 +1057,36 @@ function removeFromBooking(i, view){
  renderBooking(view || bookingAnimal || 'choose');
 }
 function cartMini(){
- const items=CART.length?CART.map((x,i)=>`<div class="booking-mini-item"><span class="mini-item-name">${x.name} <small>• ${x.animal||'Animal'} • ${x.duration}</small></span><strong>${money(x.price)}</strong><button type="button" class="mini-remove" onclick="removeFromBooking(${i}, bookingAnimal)" aria-label="Supprimer ${x.name}" title="Supprimer cette prestation">×</button></div>`).join(''):'<div class="booking-mini-item"><span class="mini-item-name">Votre sélection est vide</span><span>—</span></div>';
+ const items=CART.length?CART.map((x,i)=>`<div class="booking-mini-item"><span class="mini-item-name">${x.name} <small>• ${x.duration}</small></span><strong>${money(x.price)}</strong><button type="button" class="mini-remove" onclick="removeFromBooking(${i}, bookingAnimal)" aria-label="Supprimer ${x.name}" title="Supprimer cette prestation">×</button></div>`).join(''):'<div class="booking-mini-item"><span class="mini-item-name">Votre sélection est vide</span><span>—</span></div>';
  return `<div class="booking-mini-cart"><div class="booking-mini-head"><span>🛒 Ma sélection</span><span>${CART.length} prestation${CART.length>1?'s':''}</span></div><div class="booking-mini-items">${items}</div><div class="booking-mini-total"><div class="mini-duration"><span class="mini-label">Durée totale</span><b>${cartDuration()}</b></div><div class="mini-price"><span class="mini-label">Total</span><strong>${money(totalCart())}</strong></div></div><div class="booking-mini-actions"><button type="button" onclick="openCart()">Voir le panier</button><button type="button" onclick="continueBooking()" ${CART.length?'':'disabled'}>Continuer</button></div></div>`;
 }
 function renderCart(){
- const groups=[...new Set(CART.map(x=>x.petId))].map(id=>({id,items:CART.filter(x=>x.petId===id)}));
- const rows=groups.map((g,gi)=>{
-   const first=g.items[0];
-   const groupTotal=g.items.reduce((sum,x)=>sum+Number(x.price),0);
-   return `<div class="profile-card" style="margin:12px 0;padding:14px"><div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><h4 style="margin:0">${first.animal==='Chien'?'🐶':'🐱'} Animal ${gi+1} — ${first.animal}</h4><button type="button" class="btn btn-outline" onclick="switchBookingPet(${g.id})">Modifier les soins</button></div><div class="cart-list">${g.items.map(x=>`<div class="cart-row"><div><b>${x.name}</b><small>${x.category} • ${x.duration}</small></div><strong>${money(x.price)}</strong><button type="button" class="remove-service-btn" onclick="removeCartItemForPet(${x.petId},'${x.key}')" aria-label="Supprimer ${x.name}" title="Supprimer cette prestation">×</button></div>`).join('')}</div><div style="text-align:right;font-weight:700;color:var(--green)">Sous-total : ${money(groupTotal)}</div></div>`;
- }).join('');
+ // Regrouper les prestations par compagnon pour que le panier soit lisible.
+ const groups=[];
+ const groupKeys=new Map();
+ CART.forEach((x,i)=>{
+   const petKey=x.petId||`${x.animal||'Animal'}|${x.category||''}`;
+   if(!groupKeys.has(petKey)){
+     const group={key:petKey,animal:x.animal||'Animal',category:x.category||'',items:[]};
+     groupKeys.set(petKey,group);groups.push(group);
+   }
+   groupKeys.get(petKey).items.push({...x,index:i});
+ });
+ const rows=groups.map((g,gi)=>`<section class="cart-pet-group">
+   <div class="cart-pet-heading"><strong>${g.animal==='Chat'?'🐱':'🐶'} Animal ${gi+1} — ${g.animal}</strong><small>${g.category}</small></div>
+   ${g.items.map(x=>`<div class="cart-row"><div><b>${x.name}</b><small>${x.duration}</small></div><strong>${money(x.price)}</strong><button type="button" class="remove-service-btn" onclick="removeCart(${x.index})" aria-label="Supprimer ${x.name}" title="Supprimer cette prestation">×</button></div>`).join('')}
+   <div class="cart-pet-subtotal"><span>Sous-total de l’animal</span><strong>${money(g.items.reduce((sum,x)=>sum+Number(x.price),0))}</strong></div>
+ </section>`).join('');
  document.getElementById('modalContent').innerHTML=`
  <div class="eyebrow">🛒 VOTRE PANIER</div><h3>Récapitulatif des prestations</h3>
- <div class="modal-sub">Ajoutez plusieurs animaux, même sans créer de compte. Chaque animal conserve ses propres soins et son tarif.</div>
+ <div class="modal-sub">Chaque compagnon et les prestations choisies sont présentés séparément. Vous pouvez supprimer un soin ou en ajouter d’autres.</div>
  <div class="cart-list">${rows||'<div class="empty-cart">Votre panier est vide.</div>'}</div>
- <div class="profile-card" style="margin-top:16px"><h4>🐾 Vos animaux</h4><p class="modal-sub">Ajoutez un autre compagnon ou revenez modifier les soins d’un animal déjà dans le panier.</p><div class="profile-actions"><button type="button" class="btn btn-secondary" onclick="startAddingAnotherPet()">＋ Ajouter un animal</button></div></div>
- ${CART.length?`<div class="cart-total"><span>Total des prestations</span><strong>${money(totalCart())}</strong></div>
- <div class="cart-duration">Durée totale estimée : ${cartDuration()}</div>
+ ${CART.length?`<div class="cart-summary-bottom"><div class="cart-summary-duration"><span>Durée totale estimée</span><strong>${cartDuration()}</strong></div><div class="cart-summary-price"><span>Total</span><strong>${money(totalCart())}</strong></div></div>
  <div class="booking-warning"><b>+20 € si nécessaire</b><p>Une majoration peut être appliquée en cas d’animal particulièrement difficile, de fortes bourres/poils emmêlés ou de forte salissure, lorsque du temps supplémentaire est nécessaire.</p></div>
  <button class="btn btn-primary full-btn" onclick="goToCal()">📅 Choisir la date et l’heure</button>
  <button class="btn btn-outline full-btn" onclick="addService()">＋ Ajouter une prestation</button>`:
  `<button class="btn btn-primary full-btn" onclick="renderChooseAnimal()">Choisir une prestation</button>`}`;
 }
-function removeCartItemForPet(petId,key){const i=CART.findIndex(x=>x.petId===petId&&x.key===key);if(i>=0)CART.splice(i,1);updateCartBadge();renderCart();}
-window.cdfCartAddPet = function(){startAddingAnotherPet();};
-window.cdfCartEditPet = async function(){
- const ids=[...new Set(CART.map(x=>x.petId))];
- if(ids.length===1){switchBookingPet(ids[0]);return;}
- const options=ids.map((id,i)=>`${i+1}. ${CART.find(x=>x.petId===id)?.animal||'Animal'} (ID ${id})`).join('\n');
- const choice=prompt('Quel animal souhaitez-vous modifier ?\n'+options+'\nSaisissez le numéro.');
- const index=Number(choice)-1;if(Number.isInteger(index)&&ids[index])switchBookingPet(ids[index]);
-};
 
 function goToCal(){
  if(!CART.length) return;
@@ -1213,461 +1192,5 @@ END:VCALENDAR`;
 }
 
 </script>
-<script>window.supabaseClient = window.supabase.createClient("https://phmkbsifgzjzlxahwthu.supabase.co", "sb_publishable_LTmDui4-JcQsc0oeaiR7dQ_ZbhVJ-PU"); const supabaseClient = window.supabaseClient;</script>
-
-<script>
-(() => {
-  'use strict';
-  const sb = window.supabaseClient;
-  if (!sb) { console.error('CŒUR DE FAMILLE: Supabase client not initialized.'); return; }
-
-  let activePetId = null;
-  const $ = (id) => document.getElementById(id);
-  const esc = (v) => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const modal = (html) => {
-    const box = $('modalContent'), wrap = $('modal');
-    if (!box || !wrap) { alert('La fenêtre du compte est indisponible.'); return; }
-    box.innerHTML = html;
-    wrap.classList.add('open');
-  };
-  const notice = (message) => `<p class="modal-sub" role="status">${esc(message)}</p>`;
-  const field = (label, id, type='text', value='', extra='') =>
-    type === 'password'
-      ? `<div class="cdf-password-field"><label for="${id}">${label}</label><div class="cdf-password-wrap"><input id="${id}" type="password" value="${esc(value)}" ${extra}><button type="button" class="cdf-password-eye" aria-label="Afficher le mot de passe" aria-pressed="false" onclick="cdfTogglePassword('${id}', this)" title="Afficher/masquer le mot de passe">👁</button></div></div>`
-      : `<div><label for="${id}">${label}</label><input id="${id}" type="${type}" value="${esc(value)}" ${extra}></div>`;
-  const btn = (label, action, cls='btn btn-primary') =>
-    // Escape quotes inside the inline handler so UUID arguments remain inside the HTML attribute.
-    `<button type="button" class="${cls}" onclick="${String(action).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;')}">${label}</button>`;
-  const shell = (title, body) => `<div class="eyebrow">ESPACE CLIENT</div><h3>${title}</h3>${body}`;
-  const errorText = (e) => e?.message || 'Une erreur est survenue. Réessayez.';
-
-  async function getUser() {
-    const { data, error } = await sb.auth.getUser();
-    if (error) throw error;
-    return data.user || null;
-  }
-
-  window.openPetProfile = async function() {
-    modal(shell('Mon compagnon', `<div class="modal-sub">Connectez-vous pour retrouver les informations de vos animaux et leurs photos sur vos appareils.</div>
-      <div class="profile-card"><div class="profile-form">
-      ${field('Adresse e-mail', 'cdfEmail', 'email', '', 'autocomplete="email" required')}
-      ${field('Mot de passe', 'cdfPassword', 'password', '', 'autocomplete="current-password" required')}
-      </div><div class="profile-actions">
-      ${btn('Se connecter','cdfSignIn()')}
-      ${btn('Créer un compte','cdfSignUp()','btn btn-secondary')}
-      </div><p class="cdf-forgot-password"><button type="button" class="cdf-link-button" onclick="cdfForgotPassword()">Mot de passe oublié ?</button></p><div id="cdfAuthMessage"></div></div>`));
-    try { const u = await getUser(); if (u) await window.cdfShowPets(); } catch(e) { console.error(e); }
-  };
-
-  window.cdfTogglePassword = function(id, button) {
-    const input = $(id);
-    if (!input) return;
-    const show = input.type === 'password';
-    input.type = show ? 'text' : 'password';
-    button.setAttribute('aria-pressed', show ? 'true' : 'false');
-    button.setAttribute('aria-label', show ? 'Masquer le mot de passe' : 'Afficher le mot de passe');
-    button.title = show ? 'Masquer le mot de passe' : 'Afficher le mot de passe';
-    button.textContent = show ? '◉' : '👁';
-  };
-
-  window.cdfForgotPassword = async function() {
-    const email = $('cdfEmail')?.value.trim();
-    if (!email) {
-      $('cdfAuthMessage').innerHTML = notice('Saisissez votre adresse e-mail ci-dessus pour recevoir le lien de réinitialisation.');
-      $('cdfEmail')?.focus();
-      return;
-    }
-    const redirectTo = window.location.origin + window.location.pathname + '?reset-password=1';
-    const { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo });
-    if (error) { $('cdfAuthMessage').innerHTML = notice(errorText(error)); return; }
-    $('cdfAuthMessage').innerHTML = notice('Si cette adresse correspond à un compte, un e-mail de réinitialisation vient d’être envoyé. Ouvrez le lien reçu pour choisir un nouveau mot de passe.');
-  };
-
-  window.cdfShowResetPassword = function() {
-    modal(shell('Nouveau mot de passe', `<p class="modal-sub">Choisissez un nouveau mot de passe pour votre compte.</p><div class="profile-card"><div class="profile-form">${field('Nouveau mot de passe','cdfNewPassword','password','','autocomplete="new-password" minlength="8" required')}${field('Confirmer le mot de passe','cdfConfirmPassword','password','','autocomplete="new-password" minlength="8" required')}</div><div class="profile-actions">${btn('Enregistrer le nouveau mot de passe','cdfSaveNewPassword()')}</div><div id="cdfResetMessage"></div></div>`));
-  };
-
-  window.cdfSaveNewPassword = async function() {
-    const password = $('cdfNewPassword')?.value || '';
-    const confirm = $('cdfConfirmPassword')?.value || '';
-    const target = $('cdfResetMessage');
-    if (password.length < 8) { target.innerHTML = notice('Le mot de passe doit contenir au moins 8 caractères.'); return; }
-    if (password !== confirm) { target.innerHTML = notice('Les deux mots de passe ne correspondent pas.'); return; }
-    const { error } = await sb.auth.updateUser({ password });
-    if (error) { target.innerHTML = notice(errorText(error)); return; }
-    history.replaceState({}, document.title, window.location.pathname);
-    await window.cdfShowPets();
-  };
-
-  window.cdfSignUp = async function() {
-    const email = $('cdfEmail')?.value.trim(), password = $('cdfPassword')?.value;
-    if (!email || !password) { $('cdfAuthMessage').innerHTML = notice('Saisissez votre e-mail et un mot de passe.'); return; }
-    if (password.length < 8) { $('cdfAuthMessage').innerHTML = notice('Le mot de passe doit contenir au moins 8 caractères.'); return; }
-    const { data, error } = await sb.auth.signUp({ email, password });
-    if (error) { $('cdfAuthMessage').innerHTML = notice(errorText(error)); return; }
-    if (data.user && data.session) {
-      await sb.from('profiles').upsert({id:data.user.id, full_name:''}, {onConflict:'id'});
-      await window.cdfShowPets();
-    } else {
-      $('cdfAuthMessage').innerHTML = notice('Compte créé. Vérifiez votre boîte e-mail pour confirmer votre adresse, puis connectez-vous.');
-    }
-  };
-
-  window.cdfSignIn = async function() {
-    const email = $('cdfEmail')?.value.trim(), password = $('cdfPassword')?.value;
-    if (!email || !password) { $('cdfAuthMessage').innerHTML = notice('Saisissez votre e-mail et votre mot de passe.'); return; }
-    const { data, error } = await sb.auth.signInWithPassword({email, password});
-    if (error) { $('cdfAuthMessage').innerHTML = notice(errorText(error)); return; }
-    await sb.from('profiles').upsert({id:data.user.id, full_name:''}, {onConflict:'id', ignoreDuplicates:true});
-    await window.cdfShowPets();
-  };
-
-  window.cdfSignOut = async function() {
-    const {error} = await sb.auth.signOut();
-    if (error) alert(errorText(error)); else window.openPetProfile();
-  };
-
-  window.cdfShowPets = async function() {
-    try {
-      const user = await getUser();
-      if (!user) return window.openPetProfile();
-      const {data: profile} = await sb.from('profiles').select('full_name').eq('id',user.id).maybeSingle();
-      const {data:pets, error} = await sb.from('pets').select('*').eq('owner_id',user.id).order('created_at',{ascending:false});
-      if (error) throw error;
-      const cards = (pets||[]).map(p => `<div class="profile-card"><h4>${esc(p.name)}</h4>
-        <p class="modal-sub">${p.animal_type==='cat'?'Chat':'Chien'}${p.breed?' · '+esc(p.breed):''}${p.weight_kg?' · '+esc(p.weight_kg)+' kg':''}</p>
-        ${p.notes?`<p>${esc(p.notes)}</p>`:''}
-        <div class="profile-actions">${btn('Ouvrir la fiche','cdfShowPetDashboard('+JSON.stringify(p.id)+')')}${btn('Modifier','cdfEditPet('+JSON.stringify(p.id)+')','btn btn-secondary')}${btn('Photos','cdfShowPhotos('+JSON.stringify(p.id)+')','btn btn-secondary')}${btn('Ajouter une photo','cdfUploadPhoto('+JSON.stringify(p.id)+')','btn btn-secondary')}</div></div>`).join('');
-      const petCount=(pets||[]).length;
-      const addPetButton=petCount>=10 ? '<p class="modal-sub">Vous avez atteint la limite de 10 compagnons par compte.</p>' : btn('Ajouter un animal ('+petCount+'/10)','cdfNewPet()');
-      modal(shell('Mes compagnons', `<p class="modal-sub">Connecté : ${esc(user.email||'')}</p>
-        ${profile?.full_name?`<p>${esc(profile.full_name)}</p>`:''}
-        <p class="modal-sub">${petCount} compagnon${petCount>1?'s':''} enregistré${petCount>1?'s':''} sur 10 maximum. Vous pouvez en ajouter 4, 6, 8 ou jusqu’à 10 sur le même compte.</p>
-        ${cards || '<p class="modal-sub">Aucun animal enregistré pour le moment.</p>'}
-        <div class="profile-actions">${addPetButton}${btn('Déconnexion','cdfSignOut()','btn btn-secondary')}</div>`));
-    } catch(e) { modal(shell('Mes compagnons', notice('Impossible de charger les données : '+errorText(e)))); }
-  };
-
-  window.cdfNewPet = () => petForm(null);
-  window.cdfEditPet = async (id) => {
-    try {
-      const user = await getUser();
-      const {data, error} = await sb.from('pets').select('*').eq('id',id).eq('owner_id',user.id).single();
-      if (error) throw error;
-      petForm(data);
-    } catch(e) { alert(errorText(e)); }
-  };
-
-  function petForm(p) {
-    activePetId = p?.id || null;
-    modal(shell(p?'Modifier un compagnon':'Ajouter un compagnon', `<div class="profile-card"><div class="profile-form">
-      ${field('Nom','cdfPetName','text',p?.name||'','required maxlength="100"')}
-      <div><label for="cdfPetType">Animal</label><select id="cdfPetType"><option value="dog" ${p?.animal_type!=='cat'?'selected':''}>Chien</option><option value="cat" ${p?.animal_type==='cat'?'selected':''}>Chat</option></select></div>
-      ${field('Race','cdfPetBreed','text',p?.breed||'','maxlength="120"')}
-      ${field('Date de naissance','cdfPetBirth','date',p?.birth_date||'')}
-      ${field('Poids (kg)','cdfPetWeight','number',p?.weight_kg??'','min="0" max="200" step="0.01"')}
-      <div><label for="cdfPetBehavior">Comportement</label><textarea id="cdfPetBehavior" rows="2">${esc(p?.behavior||'')}</textarea></div>
-      <div><label for="cdfPetCoat">État du pelage</label><textarea id="cdfPetCoat" rows="2">${esc(p?.coat_condition||'')}</textarea></div>
-      ${field('Dernier toilettage','cdfPetLast','date',p?.last_grooming||'')}
-      <div><label for="cdfPetNotes">Notes utiles</label><textarea id="cdfPetNotes" rows="3">${esc(p?.notes||'')}</textarea></div>
-      </div><div id="cdfPetMessage"></div><div class="profile-actions">${btn('Enregistrer','cdfSavePet()')}${btn('Annuler','cdfShowPets()','btn btn-secondary')}</div></div>`));
-  }
-
-  window.cdfSavePet = async function() {
-    try {
-      const user = await getUser();
-      if (!user) throw new Error('Reconnectez-vous pour enregistrer.');
-      const name = $('cdfPetName').value.trim();
-      if (!name) { $('cdfPetMessage').innerHTML = notice('Le nom de l’animal est obligatoire.'); return; }
-      const weightRaw = $('cdfPetWeight').value;
-      const payload = {
-        owner_id:user.id, name, animal_type:$('cdfPetType').value,
-        breed:$('cdfPetBreed').value.trim()||null,
-        birth_date:$('cdfPetBirth').value||null,
-        weight_kg:weightRaw?Number(weightRaw):null,
-        behavior:$('cdfPetBehavior').value.trim()||null,
-        coat_condition:$('cdfPetCoat').value.trim()||null,
-        last_grooming:$('cdfPetLast').value||null,
-        notes:$('cdfPetNotes').value.trim()||null
-      };
-      let result;
-      if (activePetId) {
-        result = await sb.from('pets').update(payload).eq('id',activePetId).eq('owner_id',user.id).select('id').single();
-      } else {
-        const {count, error:countError} = await sb.from('pets').select('id',{count:'exact',head:true}).eq('owner_id',user.id);
-        if (countError) throw countError;
-        if ((count||0)>=10) throw new Error('Un compte peut contenir jusqu’à 10 compagnons. Supprimez un profil avant d’en ajouter un autre.');
-        result = await sb.from('pets').insert(payload).select('id').single();
-      }
-      if (result.error) throw result.error;
-      activePetId = result.data.id;
-      await window.cdfShowPetDashboard(activePetId);
-    } catch(e) { const el=$('cdfPetMessage'); if(el) el.innerHTML=notice(errorText(e)); else alert(errorText(e)); }
-  };
-
-  window.cdfShowPetDashboard = async function(petId) {
-    try {
-      const user = await getUser();
-      if (!user) return window.openPetProfile();
-      const {data:pet,error:petError} = await sb.from('pets').select('*').eq('id',petId).eq('owner_id',user.id).single();
-      if (petError) throw petError;
-      activePetId = petId;
-
-      const {data:photoRows} = await sb.from('pet_photos').select('file_path,caption,created_at')
-        .eq('pet_id',petId).eq('owner_id',user.id).order('created_at',{ascending:false}).limit(1);
-      let photoHtml = '<div class="profile-card"><p class="modal-sub">Aucune photo ajoutée pour le moment.</p></div>';
-      if (photoRows && photoRows.length) {
-        const {data:link,error:linkError} = await sb.storage.from('pet-photos').createSignedUrl(photoRows[0].file_path,3600);
-        if (!linkError) photoHtml = `<div class="profile-card"><img src="${esc(link.signedUrl)}" alt="Photo de ${esc(pet.name)}" style="display:block;width:100%;max-height:300px;object-fit:cover;border-radius:12px"><p>${esc(photoRows[0].caption||'')}</p></div>`;
-      }
-
-      let visitsHtml = '<p class="modal-sub">Aucune visite enregistrée pour le moment. Les visites, prestations et tarifs apparaîtront ici lorsqu’ils seront enregistrés par le salon.</p>';
-      try {
-        const {data:visits,error:visitsError} = await sb.from('grooming_visits').select('*').eq('pet_id',petId).order('created_at',{ascending:false}).limit(10);
-        if (!visitsError && visits && visits.length) {
-          visitsHtml = visits.map(v => {
-            const labelMap = {created_at:'Date de création',visit_date:'Date de visite',appointment_at:'Rendez-vous',service_name:'Prestation',service:'Prestation',services:'Prestations',price:'Prix',total_price:'Total',amount:'Montant',duration_minutes:'Durée (min)',notes:'Notes',status:'Statut'};
-            const fields = Object.entries(v).filter(([k,val]) => val !== null && val !== '' && !['id','pet_id','owner_id'].includes(k))
-              .map(([k,val]) => `<p><b>${esc(labelMap[k]||k.replace(/_/g,' '))} :</b> ${esc(typeof val==='object'?JSON.stringify(val):String(val))}</p>`).join('');
-            const canManage = v.appointment_at && ['confirmed','pending'].includes(v.status) && new Date(v.appointment_at).getTime() - Date.now() >= 24*60*60*1000;
-            const controls = canManage ? `<div class="profile-actions">${btn('Déplacer le rendez-vous','cdfOpenReschedule('+JSON.stringify(v.id)+','+JSON.stringify(petId)+','+Number(v.duration_minutes||60)+')','btn btn-secondary')}${btn('Annuler le rendez-vous','cdfCancelVisit('+JSON.stringify(v.id)+','+JSON.stringify(petId)+')','btn btn-secondary')}</div>` : '';
-            return `<div class="profile-card">${fields||'<p class="modal-sub">Visite enregistrée</p>'}${controls}</div>`;
-          }).join('');
-        }
-      } catch(_) {}
-
-      const details = [
-        ['Type',pet.animal_type==='cat'?'Chat':'Chien'],['Race',pet.breed],['Date de naissance',pet.birth_date],
-        ['Poids',pet.weight_kg ? pet.weight_kg+' kg' : null],['Comportement',pet.behavior],
-        ['État du pelage',pet.coat_condition],['Dernier toilettage',pet.last_grooming],['Notes',pet.notes]
-      ].filter(([,v])=>v!==null&&v!==undefined&&v!=='').map(([k,v])=>`<p><b>${esc(k)} :</b> ${esc(String(v))}</p>`).join('');
-      modal(shell('Mon espace client', `
-        <p class="modal-sub">Fiche de votre compagnon enregistrée dans votre compte.</p>
-        ${photoHtml}
-        <div class="profile-card"><h4>${esc(pet.name)}</h4>${details||'<p class="modal-sub">Vous pouvez compléter les caractéristiques avec le bouton Modifier.</p>'}</div>
-        <h4>Dernières visites, prestations et tarifs</h4>${visitsHtml}
-        <div class="profile-actions">
-          ${btn('Ajouter une photo','cdfUploadPhoto('+JSON.stringify(petId)+')')}
-          ${btn('Voir toutes les photos','cdfShowPhotos('+JSON.stringify(petId)+')','btn btn-secondary')}
-          ${btn('Modifier la fiche','cdfEditPet('+JSON.stringify(petId)+')','btn btn-secondary')}
-          ${btn('Réserver un rendez-vous','cdfStartBooking('+JSON.stringify(petId)+')')}
-          ${btn('Mes compagnons','cdfShowPets()','btn btn-secondary')}
-        </div>`));
-    } catch(e) { modal(shell('Mon espace client',notice(errorText(e)))); }
-  };
-
-  window.cdfUploadPhoto = async function(petId) {
-    try {
-      const user = await getUser();
-      if (!user) throw new Error('Reconnectez-vous.');
-      const {data:pet, error:petError} = await sb.from('pets').select('id').eq('id',petId).eq('owner_id',user.id).single();
-      if (petError) throw petError;
-      activePetId = petId;
-      modal(shell('Ajouter une photo', `<p class="modal-sub">Choisissez la photo, vérifiez l’aperçu, puis appuyez sur « Enregistrer la photo ». Formats JPG, PNG, WebP ou HEIC. Taille maximale : 5 Mo.</p>
-        <div class="profile-card">
-        <label for="cdfPhotoFile">Photo de votre animal</label>
-        <input id="cdfPhotoFile" type="file" accept="image/jpeg,image/png,image/webp,image/heic" onchange="window.cdfPreviewPhoto()">
-        <div id="cdfPhotoPreviewWrap" style="display:none;margin-top:14px"><img id="cdfPhotoPreview" alt="Aperçu de la photo sélectionnée" style="display:block;width:100%;max-height:280px;object-fit:contain;border-radius:12px"><p id="cdfPhotoFileName" class="modal-sub"></p></div>
-        <div><label for="cdfPhotoCaption">Légende (facultatif)</label><input id="cdfPhotoCaption" type="text" maxlength="200" placeholder="Ex. Romashka après le toilettage"></div>
-        <div id="cdfPhotoMessage" role="status"></div><div class="profile-actions">${btn('Enregistrer la photo','cdfSavePhoto()')}${btn('Annuler','cdfShowPhotos('+JSON.stringify(petId)+')','btn btn-secondary')}</div></div>`));
-    } catch(e) { alert(errorText(e)); }
-  };
-
-  window.cdfPreviewPhoto = function() {
-    const input = $('cdfPhotoFile'), file = input?.files?.[0];
-    const wrap = $('cdfPhotoPreviewWrap'), img = $('cdfPhotoPreview'), name = $('cdfPhotoFileName');
-    if (!wrap || !img || !name) return;
-    if (!file) { wrap.style.display = 'none'; img.removeAttribute('src'); name.textContent = ''; return; }
-    name.textContent = file.name;
-    if (file.type === 'image/heic') {
-      wrap.style.display = 'block'; img.style.display = 'none';
-      name.textContent = file.name + ' — aperçu non disponible dans ce navigateur, mais le fichier peut être enregistré.';
-      return;
-    }
-    const reader = new FileReader();
-    reader.onload = () => { img.src = reader.result; img.style.display = 'block'; wrap.style.display = 'block'; };
-    reader.onerror = () => { wrap.style.display = 'block'; img.style.display = 'none'; };
-    reader.readAsDataURL(file);
-  };
-
-  window.cdfSavePhoto = async function() {
-    try {
-      const user = await getUser(), file = $('cdfPhotoFile')?.files?.[0];
-      if (!user) throw new Error('Votre session a expiré. Reconnectez-vous puis réessayez.');
-      if (!file) throw new Error('Choisissez une photo.');
-      if (file.size > 5*1024*1024) throw new Error('La photo doit faire 5 Mo maximum.');
-      if (!['image/jpeg','image/png','image/webp','image/heic'].includes(file.type)) throw new Error('Format non accepté.');
-      if (!activePetId) throw new Error('Aucun animal sélectionné.');
-      const safeName = file.name.normalize('NFKD').replace(/[^a-zA-Z0-9._-]/g,'_');
-      const path = `${user.id}/${activePetId}/${crypto.randomUUID()}-${safeName}`;
-      const up = await sb.storage.from('pet-photos').upload(path,file,{upsert:false,contentType:file.type});
-      if (up.error) throw up.error;
-      const row = await sb.from('pet_photos').insert({pet_id:activePetId,owner_id:user.id,file_path:path,caption:$('cdfPhotoCaption')?.value?.trim() || null});
-      if (row.error) {
-        await sb.storage.from('pet-photos').remove([path]);
-        throw row.error;
-      }
-      await window.cdfShowPhotos(activePetId);
-    } catch(e) { const el=$('cdfPhotoMessage'); if(el) el.innerHTML=notice(errorText(e)); else alert(errorText(e)); }
-  };
-
-  window.cdfShowPhotos = async function(petId) {
-    try {
-      const user = await getUser();
-      const {data:pet,error:pe} = await sb.from('pets').select('id,name').eq('id',petId).eq('owner_id',user.id).single();
-      if (pe) throw pe;
-      activePetId = petId;
-      const {data:photos,error} = await sb.from('pet_photos').select('*').eq('pet_id',petId).eq('owner_id',user.id).order('created_at',{ascending:false});
-      if (error) throw error;
-      const rendered = await Promise.all((photos||[]).map(async ph => {
-        const {data:link,error:le} = await sb.storage.from('pet-photos').createSignedUrl(ph.file_path,3600);
-        if (le) return `<div class="profile-card"><p>${esc(ph.caption||'Photo')}</p><p class="modal-sub">Image inaccessible — vérifiez les règles du bucket.</p></div>`;
-        return `<div class="profile-card"><img src="${esc(link.signedUrl)}" alt="${esc(ph.caption||pet.name)}" style="width:100%;max-height:280px;object-fit:cover;border-radius:12px"><p>${esc(ph.caption||'')}</p>${btn('Supprimer','cdfDeletePhoto('+JSON.stringify(ph.id)+','+JSON.stringify(ph.file_path)+','+JSON.stringify(petId)+')','btn btn-secondary')}</div>`;
-      }));
-      modal(shell('Photos de '+esc(pet.name), `${rendered.join('')||'<p class="modal-sub">Aucune photo pour le moment.</p>'}
-        <div class="profile-actions">${btn('Ajouter une photo','cdfUploadPhoto('+JSON.stringify(petId)+')')}${btn('Retour aux animaux','cdfShowPets()','btn btn-secondary')}</div>`));
-    } catch(e) { modal(shell('Photos',notice(errorText(e)))); }
-  };
-
-  window.cdfDeletePhoto = async function(photoId,path,petId) {
-    if (!confirm('Supprimer cette photo ?')) return;
-    try {
-      const user = await getUser();
-      const {error:se} = await sb.storage.from('pet-photos').remove([path]);
-      if (se) throw se;
-      const {error} = await sb.from('pet_photos').delete().eq('id',photoId).eq('owner_id',user.id);
-      if (error) throw error;
-      await window.cdfShowPhotos(petId);
-    } catch(e) { alert(errorText(e)); }
-  };
-
-  // Online booking: availability and booking are validated server-side by Supabase RPC.
-  const CDF_BOOKING_RULES = { open: '08:00', close: '19:00', step: 30, timezone: 'Europe/Paris' };
-  function durationToMinutes(value) {
-    if (typeof value === 'number') return value;
-    const s = String(value || '').toLowerCase().trim();
-    const hm = s.match(/(\d+)\s*h(?:\s*(\d+)\s*(?:min|m)?)?/);
-    if (hm) return Number(hm[1])*60 + Number(hm[2]||0);
-    const mins = s.match(/(\d+)\s*(?:min|m)\b/);
-    if (mins) return Number(mins[1]);
-    const decimal = s.match(/^(\d+(?:[.,]\d+)?)$/);
-    if (decimal) return Math.round(Number(decimal[1].replace(',','.'))*60);
-    return 60;
-  }
-  function getSavedSelection() {
-    try { const x = JSON.parse(localStorage.getItem('cdf_last_selection') || 'null'); return x && Array.isArray(x.items) ? x : null; } catch (_) { return null; }
-  }
-  function bookingDateMin() {
-    const d = new Date(); d.setDate(d.getDate()+1); return d.toISOString().slice(0,10);
-  }
-  window.cdfStartBooking = async function(petId) {
-    try {
-      const user = await getUser(); if (!user) throw new Error('Connectez-vous pour réserver.');
-      const {data:pet,error} = await sb.from('pets').select('id,name,animal_type,owner_id').eq('id',petId).eq('owner_id',user.id).single();
-      if (error) throw error;
-      const selection = getSavedSelection();
-      if (!selection || !selection.items.length) {
-        modal(shell('Choisir une prestation', `<p class="modal-sub">Choisissez d’abord vos prestations dans « Prendre rendez-vous » sur le site. Revenez ensuite dans la fiche de ${esc(pet.name)} pour choisir un créneau.</p><div class="profile-actions">${btn('Choisir une prestation','closeModal();openBooking()')}${btn('Retour à la fiche','cdfShowPetDashboard('+JSON.stringify(petId)+')','btn btn-secondary')}</div>`));
-        return;
-      }
-      const items = selection.items;
-      const duration = items.reduce((sum,x)=>sum+durationToMinutes(x.duration),0);
-      const price = items.reduce((sum,x)=>sum+Number(x.price||0),0);
-      if (!duration || duration > 660) throw new Error('La durée totale de la sélection est invalide.');
-      const summary = items.map(x=>x.name).join(' + ');
-      modal(shell('Réserver pour '+esc(pet.name), `<p class="modal-sub">${esc(summary)} · ${duration} min · ${price.toFixed(2).replace('.',',')} €</p>
-        <div class="profile-card"><div class="profile-form">
-        <div><label for="cdfBookingDate">Date (lundi–samedi)</label><input id="cdfBookingDate" type="date" min="${bookingDateMin()}" value="${bookingDateMin()}" onchange="window.cdfLoadSlots(${JSON.stringify(petId)})" required></div>
-        </div><p class="modal-sub">Horaires : 08:00–19:00 · départs toutes les 30 minutes · heure de Paris. Les créneaux tiennent compte de la durée totale.</p>
-        <div id="cdfSlotsArea"><p class="modal-sub">Recherche des créneaux…</p></div><div id="cdfBookingMessage"></div>
-        <div class="profile-actions">${btn('Retour à la fiche','cdfShowPetDashboard('+JSON.stringify(petId)+')','btn btn-secondary')}</div></div>`));
-      window.cdfBookingContext = {petId,petName:pet.name,summary,duration,price};
-      await window.cdfLoadSlots(petId);
-    } catch(e) { modal(shell('Réservation',notice(errorText(e)))); }
-  };
-  window.cdfLoadSlots = async function(petId) {
-    const area = $('cdfSlotsArea'), date = $('cdfBookingDate')?.value, ctx = window.cdfBookingContext;
-    if (!area || !date || !ctx) return;
-    const day = new Date(date+'T12:00:00').getDay();
-    if (day === 0) { area.innerHTML = notice('Le salon est fermé le dimanche. Choisissez une autre date.'); return; }
-    area.innerHTML = '<p class="modal-sub">Recherche des créneaux disponibles…</p>';
-    try {
-      const {data,error} = await sb.rpc('cdf_available_slots',{p_day:date,p_duration_minutes:ctx.duration});
-      if (error) throw error;
-      const slots = (data||[]).map(x=>typeof x==='string'?x:(x.slot_start||x.available_at)).filter(Boolean);
-      if (!slots.length) { area.innerHTML = notice('Aucun créneau disponible pour cette date. Choisissez un autre jour.'); return; }
-      area.innerHTML = `<div class="profile-actions" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px">${slots.map((slot,i)=>{const d=new Date(slot);const label=d.toLocaleTimeString('fr-FR',{timeZone:'Europe/Paris',hour:'2-digit',minute:'2-digit'});return `<button type="button" class="btn btn-secondary" onclick="window.cdfConfirmBooking(${i})">${label}</button>`}).join('')}</div>`;
-      window.cdfAvailableSlots = slots;
-    } catch(e) { area.innerHTML = notice('Impossible de charger les créneaux : '+errorText(e)); }
-  };
-  window.cdfConfirmBooking = async function(index) {
-    const ctx = window.cdfBookingContext, slot = window.cdfAvailableSlots?.[index];
-    if (!ctx || !slot) return;
-    const msg = $('cdfBookingMessage');
-    if (msg) msg.innerHTML = notice('Confirmation de votre réservation…');
-    try {
-      const user = await getUser(); if (!user) throw new Error('Votre session a expiré. Reconnectez-vous.');
-      const {data,error} = await sb.rpc('cdf_book_grooming_visit',{
-        p_pet_id:ctx.petId,p_appointment_at:slot,p_service_name:ctx.summary,
-        p_duration_minutes:ctx.duration,p_price:ctx.price
-      });
-      if (error) throw error;
-      modal(shell('Réservation confirmée', `<div class="profile-card"><h4>${esc(ctx.petName)}</h4><p><b>Prestation :</b> ${esc(ctx.summary)}</p><p><b>Date :</b> ${new Date(slot).toLocaleString('fr-FR',{timeZone:'Europe/Paris',dateStyle:'full',timeStyle:'short'})}</p><p><b>Durée :</b> ${ctx.duration} min</p><p><b>Prix estimé :</b> ${ctx.price.toFixed(2).replace('.',',')} €</p><p class="modal-sub">Votre rendez-vous est confirmé automatiquement. Vous pouvez le modifier ou l’annuler au plus tard 24 heures avant l’heure prévue.</p></div><div class="profile-actions">${btn('Voir mon espace client','cdfShowPetDashboard('+JSON.stringify(ctx.petId)+')')}</div>`));
-    } catch(e) { if(msg) msg.innerHTML=notice(errorText(e)); else alert(errorText(e)); }
-  };
-
-  window.cdfCancelVisit = async function(visitId, petId) {
-    if (!confirm('Annuler ce rendez-vous ? Cette action est possible uniquement au moins 24 heures avant le début.')) return;
-    try {
-      const {error} = await sb.rpc('cdf_cancel_grooming_visit',{p_visit_id:visitId});
-      if (error) throw error;
-      await window.cdfShowPetDashboard(petId);
-    } catch(e) { alert(errorText(e)); }
-  };
-  window.cdfOpenReschedule = async function(visitId, petId, duration) {
-    try {
-      const user = await getUser(); if (!user) throw new Error('Connectez-vous.');
-      const {data:visit,error} = await sb.from('grooming_visits').select('id,appointment_at,status,duration_minutes').eq('id',visitId).eq('owner_id',user.id).single();
-      if (error) throw error;
-      if (!visit.appointment_at || !['confirmed','pending'].includes(visit.status)) throw new Error('Ce rendez-vous ne peut pas être déplacé.');
-      if (new Date(visit.appointment_at).getTime()-Date.now()<24*60*60*1000) throw new Error('Modification possible uniquement au moins 24 heures avant le rendez-vous.');
-      window.cdfRescheduleContext={visitId,petId,duration:Number(duration||visit.duration_minutes||60)};
-      modal(shell('Déplacer le rendez-vous',`<p class="modal-sub">Choisissez une nouvelle date et un nouveau créneau. Le rendez-vous actuel sera remplacé après confirmation.</p><div class="profile-card"><label for="cdfRescheduleDate">Nouvelle date</label><input id="cdfRescheduleDate" type="date" min="${bookingDateMin()}" value="${bookingDateMin()}" onchange="window.cdfLoadRescheduleSlots()"><div id="cdfRescheduleSlots"><p class="modal-sub">Chargement des créneaux…</p></div><div id="cdfRescheduleMessage"></div><div class="profile-actions">${btn('Retour','cdfShowPetDashboard('+JSON.stringify(petId)+')','btn btn-secondary')}</div></div>`));
-      await window.cdfLoadRescheduleSlots();
-    } catch(e) { alert(errorText(e)); }
-  };
-  window.cdfLoadRescheduleSlots = async function() {
-    const ctx=window.cdfRescheduleContext, date=$('cdfRescheduleDate')?.value, area=$('cdfRescheduleSlots'); if(!ctx||!date||!area)return;
-    if(new Date(date+'T12:00:00').getDay()===0){area.innerHTML=notice('Le salon est fermé le dimanche.');return;}
-    area.innerHTML='<p class="modal-sub">Recherche des créneaux…</p>';
-    try {
-      const {data,error}=await sb.rpc('cdf_available_slots',{p_day:date,p_duration_minutes:ctx.duration}); if(error)throw error;
-      const slots=(data||[]).map(x=>typeof x==='string'?x:x.slot_start).filter(Boolean);
-      area.innerHTML=slots.length?`<div class="profile-actions" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px">${slots.map((slot,i)=>`<button type="button" class="btn btn-secondary" onclick="window.cdfSaveReschedule(${i})">${new Date(slot).toLocaleTimeString('fr-FR',{timeZone:'Europe/Paris',hour:'2-digit',minute:'2-digit'})}</button>`).join('')}</div>`:notice('Aucun créneau disponible ce jour.');
-      window.cdfRescheduleSlots=slots;
-    } catch(e){area.innerHTML=notice(errorText(e));}
-  };
-  window.cdfSaveReschedule = async function(i) {
-    const ctx=window.cdfRescheduleContext, slot=window.cdfRescheduleSlots?.[i], msg=$('cdfRescheduleMessage'); if(!ctx||!slot)return;
-    try { const {error}=await sb.rpc('cdf_reschedule_grooming_visit',{p_visit_id:ctx.visitId,p_new_appointment_at:slot}); if(error)throw error; await window.cdfShowPetDashboard(ctx.petId); }
-    catch(e){if(msg)msg.innerHTML=notice(errorText(e));else alert(errorText(e));}
-  };
-
-  // Expose client for the module without adding another global alias in HTML.
-  window.supabaseClient = sb;
-  sb.auth.onAuthStateChange((event, session) => {
-    if (event === 'PASSWORD_RECOVERY') {
-      setTimeout(() => window.cdfShowResetPassword(), 0);
-      return;
-    }
-    if (session?.user) sb.from('profiles').upsert({id:session.user.id,full_name:''},{onConflict:'id',ignoreDuplicates:true});
-  });
-  if (new URLSearchParams(window.location.search).has('reset-password')) {
-    setTimeout(() => window.cdfShowResetPassword(), 350);
-  }
-})();
-</script>
-
-
 </body>
 </html>
